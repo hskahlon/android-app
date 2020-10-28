@@ -108,6 +108,10 @@ public class TimeOutActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(timeLeftInMillis < 1000){
+                    Toast.makeText(TimeOutActivity.this,"No Timer Made",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 startTimer();
             }
         });
