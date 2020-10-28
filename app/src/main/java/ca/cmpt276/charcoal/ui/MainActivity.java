@@ -1,8 +1,10 @@
-package ca.cmpt276.charcoal.practicalparent;
+package ca.cmpt276.charcoal.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import ca.cmpt276.charcoal.practicalparent.R;
 
 public class MainActivity extends AppCompatActivity {
 
