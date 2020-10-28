@@ -56,6 +56,10 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         setupPauseButton();
 
         setupSpinner();
+
+        //TODO: Make app still run in background (Use Server?)
+        //TODO: Vibration and sound when the alarm is finished
+        //TODO: Don't forget to change the manifest when pushing
     }
 
     private void setupSpinner() {
