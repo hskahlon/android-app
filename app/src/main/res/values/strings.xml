@@ -9,5 +9,8 @@
         <item>5</item>
         <item>10</item>
     </string-array>
+    <string name="title_activity_edit_child">Edit Child</string>
+    <string name="editChildName_hint">Name</string>
+    <string name="editChildSaveBtn_txt">Save</string>
 
 </resources>

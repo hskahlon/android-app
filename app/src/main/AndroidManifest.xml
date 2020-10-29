@@ -10,12 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PracticalParent">
         <activity
+            android:name=".EditChildActivity"
+            android:label="@string/title_activity_edit_child"
+            android:theme="@style/Theme.PracticalParent.NoActionBar"></activity>
+        <activity
             android:name=".ChildrenActivity"
             android:label="@string/title_activity_children"
-            android:theme="@style/Theme.PracticalParent.NoActionBar">
-        </activity>
-        <activity android:name=".TimeOutActivity">
-        </activity>
+            android:theme="@style/Theme.PracticalParent.NoActionBar"></activity>
+        <activity android:name=".TimeOutActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
