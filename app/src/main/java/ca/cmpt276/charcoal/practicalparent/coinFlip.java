@@ -7,8 +7,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.Random;
 
@@ -22,6 +26,9 @@ public class coinFlip extends AppCompatActivity {
     private static final int DURATION = 300;
     private static final float SCALEX = 0.5f;
     private static final float SCALEY = 0.5f;
+
+    // Animations
+    Animation rightAnim, leftAnim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +68,6 @@ public class coinFlip extends AppCompatActivity {
 
         // Rotates by 1800 degrees -> changes view at last flip
             currentCoin.animate().withLayer()
-
                     .rotationYBy(YROTATE)
                     .setDuration(DURATION)
                     .scaleXBy(SCALEX)
