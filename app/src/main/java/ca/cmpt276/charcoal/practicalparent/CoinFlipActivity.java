@@ -8,17 +8,14 @@ import android.os.Bundle;
 import android.view.View;
 
 import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.util.Random;
 
 
 
-public class coinFlip extends AppCompatActivity {
+public class CoinFlipActivity extends AppCompatActivity {
 
     private Button btn;
     private ImageView coin;
@@ -57,7 +54,7 @@ public class coinFlip extends AppCompatActivity {
     }
 
     public static Intent makeLaunchIntent(Context context) {
-        return new Intent(context,coinFlip.class);
+        return new Intent(context, CoinFlipActivity.class);
     }
 
 

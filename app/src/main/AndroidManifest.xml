@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PracticalParent">
-        <activity android:name=".coinFlip"></activity>
+        <activity android:name=".CoinFlipActivity"></activity>
         <activity
             android:name=".ChildrenActivity"
             android:label="@string/title_activity_children"
