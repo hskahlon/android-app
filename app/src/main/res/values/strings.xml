@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Practical Parent</string>
+    <string name="title_activity_children">Your Children</string>
 </resources>
