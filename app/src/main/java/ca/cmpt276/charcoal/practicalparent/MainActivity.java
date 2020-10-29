@@ -1,4 +1,4 @@
-package ca.cmpt276.charcoal.practicalparent.ui;
+package ca.cmpt276.charcoal.practicalparent;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,7 +11,7 @@ import android.widget.Toast;
 import ca.cmpt276.charcoal.practicalparent.R;
 
 import ca.cmpt276.charcoal.practicalparent.coinFlip;
-import ca.cmpt276.charcoal.practicalparent.ui.ChildrenActivity;
+import ca.cmpt276.charcoal.practicalparent.ChildrenActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,12 +27,9 @@ public class MainActivity extends AppCompatActivity {
     private void setupCoinActivityBtn() {
         Button btn = (Button) findViewById(R.id.coinflipActivity);
 
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = coinFlip.makeLaunchIntent(MainActivity.this);
-                startActivity(i);
-            }
+        btn.setOnClickListener(v -> {
+            Intent i = coinFlip.makeLaunchIntent(MainActivity.this);
+            startActivity(i);
         });
 
     }
