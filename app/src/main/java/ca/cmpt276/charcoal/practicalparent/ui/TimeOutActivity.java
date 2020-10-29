@@ -1,4 +1,4 @@
-package ca.cmpt276.charcoal.ui;
+package ca.cmpt276.charcoal.practicalparent.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -38,18 +38,6 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         setContentView(R.layout.activity_time_out);
 
         //Reference: https://codinginflow.com/tutorials/android/countdowntimer/part-1-countdown-timer
-
-        countDownText = (TextView) findViewById(R.id.countDownText);
-
-        startButton = (Button) findViewById(R.id.startBtn);
-        pauseButton = (Button) findViewById(R.id.pauseBtn);
-        cancelButton = (Button) findViewById(R.id.cancelBtn);
-        setButton = (Button) findViewById(R.id.setBtn);
-
-        setTimeText = (EditText) findViewById(R.id.setTimeText);
-
-        preSetTimeSpinner = (Spinner) findViewById(R.id.preSetTimeSpinner);
-
         setupSetButton();
         setupStartButton();
         setupCancelButton();
@@ -63,6 +51,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void setupSpinner() {
+        preSetTimeSpinner = (Spinner) findViewById(R.id.preSetTimeSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.preSetTimes, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -119,6 +108,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void setupPauseButton() {
+        pauseButton = (Button) findViewById(R.id.pauseBtn);
         pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,6 +122,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void setupCancelButton() {
+        cancelButton = (Button) findViewById(R.id.cancelBtn);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,6 +132,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void setupStartButton() {
+        startButton = (Button) findViewById(R.id.startBtn);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,6 +146,8 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void setupSetButton() {
+        setButton = (Button) findViewById(R.id.setBtn);
+        setTimeText = (EditText) findViewById(R.id.setTimeText);
         setButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -220,6 +214,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
             timeLeftFormatted = String.format(Locale.getDefault(),
                     "%02d:%02d", minutes, seconds);
         }
+        countDownText = (TextView) findViewById(R.id.countDownText);
         countDownText.setText(timeLeftFormatted);
     }
 

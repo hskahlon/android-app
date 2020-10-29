@@ -1,4 +1,4 @@
-package ca.cmpt276.charcoal.ui;
+package ca.cmpt276.charcoal.practicalparent.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
