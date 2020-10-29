@@ -1,4 +1,4 @@
-package ca.cmpt276.charcoal.practicalparent;
+package ca.cmpt276.charcoal.practicalparent.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import ca.cmpt276.charcoal.practicalparent.R;
+
+import ca.cmpt276.charcoal.practicalparent.ui.ChildrenActivity;
 
 public class MainActivity extends AppCompatActivity {
 
