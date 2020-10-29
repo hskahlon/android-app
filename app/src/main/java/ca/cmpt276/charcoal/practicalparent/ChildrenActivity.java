@@ -1,16 +1,13 @@
-package ca.cmpt276.charcoal.practicalparent.ui;
+package ca.cmpt276.charcoal.practicalparent;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,8 +15,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import ca.cmpt276.charcoal.practicalparent.R;
 
 public class ChildrenActivity extends AppCompatActivity {
 
