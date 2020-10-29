@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Practical Parent</string>
     <string name="flipcoins">flipCoins</string>
+    <string name="flipBtnText">FLIP</string>
 </resources>

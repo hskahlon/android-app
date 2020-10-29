@@ -2,15 +2,11 @@ package ca.cmpt276.charcoal.practicalparent;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
+
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -22,6 +18,10 @@ public class coinFlip extends AppCompatActivity {
 
     private Button btn;
     private ImageView coin;
+    private static final int YROTATE = 1800;
+    private static final int DURATION = 300;
+    private static final float SCALEX = 0.5f;
+    private static final float SCALEY = 0.5f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,16 +39,14 @@ public class coinFlip extends AppCompatActivity {
         btn.setOnClickListener(v -> {
             int randomChoice = getRandom();
             flipCoin(randomChoice);
+
         });
 
     }
 
     private int getRandom() {
         Random randomGenerator = new Random();
-
         return randomGenerator.nextInt(2);
-
-
     }
 
     public static Intent makeLaunchIntent(Context context) {
@@ -56,38 +54,38 @@ public class coinFlip extends AppCompatActivity {
     }
 
 
+
     private void flipCoin(int randomChoice) {
 
-        final View v = coin;
+        final View currentCoin = coin;
 
-        // Rotates by 90 degrees -> change view -> finish rotation
-        v.animate().withLayer()
-                .rotationY(90)
-                .setDuration(300)
-                .scaleXBy(0.5f)
-                .scaleYBy(0.5f)
-                .withEndAction(
-                        () -> {
+        // Rotates by 1800 degrees -> changes view at last flip
+            currentCoin.animate().withLayer()
 
-                    if (randomChoice==0)
-                    {
-                        coin.setImageResource(R.drawable.ic_temp_tail);
-                    }
+                    .rotationYBy(YROTATE)
+                    .setDuration(DURATION)
+                    .scaleXBy(SCALEX)
+                    .scaleYBy(SCALEY)
+                    .withEndAction(
+                            () -> {
 
-                    else {
-                        coin.setImageResource(R.drawable.ic_temp_head);
-                    }
 
-                             //second quarter turn
-                            v.setRotationY(-90);
-                            v.animate().withLayer()
-                                    .rotationY(0)
-                                    .scaleXBy(-0.5f)
-                                    .scaleYBy(-0.5f)
-                                    .setDuration(300)
-                                    .start();
-                        }
-                ).start();
+                                if (randomChoice == 0) {
+                                    coin.setImageResource(R.drawable.ic_tails);
+                                } else {
+                                    coin.setImageResource(R.drawable.ic_heads);
+                                }
+
+                                //second quarter turn
+                                currentCoin.setRotationY(-YROTATE);
+                                currentCoin.animate().withLayer()
+                                        .rotationY(0)
+                                        .scaleXBy(-SCALEY)
+                                        .scaleYBy(-SCALEY)
+                                        .setDuration(DURATION)
+                                        .start();
+                            }
+                    ).start();
 
     }
 
