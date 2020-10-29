@@ -15,10 +15,11 @@
             android:label="@string/title_activity_children"
             android:theme="@style/Theme.PracticalParent.NoActionBar">
         </activity>
-        <activity android:name=".MainActivity">
-        <activity android:name=".ui.TimeOutActivity">
+        <activity
+            android:name=".ui.TimeOutActivity">
         </activity>
-        <activity android:name=".ui.MainActivity">`
+        <activity
+            android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import ca.cmpt276.charcoal.practicalparent.R;
 
+import ca.cmpt276.charcoal.practicalparent.coinFlip;
 import ca.cmpt276.charcoal.practicalparent.ui.ChildrenActivity;
 
 public class MainActivity extends AppCompatActivity {
