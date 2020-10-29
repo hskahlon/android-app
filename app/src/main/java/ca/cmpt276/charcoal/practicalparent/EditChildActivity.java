@@ -72,17 +72,18 @@ public class EditChildActivity extends AppCompatActivity {
     private void saveChild() {
         String childName = nameBox.getText().toString();
         if (nameIsValid(childName)) {
-            if (childName.length() >= 0) {
+            if (childIndex >= 0) {
                 Child currentChild = manager.getChild(childIndex);
                 currentChild.setName(childName);
             } else {
                 manager.add(new Child(childName));
             }
+            finish();
         }
     }
 
     private boolean nameIsValid(String childName) {
-        if (childName.length() < 0) {
+        if (childName.length() == 0) {
             nameBox.setError(getString(R.string.editChildNameError));
             return false;
         } else {
@@ -101,6 +102,7 @@ public class EditChildActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.action_delete) {
             if (childIndex >= 0) {
                 manager.remove(childIndex);
+                finish();
             } else {
                 Toast.makeText(this, "You can only delete a child you are editing", Toast.LENGTH_SHORT)
                         .show();

@@ -13,10 +13,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import java.util.List;
+
+import ca.cmpt276.charcoal.practicalparent.model.Child;
+import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
 
 public class ChildrenActivity extends AppCompatActivity {
+    private ArrayAdapter<Child> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +33,8 @@ public class ChildrenActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(ChildrenActivity.this, "Take me to AddChildActivity", Toast.LENGTH_SHORT).show();
+                Intent intent = EditChildActivity.makeLaunchIntent(ChildrenActivity.this, -1);
+                startActivity(intent);
             }
         });
 
@@ -42,9 +47,10 @@ public class ChildrenActivity extends AppCompatActivity {
     }
 
     private void populateListView() {
-        String[] children = {"Jimmy", "Beth", "Walter"};
+        ChildManager manager = ChildManager.getInstance();
+        List<Child> children = manager.getChildren();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.child_item, children);
+        adapter = new ArrayAdapter<>(this, R.layout.child_item, children);
 
         ListView list = findViewById(R.id.children_list);
         list.setAdapter(adapter);
@@ -55,10 +61,15 @@ public class ChildrenActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
-                TextView textView = (TextView) viewClicked;
-                String message = "You clicked " + textView.getText();
-                Toast.makeText(ChildrenActivity.this, message, Toast.LENGTH_SHORT).show();
+                Intent intent = EditChildActivity.makeLaunchIntent(ChildrenActivity.this, position);
+                startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        adapter.notifyDataSetChanged();
+        super.onStart();
     }
 }
