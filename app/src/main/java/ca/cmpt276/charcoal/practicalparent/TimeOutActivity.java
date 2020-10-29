@@ -1,4 +1,4 @@
-package ca.cmpt276.charcoal.practicalparent.ui;
+package ca.cmpt276.charcoal.practicalparent;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,8 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Locale;
-
-import ca.cmpt276.charcoal.practicalparent.R;
 
 public class TimeOutActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private long startTimeInMillis;
