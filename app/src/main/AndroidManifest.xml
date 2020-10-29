@@ -9,6 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PracticalParent">
+        <activity
+            android:name=".ui.ChildrenActivity"
+            android:label="@string/title_activity_children"
+            android:theme="@style/Theme.PracticalParent.NoActionBar">
+        </activity>
+        <activity android:name=".MainActivity">
         <activity android:name=".ui.TimeOutActivity">
         </activity>
         <activity android:name=".ui.MainActivity">`
@@ -17,7 +23,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        `</activity>
+        </activity>
     </application>
 
 </manifest>
