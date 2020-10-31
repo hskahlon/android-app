@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -29,6 +30,9 @@ public class ChildrenActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+
         FloatingActionButton fab = findViewById(R.id.addChild_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,11 +53,12 @@ public class ChildrenActivity extends AppCompatActivity {
     private void populateListView() {
         ChildManager manager = ChildManager.getInstance();
         List<Child> children = manager.getChildren();
+        if (children != null) {
+            adapter = new ArrayAdapter<>(this, R.layout.child_item, children);
 
-        adapter = new ArrayAdapter<>(this, R.layout.child_item, children);
-
-        ListView list = findViewById(R.id.children_list);
-        list.setAdapter(adapter);
+            ListView list = findViewById(R.id.children_list);
+            list.setAdapter(adapter);
+        }
     }
 
     private void registerClickCallback() {

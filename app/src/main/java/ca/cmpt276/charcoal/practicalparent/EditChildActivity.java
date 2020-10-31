@@ -2,6 +2,7 @@ package ca.cmpt276.charcoal.practicalparent;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,10 +16,18 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.List;
+
 import ca.cmpt276.charcoal.practicalparent.model.Child;
 import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
 
 public class EditChildActivity extends AppCompatActivity {
+    private static final String PREFS_NAME = "SavedData";
+    private static final String CHILDREN_PREFS = "My children";
     public static final String EXTRA_CHILD_INDEX = "ca.cmpt276.charcoal.practicalparent - childIndex";
     private int childIndex;
     private EditText nameBox;
@@ -78,6 +87,7 @@ public class EditChildActivity extends AppCompatActivity {
             } else {
                 manager.add(new Child(childName));
             }
+            saveChildren();
             finish();
         }
     }
@@ -102,6 +112,7 @@ public class EditChildActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.action_delete) {
             if (childIndex >= 0) {
                 manager.remove(childIndex);
+                saveChildren();
                 finish();
             } else {
                 Toast.makeText(this, "You can only delete a child you are editing", Toast.LENGTH_SHORT)
@@ -109,5 +120,31 @@ public class EditChildActivity extends AppCompatActivity {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void saveChildren() {
+        SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        List<Child> children = manager.getChildren();
+        Gson gson = new Gson();
+        String json = gson.toJson(children);
+        editor.putString(CHILDREN_PREFS, json);
+        editor.apply();
+    }
+
+    // Gson serialization code found here: https://stackoverflow.com/questions/28107647/how-to-save-listobject-to-sharedpreferences/28107838
+    public static List<Child> getSavedChildren(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        List<Child> children;
+        String serializedChildren = prefs.getString(CHILDREN_PREFS, null);
+        if (serializedChildren != null) {
+            Gson gson = new Gson();
+            Type type = new TypeToken<List<Child>>(){}.getType();
+            children = gson.fromJson(serializedChildren, type);
+            return children;
+        } else {
+            return null;
+        }
     }
 }
