@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
             Intent i = CoinFlipActivity.makeLaunchIntent(MainActivity.this);
             startActivity(i);
         });
-
     }
 
 }
