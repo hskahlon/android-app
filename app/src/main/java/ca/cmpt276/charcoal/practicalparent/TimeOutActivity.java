@@ -2,6 +2,8 @@ package ca.cmpt276.charcoal.practicalparent;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -46,6 +48,10 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         //TODO: Make app still run in background (Use Server?)
         //TODO: Vibration and sound when the alarm is finished
         //TODO: Don't forget to change the manifest when pushing
+    }
+
+    public static Intent makeLaunchIntent(Context context) {
+        return new Intent(context, TimeOutActivity.class);
     }
 
     private void setupSpinner() {
