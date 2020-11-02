@@ -56,18 +56,16 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
         setupSpinner();
 
-        //TODO: Make app still run in background (Use Server?)
+        //TODO: Delete logs when submitting
+        //TODO: Make "up" button
         //TODO: Vibration and sound when the alarm is finished
-        //TODO: Don't forget to change the manifest when pushing
+
 
 //         Enable "up" on toolbar
 //        ActionBar ab = getSupportActionBar();
 //        ab.setDisplayHomeAsUpEnabled(true);
     }
 
-    public long getTimeLeftInMillis() {
-        return timeLeftInMillis;
-    }
 
     public static Intent makeLaunchIntent(Context context) {
         return new Intent(context, TimeOutActivity.class);
@@ -213,9 +211,6 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
     //TODO: Refactor updating buttons to updateUI()
     private void cancelTimer() {
-//        if (countDownTimer != null) {
-//            countDownTimer.cancel();
-//        }
         timeLeftInMillis = startTimeInMillis;
         stopService(new Intent(this,BackgroundService.class));
         Log.i(TAG,"Canceled service");
@@ -227,7 +222,6 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         setButton.setVisibility(View.VISIBLE);
         setTimeText.setVisibility(View.VISIBLE);
         preSetTimeSpinner.setVisibility(View.VISIBLE);
-//
     }
 
     private void updateCountDownText() {
@@ -284,27 +278,5 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         Log.i(TAG,"Registered broadcast receiver");
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(broadcastReceiver);
-        Log.i(TAG,"Unregistered broadcast receiver");
-    }
 
-    @Override
-    protected void onStop() {
-        try {
-            unregisterReceiver(broadcastReceiver);
-        } catch (Exception e) {
-            // Receiver was probably already
-        }
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        stopService(new Intent(this,BackgroundService.class));
-        Log.i(TAG,"Stopped service");
-        super.onDestroy();
-    }
 }

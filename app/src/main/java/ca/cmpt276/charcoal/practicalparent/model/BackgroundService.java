@@ -28,11 +28,7 @@ public class BackgroundService extends Service {
         return intent;
     }
 
-    //TODO: How to pass a data(timeLeftInMills) from TimeOutActivity to this class that doesn't extends activity?
-
     private void startTimer() {
-//        TimeOutActivity timer = new TimeOutActivity();
-//        timeLeftInMillis = timer.getTimeLeftInMillis();
         Log.i(TAG, "timeLeftinMillis" + timeLeftInMillis);
 
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
