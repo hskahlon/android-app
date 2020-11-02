@@ -13,8 +13,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setupCoinActivityBtn();
+        setupTimeOutActivityBtn();
 
 
+    }
+
+    private void setupTimeOutActivityBtn() {
+        Button btn = (Button) findViewById(R.id.timeOutBtn);
+
+        btn.setOnClickListener(v -> {
+            Intent i = TimeOutActivity.makeLaunchIntent(MainActivity.this);
+            startActivity(i);
+        });
     }
 
     private void setupCoinActivityBtn() {
@@ -24,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             Intent i = CoinFlipActivity.makeLaunchIntent(MainActivity.this);
             startActivity(i);
         });
-
     }
+
 
 }
