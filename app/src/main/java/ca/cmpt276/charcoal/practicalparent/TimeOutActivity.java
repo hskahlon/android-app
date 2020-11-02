@@ -195,7 +195,6 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     private void setTime(long milliseconds) {
         startTimeInMillis = milliseconds;
         timeLeftInMillis = startTimeInMillis;
-        //cancelTimer();
         updateCountDownText();
         updateUI();
         closeKeyboard();

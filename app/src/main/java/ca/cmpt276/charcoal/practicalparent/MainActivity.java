@@ -13,18 +13,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setupCoinActivityBtn();
+        setupChildrenActivityBtn();
         setupTimeOutActivityBtn();
 
-
-    }
-
-    private void setupTimeOutActivityBtn() {
-        Button btn = (Button) findViewById(R.id.timeOutBtn);
-
-        btn.setOnClickListener(v -> {
-            Intent i = TimeOutActivity.makeLaunchIntent(MainActivity.this);
-            startActivity(i);
-        });
     }
 
     private void setupCoinActivityBtn() {
@@ -36,5 +27,24 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void setupTimeOutActivityBtn() {
+        Button btn = (Button) findViewById(R.id.timeoutActivity);
+
+        btn.setOnClickListener(v -> {
+            Intent i = TimeOutActivity.makeLaunchIntent(MainActivity.this);
+            startActivity(i);
+        });
+    }
+
+    //TODO: Hook-up RecordsActivity code with the Records button
+
+    private void setupChildrenActivityBtn() {
+        Button btn = (Button) findViewById(R.id.childrenActivity);
+
+        btn.setOnClickListener(v -> {
+            Intent i = ChildrenActivity.makeLaunchIntent(MainActivity.this);
+            startActivity(i);
+        });
+    }
 
 }
