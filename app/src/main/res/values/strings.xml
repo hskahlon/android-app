@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Practical Parent</string>
+    <string name="flipcoins">flipCoins</string>
+    <string name="flipBtnText">FLIP</string>
     <string name="title_activity_children">Your Children</string>
+    <string name="tailsString">The Result is Tails</string>
+    <string name="headsString">The Result is Heads</string>
 
     <string-array name="preSetTimes">
         <item>1</item>
@@ -9,6 +13,7 @@
         <item>5</item>
         <item>10</item>
     </string-array>
+
     <string name="title_activity_edit_child">Edit Child</string>
     <string name="editChildName_hint">Name</string>
     <string name="editChildSaveBtn_txt">Save</string>
