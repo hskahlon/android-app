@@ -23,6 +23,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     private Button btn;
     private Button heads;
     private Button tails;
+    private String userDecision;
     private ImageView coin;
     private static final int YROTATE = 1800;
     private static final int DURATION = 300;
@@ -43,8 +44,8 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
         tails = findViewById(R.id.selectTails);
 
         // Start both buttons appearing "greyed" out:
-        heads.setBackgroundColor(Color.parseColor("#A9A9A9"));
-        tails.setBackgroundColor(Color.parseColor("#A9A9A9"));
+        heads.setBackgroundColor(getResources().getColor(R.color.unselectedHeadTail));
+        tails.setBackgroundColor(getResources().getColor(R.color.unselectedHeadTail));
 
         heads.setOnClickListener(this);
         tails.setOnClickListener(this);
@@ -56,15 +57,14 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        String flag;
         switch (v.getId()) {
             case R.id.selectHeads:
-                flag = "User chose heads!";
-                updateHeadTailSelectorButtons(flag);
+                userDecision = "User chose heads!";
+                updateHeadTailSelectorButtons(userDecision);
                 break;
             case R.id.selectTails:
-                flag = "User chose tails!";
-                updateHeadTailSelectorButtons(flag);
+                userDecision = "User chose tails!";
+                updateHeadTailSelectorButtons(userDecision);
                 break;
         }
     }
@@ -72,11 +72,11 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     private void updateHeadTailSelectorButtons(String flag) {
         heads = findViewById(R.id.selectHeads);
         tails = findViewById(R.id.selectTails);
-        if (flag == "User chose heads!") {
+        if (userDecision == "User chose heads!") {
             heads.setBackgroundColor(Color.parseColor("#1E90FF"));
             tails.setBackgroundColor(Color.parseColor("#A9A9A9"));
             Toast.makeText(this, "Heads selected", Toast.LENGTH_SHORT).show();
-        } else if (flag == "User chose tails!") {
+        } else if (userDecision == "User chose tails!") {
             heads.setBackgroundColor(Color.parseColor("#A9A9A9"));
             tails.setBackgroundColor(Color.parseColor("#1E90FF"));
             Toast.makeText(this, "Tails selected", Toast.LENGTH_SHORT).show();
@@ -102,6 +102,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
     private void flipCoin(int randomChoice) {
         final View currentCoin = coin;
+        TextView showWinOrLoss = findViewById(R.id.resultWinOrLoss);
 
         // Rotates by 1800 degrees -> changes view at last flip
             currentCoin.animate().withLayer()
@@ -132,13 +133,24 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
                     ).start();
             new Handler().postDelayed(() -> {
                 TextView result = findViewById(R.id.coinFlipResultText);
-                if (randomChoice==0)
-                {
+                if (randomChoice==0) {
                     result.setText(R.string.tailsString);
-                }
-                else
-                {
+                    if (userDecision == "User chose tails!") {
+                        showWinOrLoss.setText(R.string.winnerResult);
+                        showWinOrLoss.setTextColor(getResources().getColor(R.color.correct_green));
+                    } else if (userDecision == "User chose heads!"){
+                        showWinOrLoss.setText(R.string.loserResult);
+                        showWinOrLoss.setTextColor(getResources().getColor(R.color.incorrect_red));
+                    }
+                } else {
                     result.setText(R.string.headsString);
+                    if (userDecision == "User chose heads!") {
+                        showWinOrLoss.setText(R.string.winnerResult);
+                        showWinOrLoss.setTextColor(getResources().getColor(R.color.correct_green));
+                    } else if (userDecision == "User chose tails!"){
+                        showWinOrLoss.setText(R.string.loserResult);
+                        showWinOrLoss.setTextColor(getResources().getColor(R.color.incorrect_red));
+                    }
                 }
             }, DURATION*2);
     }

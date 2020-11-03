@@ -9,4 +9,10 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red_btn">#FB1C1C</color>
     <color name="purple_btn">#5B1CFB</color>
+
+    <color name="correct_green">#32CD32</color>
+    <color name="incorrect_red">#DC143C</color>
+
+    <color name="selectedHeadTail">#1E90FF</color>
+    <color name="unselectedHeadTail">#A9A9A9</color>
 </resources>

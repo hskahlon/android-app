@@ -5,6 +5,8 @@
     <string name="title_activity_children">Your Children</string>
     <string name="tailsString">The Result is Tails</string>
     <string name="headsString">The Result is Heads</string>
+    <string name="winnerResult">You win!!</string>
+    <string name="loserResult">You lost :(</string>
 
     <string-array name="preSetTimes">
         <item>1</item>
