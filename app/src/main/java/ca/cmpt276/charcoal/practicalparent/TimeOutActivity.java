@@ -1,5 +1,6 @@
 package ca.cmpt276.charcoal.practicalparent;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
@@ -63,13 +64,13 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         setRandomBackgroundImage();
 
         //TODO: Delete logs when submitting
-        //TODO: Make "up" button
+        //TODO: Bug- when you come out of timeoutActivity and then go in again, there is a delay on display UI
         //TODO: Vibration and sound when the alarm is finished
         //TODO: REFACTOR
 
-//         Enable "up" on toolbar
-//        ActionBar ab = getSupportActionBar();
-//        ab.setDisplayHomeAsUpEnabled(true);
+        //Enable "up" on toolbar
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
     }
 
 
