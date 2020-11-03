@@ -3,25 +3,22 @@ package ca.cmpt276.charcoal.practicalparent;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.animation.AnimatorInflater;
-import android.animation.AnimatorSet;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Random;
 
 
 
-public class CoinFlipActivity extends AppCompatActivity {
+public class CoinFlipActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Button btn;
     private ImageView coin;
@@ -40,12 +37,27 @@ public class CoinFlipActivity extends AppCompatActivity {
 
         coin = findViewById(R.id.coinImageView);
 
+        Button heads = findViewById(R.id.selectHeads);
+        Button tails = findViewById(R.id.selectTails);
+        heads.setOnClickListener(this);
+        tails.setOnClickListener(this);
+
         // Enable "up" on toolbar
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
+    }
 
-
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.selectHeads:
+                Toast.makeText(this, "Heads selected", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.selectTails:
+                Toast.makeText(this, "Tails selected", Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 
     private void setupCoinButton() {
@@ -53,11 +65,18 @@ public class CoinFlipActivity extends AppCompatActivity {
         btn.setOnClickListener(v -> {
             int randomChoice = getRandom();
             flipCoin(randomChoice);
-
         });
-
     }
 
+
+    //TODO
+//    private void setupHeadTailSelectorButtons() {
+//        btn = findViewById(R.id.selectHeads)
+//    }
+
+//    private void updateHeadTailSelector() {
+//
+//    }
 
     private int getRandom() {
         Random randomGenerator = new Random();
@@ -119,5 +138,4 @@ public class CoinFlipActivity extends AppCompatActivity {
             }, DURATION*2);
 
     }
-
 }
