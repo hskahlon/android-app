@@ -81,11 +81,12 @@ public class BackgroundService extends Service {
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
 
         countDownTimer.cancel();
         isTimerRunning = false;
-        intent.putExtra("isTimerRunning",false);
+        intent.putExtra("isTimerRunning",isTimerRunning);
         sendBroadcast(intent);
-        super.onDestroy();
+
     }
 }

@@ -37,6 +37,8 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     private EditText setTimeText;
 
     private boolean isTimerRunning;
+    private boolean isTimerCanceled;
+
     private long timeLeftInMillis;
 
 
@@ -63,7 +65,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         //TODO: Delete logs when submitting
         //TODO: Make "up" button
         //TODO: Vibration and sound when the alarm is finished
-
+        //TODO: REFACTOR
 
 //         Enable "up" on toolbar
 //        ActionBar ab = getSupportActionBar();
@@ -118,6 +120,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
             setButton.setVisibility(View.INVISIBLE);
             setTimeText.setVisibility(View.INVISIBLE);
+
         } else {
             //If the timer is done
             if (timeLeftInMillis < 1000) {
@@ -130,6 +133,15 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
                 setButton.setVisibility(View.VISIBLE);
                 setTimeText.setVisibility(View.VISIBLE);
+            }
+            //if user press cancel when the timer is running
+            else if(isTimerCanceled){
+                cancelButton.setVisibility(View.INVISIBLE);
+                startButton.setVisibility(View.VISIBLE);
+                pauseButton.setVisibility(View.INVISIBLE);
+                setButton.setVisibility(View.VISIBLE);
+                setTimeText.setVisibility(View.VISIBLE);
+                preSetTimeSpinner.setVisibility(View.VISIBLE);
             }
             //if the timer is paused
             else if (timeLeftInMillis < startTimeInMillis) {
@@ -224,20 +236,14 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
     //TODO: Refactor updating buttons to updateUI()
     private void cancelTimer() {
-        timeLeftInMillis = startTimeInMillis;
+
+        isTimerCanceled = true;
         stopService(new Intent(this,BackgroundService.class));
         Log.i(TAG,"Canceled service");
+        timeLeftInMillis = startTimeInMillis;
         updateCountDownText();
 
-        //TODO: Why is this needed? I thought it was dealt in onReceiver
-        isTimerRunning = false;
-
-        cancelButton.setVisibility(View.INVISIBLE);
-        startButton.setVisibility(View.VISIBLE);
-        pauseButton.setVisibility(View.INVISIBLE);
-        setButton.setVisibility(View.VISIBLE);
-        setTimeText.setVisibility(View.VISIBLE);
-        preSetTimeSpinner.setVisibility(View.VISIBLE);
+        updateUI();
     }
 
     private void updateCountDownText() {
@@ -260,27 +266,29 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void startTimer() {
+        isTimerCanceled = false;
         Intent intent = BackgroundService.makeLaunchIntent(this, timeLeftInMillis);
         startService(intent);
-        updateUI();
     }
 
     private void pauseTimer() {
+        isTimerCanceled = false;
         stopService(new Intent(this,BackgroundService.class));
         Log.i(TAG,"Paused service");
-        isTimerRunning = false;
-        updateUI();
-
     }
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             //update timeLeftinmillis
-            if(intent.getExtras() != null){
-                timeLeftInMillis = intent.getLongExtra("countDown",1000);
+            if(intent.getExtras() != null) {
+                timeLeftInMillis = intent.getLongExtra("countDown", 1000);
                 isTimerRunning = intent.getBooleanExtra("isTimerRunning", false);
-                Log.i(TAG, "timeleftinMillis passed from service" + timeLeftInMillis);
+                Log.i(TAG, "timeleftinMillis passed from service: " + timeLeftInMillis / 1000);
+                Log.i(TAG, "isTimerRunning passed from service: " + isTimerRunning);
+            }
+            if(isTimerCanceled){
+                timeLeftInMillis = startTimeInMillis;
             }
             updateCountDownText();
             updateUI();
