@@ -47,6 +47,7 @@ public class BackgroundService extends Service {
             @Override
             public void onFinish() {
                 isTimerRunning = false;
+                intent.putExtra("isTimerRunning",isTimerRunning);
                 sendBroadcast(intent);
                 Log.i(TAG, "Timer finished");
             }
@@ -82,6 +83,9 @@ public class BackgroundService extends Service {
     public void onDestroy() {
 
         countDownTimer.cancel();
+        isTimerRunning = false;
+        intent.putExtra("isTimerRunning",false);
+        sendBroadcast(intent);
         super.onDestroy();
     }
 }

@@ -1,6 +1,8 @@
 package ca.cmpt276.charcoal.practicalparent;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -23,6 +25,7 @@ import java.sql.Time;
 import java.util.Locale;
 
 import ca.cmpt276.charcoal.practicalparent.model.BackgroundService;
+import ca.cmpt276.charcoal.practicalparent.model.GetRandomBackgroundImage;
 
 public class TimeOutActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     String TAG = "TimeOut";
@@ -55,6 +58,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         setupPauseButton();
 
         setupSpinner();
+        setRandomBackgroundImage();
 
         //TODO: Delete logs when submitting
         //TODO: Make "up" button
@@ -66,6 +70,16 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 //        ab.setDisplayHomeAsUpEnabled(true);
     }
 
+
+    private void setRandomBackgroundImage() {
+        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.timeoutLayout);
+        final int sdk = android.os.Build.VERSION.SDK_INT;
+        if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            layout.setBackgroundDrawable(ContextCompat.getDrawable(this, GetRandomBackgroundImage.getId()) );
+        } else {
+            layout.setBackground(ContextCompat.getDrawable(this, GetRandomBackgroundImage.getId()));
+        }
+    }
 
     public static Intent makeLaunchIntent(Context context) {
         return new Intent(context, TimeOutActivity.class);
@@ -214,6 +228,9 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         stopService(new Intent(this,BackgroundService.class));
         Log.i(TAG,"Canceled service");
         updateCountDownText();
+
+        //TODO: Why is this needed? I thought it was dealt in onReceiver
+        isTimerRunning = false;
 
         cancelButton.setVisibility(View.INVISIBLE);
         startButton.setVisibility(View.VISIBLE);
