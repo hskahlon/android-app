@@ -15,9 +15,16 @@
             android:parentActivityName=".MainActivity">
         </activity>
         <activity
+            android:name=".EditChildActivity"
+            android:label="@string/title_activity_edit_child"
+            android:theme="@style/Theme.PracticalParent.NoActionBar"
+            android:parentActivityName=".ChildrenActivity">
+        </activity>
+        <activity
             android:name=".ChildrenActivity"
             android:label="@string/title_activity_children"
-            android:theme="@style/Theme.PracticalParent.NoActionBar">
+            android:theme="@style/Theme.PracticalParent.NoActionBar"
+            android:parentActivityName=".MainActivity">
         </activity>
         <activity android:name=".TimeOutActivity">
         </activity>

@@ -13,4 +13,12 @@
         <item>5</item>
         <item>10</item>
     </string-array>
+
+    <string name="title_activity_edit_child">Edit Child</string>
+    <string name="editChildName_hint">Name</string>
+    <string name="editChildSaveBtn_txt">Save</string>
+    <string name="action_delete">action_delete</string>
+    <string name="editChildNameLabel_txt">Name:</string>
+    <string name="editChildNameError">Name length must be greater than 0</string>
+
 </resources>
