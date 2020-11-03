@@ -1,11 +1,17 @@
 package ca.cmpt276.charcoal.practicalparent;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -16,9 +22,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.sql.Time;
 import java.util.Locale;
 
+import ca.cmpt276.charcoal.practicalparent.model.BackgroundService;
+import ca.cmpt276.charcoal.practicalparent.model.GetRandomBackgroundImage;
+
 public class TimeOutActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+    String TAG = "TimeOut";
     private long startTimeInMillis;
 
     private TextView countDownText;
@@ -27,10 +38,16 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     private EditText setTimeText;
 
     private boolean isTimerRunning;
-    private long timeLeftInMillis = startTimeInMillis;
-    private CountDownTimer countDownTimer;
+    private boolean isTimerCanceled;
+
+    private long timeLeftInMillis;
+
 
     private Spinner preSetTimeSpinner;
+
+
+
+    private BackgroundService service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +61,27 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         setupPauseButton();
 
         setupSpinner();
+        setRandomBackgroundImage();
 
-        //TODO: Make app still run in background (Use Server?)
+        //TODO: Delete logs when submitting
+        //TODO: Bug- when you come out of timeoutActivity and then go in again, there is a delay on display UI
         //TODO: Vibration and sound when the alarm is finished
-        //TODO: Don't forget to change the manifest when pushing
+        //TODO: REFACTOR
+
+        //Enable "up" on toolbar
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+    }
+
+
+    private void setRandomBackgroundImage() {
+        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.timeoutLayout);
+        final int sdk = android.os.Build.VERSION.SDK_INT;
+        if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            layout.setBackgroundDrawable(ContextCompat.getDrawable(this, GetRandomBackgroundImage.getId()) );
+        } else {
+            layout.setBackground(ContextCompat.getDrawable(this, GetRandomBackgroundImage.getId()));
+        }
     }
 
     public static Intent makeLaunchIntent(Context context) {
@@ -87,6 +121,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
             setButton.setVisibility(View.INVISIBLE);
             setTimeText.setVisibility(View.INVISIBLE);
+
         } else {
             //If the timer is done
             if (timeLeftInMillis < 1000) {
@@ -99,6 +134,15 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
                 setButton.setVisibility(View.VISIBLE);
                 setTimeText.setVisibility(View.VISIBLE);
+            }
+            //if user press cancel when the timer is running
+            else if(isTimerCanceled){
+                cancelButton.setVisibility(View.INVISIBLE);
+                startButton.setVisibility(View.VISIBLE);
+                pauseButton.setVisibility(View.INVISIBLE);
+                setButton.setVisibility(View.VISIBLE);
+                setTimeText.setVisibility(View.VISIBLE);
+                preSetTimeSpinner.setVisibility(View.VISIBLE);
             }
             //if the timer is paused
             else if (timeLeftInMillis < startTimeInMillis) {
@@ -144,6 +188,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
                     Toast.makeText(TimeOutActivity.this, "No Timer Made", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                Toast.makeText(TimeOutActivity.this, "Started", Toast.LENGTH_SHORT).show();
                 startTimer();
             }
         });
@@ -176,7 +221,9 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
     private void setTime(long milliseconds) {
         startTimeInMillis = milliseconds;
-        cancelTimer();
+        timeLeftInMillis = startTimeInMillis;
+        updateCountDownText();
+        updateUI();
         closeKeyboard();
     }
 
@@ -190,61 +237,71 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
     //TODO: Refactor updating buttons to updateUI()
     private void cancelTimer() {
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
-        }
+
+        isTimerCanceled = true;
+        stopService(new Intent(this,BackgroundService.class));
+        Log.i(TAG,"Canceled service");
         timeLeftInMillis = startTimeInMillis;
         updateCountDownText();
 
-        cancelButton.setVisibility(View.INVISIBLE);
-        startButton.setVisibility(View.VISIBLE);
-        pauseButton.setVisibility(View.INVISIBLE);
-        setButton.setVisibility(View.VISIBLE);
-        setTimeText.setVisibility(View.VISIBLE);
-        preSetTimeSpinner.setVisibility(View.VISIBLE);
-//      updateUI();
+        updateUI();
     }
 
     private void updateCountDownText() {
+
         int hours = (int) (timeLeftInMillis / 1000) / 3600;
         int minutes = (int) ((timeLeftInMillis / 1000) % 3600) / 60;
         int seconds = (int) (timeLeftInMillis / 1000) % 60;
 
+        Log.i(TAG, "Countdown seconds remaining:" + timeLeftInMillis/1000);
         String timeLeftFormatted;
         if (hours > 0) {
             timeLeftFormatted = String.format(Locale.getDefault(),
                     "%d:%02d:%02d", hours, minutes, seconds);
         } else {
-            timeLeftFormatted = String.format(Locale.getDefault(),
-                    "%02d:%02d", minutes, seconds);
+         timeLeftFormatted = String.format(Locale.getDefault(),
+                 "%02d:%02d", minutes, seconds);
         }
         countDownText = (TextView) findViewById(R.id.countDownText);
         countDownText.setText(timeLeftFormatted);
     }
 
     private void startTimer() {
-        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                timeLeftInMillis = millisUntilFinished;
-                updateCountDownText();
-            }
-
-            @Override
-            public void onFinish() {
-                isTimerRunning = false;
-                updateUI();
-            }
-        }.start();
-
-        isTimerRunning = true;
-        updateUI();
+        isTimerCanceled = false;
+        Intent intent = BackgroundService.makeLaunchIntent(this, timeLeftInMillis);
+        startService(intent);
     }
 
     private void pauseTimer() {
-        countDownTimer.cancel();
-        isTimerRunning = false;
-        updateUI();
-
+        isTimerCanceled = false;
+        stopService(new Intent(this,BackgroundService.class));
+        Log.i(TAG,"Paused service");
     }
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //update timeLeftinmillis
+            if(intent.getExtras() != null) {
+                timeLeftInMillis = intent.getLongExtra("countDown", 1000);
+                isTimerRunning = intent.getBooleanExtra("isTimerRunning", false);
+                Log.i(TAG, "timeleftinMillis passed from service: " + timeLeftInMillis / 1000);
+                Log.i(TAG, "isTimerRunning passed from service: " + isTimerRunning);
+            }
+            if(isTimerCanceled){
+                timeLeftInMillis = startTimeInMillis;
+            }
+            updateCountDownText();
+            updateUI();
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(broadcastReceiver,new IntentFilter(BackgroundService.COUNTDOWN_BR));
+        Log.i(TAG,"Registered broadcast receiver");
+    }
+
+
 }
