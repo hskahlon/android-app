@@ -6,6 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import java.util.List;
+
+import ca.cmpt276.charcoal.practicalparent.model.Child;
+import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -15,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         setupCoinActivityBtn();
         setupChildrenActivityBtn();
         setupTimeOutActivityBtn();
+        setupChildren();
 
     }
 
@@ -25,6 +31,14 @@ public class MainActivity extends AppCompatActivity {
             Intent i = CoinFlipActivity.makeLaunchIntent(MainActivity.this);
             startActivity(i);
         });
+    }
+
+    private void setupChildren() {
+        List<Child> children = EditChildActivity.getSavedChildren(this);
+        if (children != null) {
+            ChildManager manager = ChildManager.getInstance();
+            manager.setChildren(children);
+        }
     }
 
     private void setupTimeOutActivityBtn() {
