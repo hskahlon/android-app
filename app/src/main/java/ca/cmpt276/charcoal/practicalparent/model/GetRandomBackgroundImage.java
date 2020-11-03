@@ -9,7 +9,8 @@ public class GetRandomBackgroundImage {
             R.drawable.timer_wallpaper1,
             R.drawable.timer_wallpaper2,
             R.drawable.timer_wallpaper3,
-
+            R.drawable.timer_wallpaper4,
+            R.drawable.timer_wallpaper5,
     };
 
     private GetRandomBackgroundImage() {
