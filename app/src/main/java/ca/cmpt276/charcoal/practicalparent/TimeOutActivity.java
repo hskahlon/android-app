@@ -9,8 +9,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -22,7 +26,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.sql.Time;
 import java.util.Locale;
 
 import ca.cmpt276.charcoal.practicalparent.model.BackgroundService;
@@ -44,6 +47,8 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
 
     private Spinner preSetTimeSpinner;
+
+    private final long[] pattern = {400, 100};
 
 
 
@@ -134,6 +139,8 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
                 setButton.setVisibility(View.VISIBLE);
                 setTimeText.setVisibility(View.VISIBLE);
+
+                notifyTimerDone();
             }
             //if user press cancel when the timer is running
             else if(isTimerCanceled){
@@ -153,6 +160,20 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
             }
         }
 
+    }
+
+    private void notifyTimerDone() {
+        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+        r.play();
+
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        v.vibrate(pattern, 0);
+
+        new Handler().postDelayed(() ->{
+            r.stop();
+            v.cancel();
+        }, 5000);
     }
 
     private void setupPauseButton() {
