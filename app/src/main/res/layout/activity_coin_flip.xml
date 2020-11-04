@@ -30,7 +30,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectTails" />
+        app:layout_constraintTop_toBottomOf="@+id/priorRecordsBtn" />
 
     <TextView
         android:id="@+id/coinFlipResultText"
@@ -62,16 +62,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Heads"
+        android:text="@string/headsText"
         app:layout_constraintEnd_toStartOf="@+id/guidelineHeadsTails"
         app:layout_constraintTop_toBottomOf="@+id/coinImageView" />
 
     <Button
-        android:id="@+id/selectTails"
+        android:id="@+id/priorRecordsBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Tails"
+        android:text="@string/tailsText"
         app:layout_constraintStart_toStartOf="@+id/guidelineHeadsTails"
         app:layout_constraintTop_toBottomOf="@+id/coinImageView" />
 

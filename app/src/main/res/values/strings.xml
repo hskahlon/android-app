@@ -22,5 +22,9 @@
     <string name="action_delete">action_delete</string>
     <string name="editChildNameLabel_txt">Name:</string>
     <string name="editChildNameError">Name length must be greater than 0</string>
+    <string name="current_record_String">Current Record</string>
+    <string name="prior_records_String">Prior Records</string>
+    <string name="headsText">Heads</string>
+    <string name="tailsText">Tails</string>
 
 </resources>
