@@ -46,9 +46,7 @@ public class BackgroundService extends Service {
 
             @Override
             public void onFinish() {
-                isTimerRunning = false;
-                intent.putExtra("isTimerRunning",isTimerRunning);
-                sendBroadcast(intent);
+                stopSelf();
                 Log.i(TAG, "Timer finished");
             }
         }.start();

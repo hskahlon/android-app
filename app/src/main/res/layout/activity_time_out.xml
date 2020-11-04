@@ -121,7 +121,7 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
 
-    <Spinner
+    <ca.cmpt276.charcoal.practicalparent.model.PresetTimeCustomSpinner
         android:id="@+id/preSetTimeSpinner"
         android:layout_width="111dp"
         android:layout_height="27dp"
