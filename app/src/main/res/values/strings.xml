@@ -22,5 +22,10 @@
     <string name="action_delete">action_delete</string>
     <string name="editChildNameLabel_txt">Name:</string>
     <string name="editChildNameError">Name length must be greater than 0</string>
+    <string name="notification_channel">Timer Alert</string>
+    <string name="channel_description">Sends a notification when the timeout timer has expired</string>
+    <string name="timout_alarm_notification_ID">timoutAlarmNotification</string>
+    <string name="timeout_notification_title">Timeout Over</string>
+    <string name="timeout_notification_body">Your child\'s timeout is over</string>
 
 </resources>
