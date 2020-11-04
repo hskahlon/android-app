@@ -42,8 +42,8 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
         tails = findViewById(R.id.selectTails);
 
         // Start both buttons appearing "greyed" out:
-        heads.setBackgroundColor(getResources().getColor(R.color.unselectedHeadTail));
-        tails.setBackgroundColor(getResources().getColor(R.color.unselectedHeadTail));
+        heads.setBackgroundColor(getColor(R.color.unselectedHeadTail));
+        tails.setBackgroundColor(getColor(R.color.unselectedHeadTail));
 
         heads.setOnClickListener(this);
         tails.setOnClickListener(this);
@@ -71,12 +71,12 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
         heads = findViewById(R.id.selectHeads);
         tails = findViewById(R.id.selectTails);
         if (userDecision == "User chose heads!") {
-            heads.setBackgroundColor(Color.parseColor("#1E90FF"));
-            tails.setBackgroundColor(Color.parseColor("#A9A9A9"));
+            heads.setBackgroundColor(getColor(R.color.selectedHeadTail));
+            tails.setBackgroundColor(getColor(R.color.unselectedHeadTail));
             Toast.makeText(this, "Heads selected", Toast.LENGTH_SHORT).show();
         } else if (userDecision == "User chose tails!") {
-            heads.setBackgroundColor(Color.parseColor("#A9A9A9"));
-            tails.setBackgroundColor(Color.parseColor("#1E90FF"));
+            heads.setBackgroundColor(getColor(R.color.unselectedHeadTail));
+            tails.setBackgroundColor(getColor(R.color.selectedHeadTail));
             Toast.makeText(this, "Tails selected", Toast.LENGTH_SHORT).show();
         }
     }
@@ -133,19 +133,19 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
                     result.setText(R.string.tailsString);
                     if (userDecision == "User chose tails!") {
                         showWinOrLoss.setText(R.string.winnerResult);
-                        showWinOrLoss.setTextColor(getResources().getColor(R.color.correct_green));
+                        showWinOrLoss.setTextColor(getColor(R.color.correct_green));
                     } else if (userDecision == "User chose heads!"){
                         showWinOrLoss.setText(R.string.loserResult);
-                        showWinOrLoss.setTextColor(getResources().getColor(R.color.incorrect_red));
+                        showWinOrLoss.setTextColor(getColor(R.color.incorrect_red));
                     }
                 } else {
                     result.setText(R.string.headsString);
                     if (userDecision == "User chose heads!") {
                         showWinOrLoss.setText(R.string.winnerResult);
-                        showWinOrLoss.setTextColor(getResources().getColor(R.color.correct_green));
+                        showWinOrLoss.setTextColor(getColor(R.color.correct_green));
                     } else if (userDecision == "User chose tails!"){
                         showWinOrLoss.setText(R.string.loserResult);
-                        showWinOrLoss.setTextColor(getResources().getColor(R.color.incorrect_red));
+                        showWinOrLoss.setTextColor(getColor(R.color.incorrect_red));
                     }
                 }
             }, DURATION*2);
