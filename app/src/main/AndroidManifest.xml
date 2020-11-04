@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.cmpt276.charcoal.practicalparent">
 
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -12,28 +12,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PracticalParent">
+        <activity android:name=".RecordActivity"></activity>
         <activity
             android:name=".CoinFlipActivity"
-            android:parentActivityName=".MainActivity">
-        </activity>
+            android:parentActivityName=".MainActivity"></activity>
         <activity
             android:name=".EditChildActivity"
             android:label="@string/title_activity_edit_child"
-            android:theme="@style/Theme.PracticalParent.NoActionBar"
-            android:parentActivityName=".ChildrenActivity">
-        </activity>
+            android:parentActivityName=".ChildrenActivity"
+            android:theme="@style/Theme.PracticalParent.NoActionBar"></activity>
+
         <service android:name=".model.BackgroundService" />
 
         <activity
             android:name=".ChildrenActivity"
             android:label="@string/title_activity_children"
-            android:theme="@style/Theme.PracticalParent.NoActionBar"
-            android:parentActivityName=".MainActivity">
-        </activity>
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Theme.PracticalParent.NoActionBar"></activity>
         <activity
             android:name=".TimeOutActivity"
-            android:parentActivityName=".MainActivity">
-        </activity>
+            android:parentActivityName=".MainActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,7 +39,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
