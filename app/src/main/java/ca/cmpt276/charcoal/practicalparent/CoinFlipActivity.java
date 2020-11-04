@@ -18,7 +18,6 @@ import android.widget.Toast;
 import java.util.Random;
 
 
-
 public class CoinFlipActivity extends AppCompatActivity implements View.OnClickListener{
     private Button btn;
     private Button heads;
@@ -29,7 +28,6 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     private static final int DURATION = 300;
     private static final float SCALEX = 0.5f;
     private static final float SCALEY = 0.5f;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,10 +113,8 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
                                 TextView result = findViewById(R.id.coinFlipResultText);
                                 if (randomChoice == 0) {
                                     coin.setImageResource(R.drawable.ic_tails);
-//
                                 } else {
                                     coin.setImageResource(R.drawable.ic_heads);
-//
                                 }
 
                                 //second quarter turn
