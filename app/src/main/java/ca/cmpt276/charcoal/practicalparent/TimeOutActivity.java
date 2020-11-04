@@ -22,7 +22,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +29,7 @@ import java.util.Locale;
 
 import ca.cmpt276.charcoal.practicalparent.model.BackgroundService;
 import ca.cmpt276.charcoal.practicalparent.model.GetRandomBackgroundImage;
+import ca.cmpt276.charcoal.practicalparent.model.PresetTimeCustomSpinner;
 
 public class TimeOutActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     String TAG = "TimeOut";
@@ -46,7 +46,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     private long timeLeftInMillis;
 
 
-    private Spinner preSetTimeSpinner;
+    private PresetTimeCustomSpinner preSetTimeSpinner;
 
     private final long[] pattern = {400, 100};
 
@@ -81,12 +81,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
     private void setRandomBackgroundImage() {
         ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.timeoutLayout);
-        final int sdk = android.os.Build.VERSION.SDK_INT;
-        if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            layout.setBackgroundDrawable(ContextCompat.getDrawable(this, GetRandomBackgroundImage.getId()) );
-        } else {
-            layout.setBackground(ContextCompat.getDrawable(this, GetRandomBackgroundImage.getId()));
-        }
+        layout.setBackground(ContextCompat.getDrawable(this, GetRandomBackgroundImage.getId()));
     }
 
     public static Intent makeLaunchIntent(Context context) {
@@ -94,11 +89,12 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void setupSpinner() {
-        preSetTimeSpinner = (Spinner) findViewById(R.id.preSetTimeSpinner);
+        preSetTimeSpinner = (PresetTimeCustomSpinner) findViewById(R.id.preSetTimeSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.preSetTimes, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         preSetTimeSpinner.setAdapter(adapter);
+
         preSetTimeSpinner.setOnItemSelectedListener(this);
     }
 
@@ -106,6 +102,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String preSetTime = parent.getItemAtPosition(position).toString();
         long millisInput = Long.parseLong(preSetTime) * 60000;
+        Log.i(TAG,"Selected drop down time : " + millisInput/1000);
         setTime(millisInput);
     }
 
@@ -150,6 +147,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
                 setButton.setVisibility(View.VISIBLE);
                 setTimeText.setVisibility(View.VISIBLE);
                 preSetTimeSpinner.setVisibility(View.VISIBLE);
+
             }
             //if the timer is paused
             else if (timeLeftInMillis < startTimeInMillis) {
