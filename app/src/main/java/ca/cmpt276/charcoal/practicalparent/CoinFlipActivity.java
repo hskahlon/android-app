@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -39,7 +38,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
         coin = findViewById(R.id.coinImageView);
 
         heads = findViewById(R.id.selectHeads);
-        tails = findViewById(R.id.selectTails);
+        tails = findViewById(R.id.priorRecordsBtn);
 
         // Start both buttons appearing "greyed" out:
         heads.setBackgroundColor(getColor(R.color.unselectedHeadTail));
@@ -60,7 +59,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
                 userDecision = "User chose heads!";
                 updateHeadTailSelectorButtons(userDecision);
                 break;
-            case R.id.selectTails:
+            case R.id.priorRecordsBtn:
                 userDecision = "User chose tails!";
                 updateHeadTailSelectorButtons(userDecision);
                 break;
@@ -69,7 +68,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
     private void updateHeadTailSelectorButtons(String flag) {
         heads = findViewById(R.id.selectHeads);
-        tails = findViewById(R.id.selectTails);
+        tails = findViewById(R.id.priorRecordsBtn);
         if (userDecision == "User chose heads!") {
             heads.setBackgroundColor(getColor(R.color.selectedHeadTail));
             tails.setBackgroundColor(getColor(R.color.unselectedHeadTail));

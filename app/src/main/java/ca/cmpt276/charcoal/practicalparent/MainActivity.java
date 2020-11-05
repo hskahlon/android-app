@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         setupChildrenActivityBtn();
         setupTimeOutActivityBtn();
         setupChildren();
+        setupRecordActivityBtn();
 
     }
 
@@ -50,8 +51,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //TODO: Hook-up RecordsActivity code with the Records button
+    private void setupRecordActivityBtn() {
+        Button btn = (Button) findViewById(R.id.recordsActivity);
 
+        btn.setOnClickListener(v -> {
+            Intent i = RecordActivity.makeLaunchIntent(MainActivity.this);
+            startActivity(i);
+        });
+    }
     private void setupChildrenActivityBtn() {
         Button btn = (Button) findViewById(R.id.childrenActivity);
 
