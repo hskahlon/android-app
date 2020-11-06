@@ -26,5 +26,8 @@
     <string name="prior_records_String">Prior Records</string>
     <string name="headsText">Heads</string>
     <string name="tailsText">Tails</string>
+    <string name="child_name_String">Child Name</string>
+    <string name="result_String">Result:Heads</string>
+    <string name="Date_Result_String">Jan 8 1997 5:00pm</string>
 
 </resources>
