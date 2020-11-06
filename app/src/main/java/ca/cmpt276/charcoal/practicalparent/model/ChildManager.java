@@ -5,7 +5,6 @@ import java.util.List;
 
 public class ChildManager {
     List<Child> children = new ArrayList<>();
-
     private static ChildManager instance;
     private ChildManager() {
     }
