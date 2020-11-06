@@ -36,6 +36,7 @@
             android:parentActivityName=".MainActivity"
             android:launchMode="singleTop">
         </activity>
+        <receiver android:name=".NotificationStopBroadcastReceiver"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
