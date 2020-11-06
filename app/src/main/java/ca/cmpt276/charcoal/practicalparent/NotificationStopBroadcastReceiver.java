@@ -6,14 +6,19 @@ import android.content.Intent;
 import android.media.Ringtone;
 import android.os.Vibrator;
 
+import androidx.core.app.NotificationManagerCompat;
+
 public class NotificationStopBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        StopNotificationSerializable notificationInfo = (StopNotificationSerializable) intent.getSerializableExtra("Notification info");
-        Ringtone ringtone = notificationInfo.getRingtone();
-        Vibrator vibrator = notificationInfo.getVibrator();
+        int notificationId = intent.getIntExtra(context.getString(R.string.NotificationID_intentNametag), 0);
+
+        AlarmInfo alarmInfo = AlarmInfo.getInstance();
+        Ringtone ringtone = alarmInfo.getRingtone();
+        Vibrator vibrator = alarmInfo.getVibrator();
 
         ringtone.stop();
         vibrator.cancel();
+        NotificationManagerCompat.from(context).cancel(notificationId);
     }
 }

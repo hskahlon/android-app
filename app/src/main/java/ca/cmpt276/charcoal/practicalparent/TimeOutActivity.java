@@ -13,11 +13,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.AudioAttributes;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
+import android.media.audiofx.AudioEffect;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
@@ -52,7 +56,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
     private PresetTimeCustomSpinner preSetTimeSpinner;
 
-    private final long[] pattern = {400, 100};
+    private final long[] pattern = {0, 400, 300};
     private final int NOTIFICATION_ID = 0;
 
 
@@ -172,22 +176,35 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         ringtone.play();
 
         Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        vibrator.vibrate(pattern, 0);
+        if (Build.VERSION.SDK_INT >= 26) {
+            // source https://stackoverflow.com/questions/60466695/android-vibration-app-doesnt-work-anymore-after-android-10-api-29-update
+            vibrator.vibrate(VibrationEffect.createWaveform(pattern, 0)
+            , new AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .setUsage(AudioAttributes.USAGE_ALARM)
+                    .build()
+            );
+
+        } else {
+            vibrator.vibrate(pattern, 0);
+        }
 
         createNotification(ringtone, vibrator);
     }
 
     private void createNotification(Ringtone ringtone, Vibrator vibrator) {
         Intent intent = makeLaunchIntent(this);
-        PendingIntent pendingLaunchIntent = PendingIntent.getActivity(TimeOutActivity.this, 0, intent, 0);
+        PendingIntent pendingLaunchIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
-        Intent stopTimerIntent = new Intent(TimeOutActivity.this, NotificationStopBroadcastReceiver.class);
-        StopNotificationSerializable notficationInfo = new StopNotificationSerializable(ringtone, vibrator);
-        stopTimerIntent.putExtra("Notification Info", notficationInfo);
-        PendingIntent pendingStopTimerIntent = PendingIntent.getBroadcast(TimeOutActivity.this, 0, stopTimerIntent, 0);
+        Intent stopTimerIntent = new Intent(this, NotificationStopBroadcastReceiver.class);
+        stopTimerIntent.putExtra(getString(R.string.NotificationID_intentNametag), NOTIFICATION_ID);
+        PendingIntent pendingStopTimerIntent = PendingIntent.getBroadcast(this, 0, stopTimerIntent, 0);
 
+        AlarmInfo alarmInfo = AlarmInfo.getInstance();
+        alarmInfo.setRingtone(ringtone);
+        alarmInfo.setVibrator(vibrator);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(TimeOutActivity.this, getString(R.string.timout_alarm_notification_ID))
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getString(R.string.timout_alarm_notification_ID))
                 .setSmallIcon(R.drawable.ic_baseline_alarm_24)
                 .setContentTitle(getString(R.string.timeout_notification_title))
                 .setContentText(getString(R.string.timeout_notification_body))
@@ -199,8 +216,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
                 .addAction(R.drawable.ic_baseline_alarm_24, "Stop", pendingStopTimerIntent);
 
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(TimeOutActivity.this);
-            notificationManager.notify(NOTIFICATION_ID, builder.build());
+        NotificationManagerCompat.from(this).notify(NOTIFICATION_ID, builder.build());
     }
 
     private void setupPauseButton() {

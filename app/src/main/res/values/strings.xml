@@ -27,5 +27,6 @@
     <string name="timout_alarm_notification_ID">timoutAlarmNotification</string>
     <string name="timeout_notification_title">Timeout Over</string>
     <string name="timeout_notification_body">Your child\'s timeout is over</string>
+    <string name="NotificationID_intentNametag">NotificationId</string>
 
 </resources>
