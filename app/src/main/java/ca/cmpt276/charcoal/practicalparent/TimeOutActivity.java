@@ -8,6 +8,7 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -176,14 +177,25 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
             v.cancel();
         }, 5000);
 
+        createNotification();
+    }
+
+    private void createNotification() {
+        Intent intent = makeLaunchIntent(this);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getString(R.string.timout_alarm_notification_ID))
                 .setSmallIcon(R.drawable.ic_baseline_alarm_24)
                 .setContentTitle(getString(R.string.timeout_notification_title))
                 .setContentText(getString(R.string.timeout_notification_body))
-                .setPriority(NotificationCompat.PRIORITY_MAX);
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setFullScreenIntent(pendingIntent, true)
+                .setOngoing(true)
+                .setCategory(Notification.CATEGORY_CALL)
+                .setAutoCancel(true);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        notificationManager.notify(123456, builder.build());
+            notificationManager.notify(0, builder.build());
     }
 
     private void setupPauseButton() {
