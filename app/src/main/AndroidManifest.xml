@@ -12,19 +12,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PracticalParent">
-        <activity android:name=".RecordActivity"></activity>
+
         <activity
             android:name=".CoinFlipActivity"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity"></activity>
-        <activity
-            android:name=".RecordActivity"
-            android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".EditChildActivity"
             android:label="@string/title_activity_edit_child"
             android:parentActivityName=".ChildrenActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.PracticalParent.NoActionBar"></activity>
+
+        <activity
+            android:name=".RecordActivity"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"></activity>
 
         <service android:name=".model.BackgroundService" />
 
@@ -32,11 +35,15 @@
             android:name=".ChildrenActivity"
             android:label="@string/title_activity_children"
             android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.PracticalParent.NoActionBar"></activity>
         <activity
             android:name=".TimeOutActivity"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity"></activity>
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
