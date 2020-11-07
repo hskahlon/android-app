@@ -397,30 +397,6 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         //https://www.youtube.com/watch?v=yS-BU6eYUDE
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        unregisterReceiver(broadcastReceiver);
-        Log.i(TAG, "On Pause.. Unregistered broacast receiver");
-    }
-
-    @Override
-    public void onStop() {
-        Log.i(TAG, "onStop.. unregister");
-        try {
-            unregisterReceiver(broadcastReceiver);
-        } catch (Exception e) {
-            // Receiver was probably already stopped in onPause()
-        }
-        super.onStop();
-    }
-
 
 
 }
