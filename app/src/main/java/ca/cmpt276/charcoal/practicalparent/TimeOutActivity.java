@@ -42,9 +42,9 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     String TAG = "TimeOut";
     private long startTimeInMillis;
 
-    private View contentView;
+
     private View loadingView;
-    private int shortAnimationDuration;
+
 
     private TextView countDownText;
     private Button startButton, pauseButton, cancelButton, setButton;
@@ -390,35 +390,11 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     };
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
         registerReceiver(broadcastReceiver, new IntentFilter(BackgroundService.COUNTDOWN_BR));
         Log.i(TAG, "on start ... Registered broacast receiver");
         //https://www.youtube.com/watch?v=yS-BU6eYUDE
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        unregisterReceiver(broadcastReceiver);
-        Log.i(TAG, "On Pause.. Unregistered broacast receiver");
-    }
-
-    @Override
-    public void onStop() {
-        Log.i(TAG, "onStop.. unregister");
-        try {
-            unregisterReceiver(broadcastReceiver);
-        } catch (Exception e) {
-            // Receiver was probably already stopped in onPause()
-        }
-        super.onStop();
     }
 
 
