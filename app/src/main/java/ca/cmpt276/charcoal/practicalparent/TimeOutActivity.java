@@ -216,37 +216,37 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(), notification);
         ringtone.play();
 
-        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        vibrator.vibrate(pattern, 0);
+//        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+//        vibrator.vibrate(pattern, 0);
 
-       createNotification(ringtone, vibrator);
+//       createNotification(ringtone, vibrator);
     }
 
-    private void createNotification(Ringtone ringtone, Vibrator vibrator) {
-        Intent intent = makeLaunchIntent(this);
-        PendingIntent pendingLaunchIntent = PendingIntent.getActivity(TimeOutActivity.this, 0, intent, 0);
-
-        Intent stopTimerIntent = new Intent(TimeOutActivity.this, NotificationStopBroadcastReceiver.class);
-        StopNotificationSerializable notficationInfo = new StopNotificationSerializable(ringtone, vibrator);
-        stopTimerIntent.putExtra("Notification Info", notficationInfo);
-        PendingIntent pendingStopTimerIntent = PendingIntent.getBroadcast(TimeOutActivity.this, 0, stopTimerIntent, 0);
-
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(TimeOutActivity.this, getString(R.string.timout_alarm_notification_ID))
-                .setSmallIcon(R.drawable.ic_baseline_alarm_24)
-                .setContentTitle(getString(R.string.timeout_notification_title))
-                .setContentText(getString(R.string.timeout_notification_body))
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setFullScreenIntent(pendingLaunchIntent, true)
-                .setOngoing(true)
-                .setCategory(Notification.CATEGORY_CALL)
-                .setAutoCancel(true)
-
-                .addAction(R.drawable.ic_baseline_alarm_24, "Stop", pendingStopTimerIntent);
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(TimeOutActivity.this);
-            notificationManager.notify(NOTIFICATION_ID, builder.build());
-    }
+//    private void createNotification(Ringtone ringtone, Vibrator vibrator) {
+//        Intent intent = makeLaunchIntent(this);
+//        PendingIntent pendingLaunchIntent = PendingIntent.getActivity(TimeOutActivity.this, 0, intent, 0);
+//
+//        Intent stopTimerIntent = new Intent(TimeOutActivity.this, NotificationStopBroadcastReceiver.class);
+//        StopNotificationSerializable notficationInfo = new StopNotificationSerializable(ringtone, vibrator);
+//        stopTimerIntent.putExtra("Notification Info", notficationInfo);
+//        PendingIntent pendingStopTimerIntent = PendingIntent.getBroadcast(TimeOutActivity.this, 0, stopTimerIntent, 0);
+//
+//
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(TimeOutActivity.this, getString(R.string.timout_alarm_notification_ID))
+//                .setSmallIcon(R.drawable.ic_baseline_alarm_24)
+//                .setContentTitle(getString(R.string.timeout_notification_title))
+//                .setContentText(getString(R.string.timeout_notification_body))
+//                .setPriority(NotificationCompat.PRIORITY_HIGH)
+//                .setFullScreenIntent(pendingLaunchIntent, true)
+//                .setOngoing(true)
+//                .setCategory(Notification.CATEGORY_CALL)
+//                .setAutoCancel(true)
+//
+//                .addAction(R.drawable.ic_baseline_alarm_24, "Stop", pendingStopTimerIntent);
+//
+//        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(TimeOutActivity.this);
+//            notificationManager.notify(NOTIFICATION_ID, builder.build());
+//    }
 
     private void setupPauseButton() {
         pauseButton = (Button) findViewById(R.id.pauseBtn);
