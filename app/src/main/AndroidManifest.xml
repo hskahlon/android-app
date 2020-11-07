@@ -3,7 +3,6 @@
     package="ca.cmpt276.charcoal.practicalparent">
 
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
 
     <application
         android:allowBackup="true"
@@ -13,10 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PracticalParent">
+        <activity android:name=".RecordActivity"></activity>
         <activity
             android:name=".CoinFlipActivity"
-            android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait"></activity>
+            android:parentActivityName=".MainActivity"></activity>
         <activity
             android:name=".RecordActivity"
             android:parentActivityName=".MainActivity"
@@ -25,8 +24,7 @@
             android:name=".EditChildActivity"
             android:label="@string/title_activity_edit_child"
             android:parentActivityName=".ChildrenActivity"
-            android:theme="@style/Theme.PracticalParent.NoActionBar"
-            android:screenOrientation="portrait"></activity>
+            android:theme="@style/Theme.PracticalParent.NoActionBar"></activity>
 
         <service android:name=".model.BackgroundService" />
 
@@ -34,16 +32,11 @@
             android:name=".ChildrenActivity"
             android:label="@string/title_activity_children"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/Theme.PracticalParent.NoActionBar"
-            android:screenOrientation="portrait"></activity>
+            android:theme="@style/Theme.PracticalParent.NoActionBar"></activity>
         <activity
             android:name=".TimeOutActivity"
-            android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait"></activity>
-        <receiver android:name=".NotificationStopBroadcastReceiver"/>
-        <activity
-            android:name=".MainActivity"
-            android:screenOrientation="portrait">
+            android:parentActivityName=".MainActivity"></activity>
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
