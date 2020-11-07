@@ -9,6 +9,8 @@ import androidx.core.content.ContextCompat;
 
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -30,6 +32,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +45,10 @@ import ca.cmpt276.charcoal.practicalparent.model.PresetTimeCustomSpinner;
 public class TimeOutActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     String TAG = "TimeOut";
     private long startTimeInMillis;
+
+
+    private View loadingView;
+
 
     private TextView countDownText;
     private Button startButton, pauseButton, cancelButton, setButton;
@@ -73,8 +80,9 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         setupStartButton();
         setupCancelButton();
         setupPauseButton();
-
         setupSpinner();
+
+        setLoadingScreen();
         setRandomBackgroundImage();
 
         //TODO: Delete logs when submitting
@@ -86,6 +94,43 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
+    }
+
+    private void setLoadingScreen() {
+        countDownText = (TextView) findViewById(R.id.countDownText);
+
+
+        loadingView = (ProgressBar) findViewById(R.id.loading_spinner);
+        loadingView.animate()
+                .alpha(0f)
+                .setDuration(1000)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        loadingView.setVisibility(View.GONE);
+                    }
+                });
+        setupFirstTimeOutUI();
+    }
+
+    private void setupFirstTimeOutUI(){
+        fadeInView(startButton);
+        fadeInView(setButton);
+        fadeInView(setTimeText);
+        fadeInView(countDownText);
+        fadeInView(preSetTimeSpinner);
+    }
+
+    private void fadeInView(View view){
+        view.setAlpha(0f);
+        view.setVisibility(View.VISIBLE);
+
+        // Animate the content view to 100% opacity, and clear any animation
+        // listener set on the view.
+        view.animate()
+                .alpha(1f)
+                .setDuration(6000)
+                .setListener(null);
     }
 
 
@@ -100,6 +145,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
     private void setupSpinner() {
         preSetTimeSpinner = (PresetTimeCustomSpinner) findViewById(R.id.preSetTimeSpinner);
+        preSetTimeSpinner.setVisibility(View.INVISIBLE);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.preSetTimes, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -308,7 +354,6 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
     //TODO: Refactor updating buttons to updateUI()
     private void cancelTimer() {
-
         isTimerCanceled = true;
         stopService(new Intent(this,BackgroundService.class));
         Log.i(TAG,"Canceled service");
@@ -333,7 +378,6 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
          timeLeftFormatted = String.format(Locale.getDefault(),
                  "%02d:%02d", minutes, seconds);
         }
-        countDownText = (TextView) findViewById(R.id.countDownText);
         countDownText.setText(timeLeftFormatted);
     }
 
@@ -370,8 +414,9 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     @Override
     protected void onResume() {
         super.onResume();
-        registerReceiver(broadcastReceiver,new IntentFilter(BackgroundService.COUNTDOWN_BR));
-        Log.i(TAG,"Registered broadcast receiver");
+        registerReceiver(broadcastReceiver, new IntentFilter(BackgroundService.COUNTDOWN_BR));
+        Log.i(TAG, "Registered broadcast receiver");
+        //https://www.youtube.com/watch?v=yS-BU6eYUDE
         NotificationManagerCompat.from(this).cancel(NOTIFICATION_ID);
         startButton.setText("Start");
     }

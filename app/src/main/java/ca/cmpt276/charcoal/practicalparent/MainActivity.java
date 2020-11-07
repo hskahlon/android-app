@@ -13,6 +13,7 @@ import java.util.List;
 
 import ca.cmpt276.charcoal.practicalparent.model.Child;
 import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
+import ca.cmpt276.charcoal.practicalparent.model.Record;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,10 +26,12 @@ public class MainActivity extends AppCompatActivity {
         setupTimeOutActivityBtn();
         setupChildren();
         createNotificationChannel();
+        setupRecordActivityBtn();
+        setupRecords();
     }
 
     private void setupCoinActivityBtn() {
-        Button btn = (Button) findViewById(R.id.coinflipActivity);
+        Button btn = findViewById(R.id.coinflipActivity);
 
         btn.setOnClickListener(v -> {
             Intent i = CoinFlipActivity.makeLaunchIntent(MainActivity.this);
@@ -44,8 +47,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void setupRecords() {
+        List<String> user = RecordsConfig.readNameFromPref(this);
+        List<String> choice = RecordsConfig.readChoiceFromPref(this);
+        List<String> date = RecordsConfig.readDateFromPref(this);
+        List<String> res = RecordsConfig.readResultFromPref(this);
+        List<Integer> img = RecordsConfig.readImageFromPref(this);
+        if (user != null) {
+            Record recManager = Record.getInstance();
+            recManager.setUsers(user);
+            recManager.setDateTimes(date);
+            recManager.setChoices(choice);
+            recManager.setImages(img);
+
+        }
+    }
+
     private void setupTimeOutActivityBtn() {
-        Button btn = (Button) findViewById(R.id.timeoutActivity);
+        Button btn = findViewById(R.id.timeoutActivity);
 
         btn.setOnClickListener(v -> {
             Intent i = TimeOutActivity.makeLaunchIntent(MainActivity.this);
@@ -53,10 +72,16 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //TODO: Hook-up RecordsActivity code with the Records button
+    private void setupRecordActivityBtn() {
+        Button btn = findViewById(R.id.recordsActivity);
 
+        btn.setOnClickListener(v -> {
+            Intent i = RecordActivity.makeLaunchIntent(MainActivity.this);
+            startActivity(i);
+        });
+    }
     private void setupChildrenActivityBtn() {
-        Button btn = (Button) findViewById(R.id.childrenActivity);
+        Button btn =  findViewById(R.id.childrenActivity);
 
         btn.setOnClickListener(v -> {
             Intent i = ChildrenActivity.makeLaunchIntent(MainActivity.this);

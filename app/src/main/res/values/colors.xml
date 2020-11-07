@@ -15,4 +15,7 @@
 
     <color name="selectedHeadTail">#1E90FF</color>
     <color name="unselectedHeadTail">#A9A9A9</color>
+
+    <color name="selectedRecord">#1E90FF</color>
+    <color name="unSelectedRecord">#A9A9A9</color>
 </resources>
