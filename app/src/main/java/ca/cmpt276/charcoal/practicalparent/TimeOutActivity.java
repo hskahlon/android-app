@@ -147,6 +147,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
                 setButton.setVisibility(View.VISIBLE);
                 setTimeText.setVisibility(View.VISIBLE);
 
+                startButton.setText("STOP");
                 notifyTimerDone();
             }
             //if user press cancel when the timer is running
@@ -212,7 +213,6 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
                 .setFullScreenIntent(pendingLaunchIntent, true)
                 .setOngoing(true)
                 .setCategory(Notification.CATEGORY_CALL)
-                .setAutoCancel(true)
 
                 .addAction(R.drawable.ic_baseline_alarm_24, "Stop", pendingStopTimerIntent);
 
@@ -248,12 +248,19 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (timeLeftInMillis < 1000) {
-                    Toast.makeText(TimeOutActivity.this, "No Timer Made", Toast.LENGTH_SHORT).show();
-                    return;
+                if (startButton.getText().equals("STOP")) {
+                    Intent stopTimerIntent = new Intent(TimeOutActivity.this, NotificationStopBroadcastReceiver.class);
+                    stopTimerIntent.putExtra(getString(R.string.NotificationID_intentNametag), NOTIFICATION_ID);
+                    sendBroadcast(stopTimerIntent);
+                    startButton.setText("Start");
+                } else {
+                    if (timeLeftInMillis < 1000) {
+                        Toast.makeText(TimeOutActivity.this, "No Timer Made", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Toast.makeText(TimeOutActivity.this, "Started", Toast.LENGTH_SHORT).show();
+                    startTimer();
                 }
-                Toast.makeText(TimeOutActivity.this, "Started", Toast.LENGTH_SHORT).show();
-                startTimer();
             }
         });
     }
@@ -366,6 +373,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         registerReceiver(broadcastReceiver,new IntentFilter(BackgroundService.COUNTDOWN_BR));
         Log.i(TAG,"Registered broadcast receiver");
         NotificationManagerCompat.from(this).cancel(NOTIFICATION_ID);
+        startButton.setText("Start");
     }
 
 
