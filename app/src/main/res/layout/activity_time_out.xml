@@ -7,24 +7,12 @@
     android:layout_height="match_parent"
     tools:context=".TimeOutActivity">
 
-    <ProgressBar
-        android:id="@+id/loading_spinner"
-        style="?android:progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/countDownText"
         android:layout_width="267dp"
         android:layout_height="83dp"
         android:text="00:00"
-        android:visibility="invisible"
-
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="50sp"
@@ -41,7 +29,6 @@
         android:layout_marginBottom="200dp"
         android:backgroundTint="@color/purple_btn"
         android:text="Start"
-        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -92,7 +79,7 @@
         android:id="@+id/setTimeText"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
+
         android:layout_centerHorizontal="true"
         android:layout_marginStart="136dp"
         android:hint="Minutes"
@@ -108,7 +95,7 @@
         android:layout_width="71dp"
         android:layout_height="38dp"
         android:layout_marginStart="8dp"
-        android:visibility="invisible"
+
         android:text="Set"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline3" />
@@ -138,7 +125,6 @@
         android:id="@+id/preSetTimeSpinner"
         android:layout_width="111dp"
         android:layout_height="27dp"
-        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/setTimeText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
