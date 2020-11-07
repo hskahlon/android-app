@@ -3,14 +3,10 @@ package ca.cmpt276.charcoal.practicalparent;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.app.Notification;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -60,7 +56,8 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     private PresetTimeCustomSpinner preSetTimeSpinner;
 
     private final long[] pattern = {400, 100};
-    private final int NOTIFICATION_ID = 0;
+
+
 
     private BackgroundService service;
 
@@ -78,7 +75,6 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
         setLoadingScreen();
         setRandomBackgroundImage();
-
 
         //TODO: Delete logs when submitting
         //TODO: Bug- when you come out of timeoutActivity and then go in again, there is a delay on display UI
@@ -213,40 +209,17 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
     private void notifyTimerDone() {
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(), notification);
-        ringtone.play();
+        Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+        r.play();
 
-//        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-//        vibrator.vibrate(pattern, 0);
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        v.vibrate(pattern, 0);
 
-//       createNotification(ringtone, vibrator);
+        new Handler().postDelayed(() ->{
+            r.stop();
+            v.cancel();
+        }, 5000);
     }
-
-//    private void createNotification(Ringtone ringtone, Vibrator vibrator) {
-//        Intent intent = makeLaunchIntent(this);
-//        PendingIntent pendingLaunchIntent = PendingIntent.getActivity(TimeOutActivity.this, 0, intent, 0);
-//
-//        Intent stopTimerIntent = new Intent(TimeOutActivity.this, NotificationStopBroadcastReceiver.class);
-//        StopNotificationSerializable notficationInfo = new StopNotificationSerializable(ringtone, vibrator);
-//        stopTimerIntent.putExtra("Notification Info", notficationInfo);
-//        PendingIntent pendingStopTimerIntent = PendingIntent.getBroadcast(TimeOutActivity.this, 0, stopTimerIntent, 0);
-//
-//
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(TimeOutActivity.this, getString(R.string.timout_alarm_notification_ID))
-//                .setSmallIcon(R.drawable.ic_baseline_alarm_24)
-//                .setContentTitle(getString(R.string.timeout_notification_title))
-//                .setContentText(getString(R.string.timeout_notification_body))
-//                .setPriority(NotificationCompat.PRIORITY_HIGH)
-//                .setFullScreenIntent(pendingLaunchIntent, true)
-//                .setOngoing(true)
-//                .setCategory(Notification.CATEGORY_CALL)
-//                .setAutoCancel(true)
-//
-//                .addAction(R.drawable.ic_baseline_alarm_24, "Stop", pendingStopTimerIntent);
-//
-//        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(TimeOutActivity.this);
-//            notificationManager.notify(NOTIFICATION_ID, builder.build());
-//    }
 
     private void setupPauseButton() {
         pauseButton = (Button) findViewById(R.id.pauseBtn);
@@ -391,10 +364,9 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     protected void onResume() {
         super.onResume();
         registerReceiver(broadcastReceiver, new IntentFilter(BackgroundService.COUNTDOWN_BR));
-        Log.i(TAG, "on start ... Registered broacast receiver");
+        Log.i(TAG, "Registered broacast receiver");
         //https://www.youtube.com/watch?v=yS-BU6eYUDE
     }
-
 
 
 }
