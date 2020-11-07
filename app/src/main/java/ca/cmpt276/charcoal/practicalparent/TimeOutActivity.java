@@ -390,8 +390,8 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     };
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
         registerReceiver(broadcastReceiver, new IntentFilter(BackgroundService.COUNTDOWN_BR));
         Log.i(TAG, "on start ... Registered broacast receiver");
         //https://www.youtube.com/watch?v=yS-BU6eYUDE
