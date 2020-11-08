@@ -5,8 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.Ringtone;
 import android.os.Vibrator;
+import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationManagerCompat;
+
+import ca.cmpt276.charcoal.practicalparent.model.AlarmInfo;
 
 public class NotificationStopBroadcastReceiver extends BroadcastReceiver {
     @Override
@@ -19,6 +23,8 @@ public class NotificationStopBroadcastReceiver extends BroadcastReceiver {
 
         ringtone.stop();
         vibrator.cancel();
+
+
         NotificationManagerCompat.from(context).cancel(notificationId);
     }
 }

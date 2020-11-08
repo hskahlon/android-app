@@ -40,9 +40,15 @@
     <string name="child_name_String">Child Name</string>
     <string name="result_String">Result:Heads</string>
     <string name="Date_Result_String">Jan 8 1997 5:00pm</string>
+
+    <!--        Strings for TimeOutActivity       -->
     <string name="Pause">Pause</string>
     <string name="STOP">STOP</string>
     <string name="Resume">Resume</string>
     <string name="Start">Start</string>
+    <string name="reset">Reset</string>
+    <string name="minutes">Minutes</string>
+    <string name="set">Set</string>
+    <string name="_00_00">00:00</string>
 
 </resources>

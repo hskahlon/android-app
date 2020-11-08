@@ -1,4 +1,4 @@
-package ca.cmpt276.charcoal.practicalparent;
+package ca.cmpt276.charcoal.practicalparent.model;
 
 import android.media.Ringtone;
 import android.os.Vibrator;
