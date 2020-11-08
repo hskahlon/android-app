@@ -33,12 +33,24 @@
     <string name="editChildSaveBtn_txt">Save</string>
     <string name="editChildNameLabel_txt">Name:</string>
     <string name="editChildNameError">Name length must be greater than 0</string>
+    <!--        Strings for RecordActivity       -->
     <string name="current_record_String">Current Record</string>
     <string name="prior_records_String">Prior Records</string>
+    <!--        Strings for CoinFlipActivity       -->
     <string name="headsText">Heads</string>
     <string name="tailsText">Tails</string>
     <string name="child_name_String">Child Name</string>
     <string name="result_String">Result:Heads</string>
     <string name="Date_Result_String">Jan 8 1997 5:00pm</string>
+    <string name="userToChoose_String"> </string>
+    <string name="tailsOutcome">Tails</string>
+    <string name="tailsChoice">Tails</string>
+    <string name="headsOutcome">Heads</string>
+    <string name="headsDecision">User chose heads!</string>
+    <string name="tailsDecision">User chose tails!</string>
+    <string name="userChooseTails">User chose tails!</string>
+    <string name="userChooseHeads">User chose heads!</string>
+    <string name="chooses">\" Chooses\"</string>
+
 
 </resources>
