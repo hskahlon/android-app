@@ -138,6 +138,13 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
         btn.setOnClickListener(v -> {
             int randomChoice = getRandom();
             flipCoin(randomChoice);
+            btn.setVisibility(View.INVISIBLE);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    btn.setVisibility(View.VISIBLE);
+                }
+            }, DURATION*2);
         });
     }
 
