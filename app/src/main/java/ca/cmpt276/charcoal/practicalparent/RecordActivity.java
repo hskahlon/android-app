@@ -39,13 +39,7 @@ public class RecordActivity extends AppCompatActivity {
 
     private void setUpListView() {
         Record recManager = Record.getInstance();
-        // get the childrens
         ChildManager manager = ChildManager.getInstance();
-//        List<String> childList = recManager.getUsers();
-//        List<String> choices = recManager.getChoices();
-//        List<String> dateTimes = recManager.getDateTimes();
-//        List<Integer> resultImages = recManager.getImages();
-
         List<String> childList = RecordsConfig.readNameFromPref(this);
         List<String> choices   = RecordsConfig.readChoiceFromPref(this);
         List<String> dateTimes= RecordsConfig.readDateFromPref(this);
@@ -53,10 +47,15 @@ public class RecordActivity extends AppCompatActivity {
 
         ListView listView;
 
-        listView = findViewById(R.id.recordListView);
-        // create adapter class
-        MyAdapter adapter = new MyAdapter(this, (ArrayList<String>) childList, (ArrayList<String>) choices,(ArrayList<Integer>) resultImages, (ArrayList<String>) dateTimes);
-        listView.setAdapter(adapter);
+        if (childList != null && choices != null && dateTimes != null && resultImages != null )
+        {
+            listView = findViewById(R.id.recordListView);
+            // create adapter class
+            MyAdapter adapter = new MyAdapter(this, (ArrayList<String>) childList, (ArrayList<String>) choices,(ArrayList<Integer>) resultImages, (ArrayList<String>) dateTimes);
+            listView.setAdapter(adapter);
+        }
+
+
 
 
     }
@@ -78,6 +77,7 @@ public class RecordActivity extends AppCompatActivity {
             this.rDateTime = rDateTime;
 
         }
+
 
         @NonNull
         @Override
@@ -103,8 +103,9 @@ public class RecordActivity extends AppCompatActivity {
     }
     private void setUpIntialButton() {
         currentRecords = findViewById(R.id.currentRecordBtn);
-        currentRecords.setBackgroundColor(getColor(R.color.selectedRecord));
-        // create view
+        currentRecords.setBackgroundColor(getColor(R.color.unSelectedRecord));
+        priorRecords = findViewById(R.id.priorRecordsBtn);
+        priorRecords.setBackgroundColor(getColor(R.color.selectedRecord));
 
     }
 
@@ -117,12 +118,55 @@ public class RecordActivity extends AppCompatActivity {
         priorRecords = findViewById(R.id.priorRecordsBtn);
         currentRecords.setOnClickListener(v -> {
             currentRecords.setBackgroundColor(getColor(R.color.selectedRecord));
+            showCurrentRecord();
             priorRecords.setBackgroundColor(getColor(R.color.unSelectedRecord));
         });
         priorRecords.setOnClickListener(v -> {
+            setUpListView();
             priorRecords.setBackgroundColor(getColor(R.color.selectedRecord));
             currentRecords.setBackgroundColor(getColor(R.color.unSelectedRecord));
         });
+
+    }
+
+    private void showCurrentRecord() {
+        Record recManager = Record.getInstance();
+        ChildManager manager = ChildManager.getInstance();
+        List<String> childList = RecordsConfig.readNameFromPref(this);
+        List<String> choices   = RecordsConfig.readChoiceFromPref(this);
+        List<String> dateTimes= RecordsConfig.readDateFromPref(this);
+        List<Integer> resultImages = RecordsConfig.readImageFromPref(this);
+
+
+
+
+
+//
+        if (childList != null && choices != null && dateTimes != null && resultImages != null )
+        {
+            String currentChild  = childList.get(childList.size()-1);
+            String currentChoice   = choices.get(choices.size()-1);
+            String currentDateTimes= dateTimes.get(dateTimes.size()-1);
+            int currentResultImages = resultImages.get(resultImages.size()-1);
+
+            childList.clear();
+            choices.clear();
+            dateTimes.clear();
+            resultImages.clear();
+
+            childList.add(currentChild);
+            choices.add(currentChoice);
+            dateTimes.add(currentDateTimes);
+            resultImages.add(currentResultImages);
+
+            ListView listView;
+            listView = findViewById(R.id.recordListView);
+            // create adapter class
+            MyAdapter adapter = new MyAdapter(this, (ArrayList<String>) childList, (ArrayList<String>) choices,(ArrayList<Integer>) resultImages, (ArrayList<String>) dateTimes);
+            listView.setAdapter(adapter);
+
+
+        }
 
     }
 }

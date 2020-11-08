@@ -26,6 +26,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import ca.cmpt276.charcoal.practicalparent.model.Child;
+import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
 import ca.cmpt276.charcoal.practicalparent.model.Record;
 
 
@@ -42,17 +44,25 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     private static final float SCALEY = 0.5f;
     Record manager = Record.getInstance();
 
+    int currentIndex;
+
+    String currentUser;
+
 
     /*
             TO DO:
             allow user to select user, and change the user automatically
      */
-    private String currentUser = "Steve Jobs";
+    //private String currentUser = "Steve Jobs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip);
+
+        // intially set current index to -1
+        currentIndex = -1;
+
 
         setupCoinButton();
 
@@ -71,6 +81,30 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
         // Enable "up" on toolbar
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
+    }
+
+    public void chooseUser() {
+        // get the list of users
+        ChildManager manager = ChildManager.getInstance();
+        List<Child> children = manager.getChildren();
+        currentIndex++;
+
+        //Toast.makeText(this, "IDX"+currentIndex+children.get(currentIndex).getName(), Toast.LENGTH_SHORT).show();
+        if (currentIndex < children.size() && children.size()!=0)
+         {
+
+              currentUser = children.get(currentIndex).getName();
+         }
+        else if (currentIndex == children.size()  && children.size()!=0)
+        {
+            currentIndex = 0;
+            currentUser = children.get(currentIndex).getName();
+        }
+
+
+
+
+
     }
 
     @Override
@@ -119,6 +153,11 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
     public static Intent makeLaunchIntent(Context context) {
         return new Intent(context, CoinFlipActivity.class);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     private void flipCoin(int randomChoice) {
@@ -179,6 +218,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void addRecord(boolean b, String Choice) {
+        chooseUser();
         manager.addChoice(Choice);
         manager.addUser(currentUser);
         // find current time
@@ -193,8 +233,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
     private void saveRecord() {
 
-//        SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-//        SharedPreferences.Editor editor = prefs.edit();
+
         List<String> users = manager.getUsers();
         List<Boolean> result = manager.getResults();
         List<String> choices = manager.getChoices();
@@ -205,28 +244,9 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
         RecordsConfig.writeImageInPref(getApplicationContext(), img);
         RecordsConfig.writeNameInPref(getApplicationContext(),users);
         RecordsConfig.writeChoiceInPref(getApplicationContext(),choices);
-        //RecordsConfig.writeResultInPref(getApplicationContext(),result);
 
-//        Gson gson = new Gson();
-//        String json = gson.toJson(result);
-//        editor.putString("RESULT PREFS", json);
-//        editor.apply();
-//
-//        json = gson.toJson(users);
-//        editor.putString("USER PREFS", users.toString());
-//        editor.apply();
-//
-//        json = gson.toJson(choices);
-//        editor.putString("CHOICE PREFS", json);
-//        editor.apply();
-//
-//        json = gson.toJson(dateTimes);
-//        editor.putString("DATE PREFS", json);
-//        editor.apply();
-//
-//        json = gson.toJson(img);
-//        editor.putString("IMG PREFS", json);
-//        editor.apply();
+
+
     }
     public static List<String> getSavedUser(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
