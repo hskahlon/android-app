@@ -2,7 +2,10 @@ package ca.cmpt276.charcoal.practicalparent;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 
@@ -22,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         setupChildrenActivityBtn();
         setupTimeOutActivityBtn();
         setupChildren();
+        createNotificationChannel();
         setupRecordActivityBtn();
         setupRecords();
     }
@@ -83,6 +87,22 @@ public class MainActivity extends AppCompatActivity {
             Intent i = ChildrenActivity.makeLaunchIntent(MainActivity.this);
             startActivity(i);
         });
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.notification_channel);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel(getString(R.string.timout_alarm_notification_ID), name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
 }
