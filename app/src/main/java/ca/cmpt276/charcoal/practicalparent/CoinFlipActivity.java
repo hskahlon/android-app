@@ -47,13 +47,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     int currentIndex;
 
     String currentUser;
-
-
-    /*
-            TO DO:
-            allow user to select user, and change the user automatically
-     */
-    //private String currentUser = "Steve Jobs";
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
