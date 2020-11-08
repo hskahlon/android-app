@@ -7,9 +7,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".RecordActivity">
-    <LinearLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/recordBtnLayout"
-        android:layout_width="415dp"
+        android:layout_width="match_parent"
         android:layout_height="51dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,16 +19,45 @@
 
         <Button
             android:id="@+id/currentRecordBtn"
-            android:layout_width="204dp"
-            android:layout_height="match_parent"
-            android:text="@string/current_record_String" />
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/current_record_String"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline14"
+            app:layout_constraintStart_toStartOf="@+id/guideline17"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/priorRecordsBtn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/prior_records_String" />
-    </LinearLayout>
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/prior_records_String"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline18"
+            app:layout_constraintStart_toStartOf="@+id/guideline14"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".5" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="1" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ListView
         android:id="@+id/recordListView"
