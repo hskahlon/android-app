@@ -22,6 +22,7 @@ import androidx.core.app.NotificationManagerCompat;
 
 import ca.cmpt276.charcoal.practicalparent.NotificationStopBroadcastReceiver;
 import ca.cmpt276.charcoal.practicalparent.R;
+import ca.cmpt276.charcoal.practicalparent.TimeOutActivity;
 
 public class BackgroundService extends Service {
 //reference: https://www.youtube.com/watch?v=BbXuumYactY
@@ -93,7 +94,7 @@ public class BackgroundService extends Service {
     }
 
     private void createNotification(Ringtone ringtone, Vibrator vibrator) {
-        Intent intent = makeLaunchIntent(this,0);
+        Intent intent = TimeOutActivity.makeLaunchIntent(this);
         PendingIntent pendingLaunchIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         Intent stopTimerIntent = new Intent(this, NotificationStopBroadcastReceiver.class);
@@ -110,6 +111,7 @@ public class BackgroundService extends Service {
                 .setContentText(getString(R.string.timeout_notification_body))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setFullScreenIntent(pendingLaunchIntent, true)
+                .setAutoCancel(false)
                 .setOngoing(true)
                 .setCategory(Notification.CATEGORY_CALL)
 
