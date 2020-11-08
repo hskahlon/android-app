@@ -138,10 +138,6 @@ public class RecordActivity extends AppCompatActivity {
         List<Integer> resultImages = RecordsConfig.readImageFromPref(this);
 
 
-
-
-
-//
         if (childList != null && choices != null && dateTimes != null && resultImages != null )
         {
             String currentChild  = childList.get(childList.size()-1);
