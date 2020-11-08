@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 import ca.cmpt276.charcoal.practicalparent.model.Child;
@@ -46,8 +47,8 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
     int currentIndex;
 
-    String currentUser;
-    
+    String currentUser = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,19 +214,22 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
     private void addRecord(boolean b, String Choice) {
         chooseUser();
-        manager.addChoice(Choice);
-        manager.addUser(currentUser);
-        // find current time
-        Date currentTime = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-        String convertedTime = dateFormat.format(currentTime);
-        manager.addDateTime(convertedTime);
-        manager.addResult(b);
+        if (currentUser != "")
+        {
+            manager.addChoice(Choice);
+            manager.addUser(currentUser);
+            Date currentTime = Calendar.getInstance().getTime();
+            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+            String convertedTime = dateFormat.format(currentTime);
+            manager.addDateTime(convertedTime);
+            manager.addResult(b);
+            saveRecord();
+        }
 
-        saveRecord();
     }
 
     private void saveRecord() {
+
 
 
         List<String> users = manager.getUsers();
