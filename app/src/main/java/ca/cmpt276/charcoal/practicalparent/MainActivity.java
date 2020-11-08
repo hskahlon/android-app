@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
             recManager.setImages(img);
 
         }
+
     }
 
     private void setupTimeOutActivityBtn() {
