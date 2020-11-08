@@ -8,28 +8,25 @@
 
     <ImageView
         android:id="@+id/coinImageView"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="236dp"
+        android:layout_height="225dp"
+        android:layout_marginTop="24dp"
         android:contentDescription="@string/flipcoins"
         android:src="@drawable/ic_tails"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/rightCentringGuideline"
+        app:layout_constraintStart_toStartOf="@+id/leftCentringGuideline"
+        app:layout_constraintTop_toTopOf="@+id/guideline8" />
 
     <Button
         android:id="@+id/flipBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="161dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="162dp"
-        android:layout_marginBottom="111dp"
         android:contentDescription="@string/flipBtnText"
         android:text="@string/flipBtnText"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/rightCentringGuideline"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="@+id/leftCentringGuideline"
         app:layout_constraintTop_toBottomOf="@+id/priorRecordsBtn" />
 
     <TextView
@@ -37,15 +34,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:layout_marginTop="10dp"
         android:fontFamily="sans-serif"
         android:textAlignment="center"
         android:textColor="#512DA8"
         android:textSize="36sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/guideline10"
+        app:layout_constraintEnd_toStartOf="@+id/rightCentringGuideline"
+        app:layout_constraintStart_toStartOf="@+id/leftCentringGuideline"
+        app:layout_constraintTop_toTopOf="@+id/guideline9" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineHeadsTails"
@@ -53,7 +50,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintGuide_begin="205dp"
+        app:layout_constraintGuide_percent=".50"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -63,6 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/headsText"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/guidelineHeadsTails"
         app:layout_constraintTop_toBottomOf="@+id/coinImageView" />
 
@@ -72,18 +70,54 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/tailsText"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/guidelineHeadsTails"
         app:layout_constraintTop_toBottomOf="@+id/coinImageView" />
 
     <TextView
         android:id="@+id/resultWinOrLoss"
-        android:layout_width="218dp"
-        android:layout_height="77dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textSize="36sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/coinFlipResultText" />
+        app:layout_constraintBottom_toTopOf="@+id/guideline8"
+        app:layout_constraintEnd_toStartOf="@+id/rightCentringGuideline"
+        app:layout_constraintStart_toStartOf="@+id/leftCentringGuideline"
+        app:layout_constraintTop_toTopOf="@+id/guideline10" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.17" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.02" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.09" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/leftCentringGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".15" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/rightCentringGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".85" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
