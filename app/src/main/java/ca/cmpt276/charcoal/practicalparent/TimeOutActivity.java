@@ -18,11 +18,9 @@ import android.content.IntentFilter;
 import android.media.AudioAttributes;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
-import android.media.audiofx.AudioEffect;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
@@ -86,7 +84,6 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         setRandomBackgroundImage();
 
         //TODO: Delete logs when submitting
-        //TODO: Bug- when you come out of timeoutActivity and then go in again, there is a delay on display UI
         //TODO: Vibration and sound when the alarm is finished
         //TODO: REFACTOR
 
@@ -125,8 +122,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         view.setAlpha(0f);
         view.setVisibility(View.VISIBLE);
 
-        // Animate the content view to 100% opacity, and clear any animation
-        // listener set on the view.
+        // Animate the content view to 100% opacity
         view.animate()
                 .alpha(1f)
                 .setDuration(6000)
@@ -150,7 +146,6 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
                 R.array.preSetTimes, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         preSetTimeSpinner.setAdapter(adapter);
-
         preSetTimeSpinner.setOnItemSelectedListener(this);
     }
 
@@ -172,7 +167,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         if (isTimerRunning) {
             cancelButton.setVisibility(View.VISIBLE);
             pauseButton.setVisibility(View.VISIBLE);
-            pauseButton.setText("Pause");
+            pauseButton.setText(R.string.Pause);
             startButton.setVisibility(View.INVISIBLE);
 
             preSetTimeSpinner.setVisibility(View.INVISIBLE);
@@ -185,15 +180,14 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
             if (timeLeftInMillis < 1000) {
                 cancelButton.setVisibility(View.INVISIBLE);
                 pauseButton.setVisibility(View.INVISIBLE);
-                pauseButton.setText("Pause");
+                pauseButton.setText(R.string.Pause);
                 startButton.setVisibility(View.VISIBLE);
 
                 preSetTimeSpinner.setVisibility(View.VISIBLE);
 
                 setButton.setVisibility(View.VISIBLE);
                 setTimeText.setVisibility(View.VISIBLE);
-
-                startButton.setText("STOP");
+                startButton.setText(R.string.STOP);
                 notifyTimerDone();
             }
             //if user press cancel when the timer is running
@@ -210,7 +204,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
             else if (timeLeftInMillis < startTimeInMillis) {
                 cancelButton.setVisibility(View.VISIBLE);
                 pauseButton.setVisibility(View.VISIBLE);
-                pauseButton.setText("Resume");
+                pauseButton.setText(R.string.Resume);
                 startButton.setVisibility(View.INVISIBLE);
             }
         }
@@ -294,11 +288,11 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (startButton.getText().equals("STOP")) {
+                if (startButton.getText().equals(R.string.STOP)) {
                     Intent stopTimerIntent = new Intent(TimeOutActivity.this, NotificationStopBroadcastReceiver.class);
                     stopTimerIntent.putExtra(getString(R.string.NotificationID_intentNametag), NOTIFICATION_ID);
                     sendBroadcast(stopTimerIntent);
-                    startButton.setText("Start");
+                    startButton.setText(R.string.Start);
                 } else {
                     if (timeLeftInMillis < 1000) {
                         Toast.makeText(TimeOutActivity.this, "No Timer Made", Toast.LENGTH_SHORT).show();
@@ -418,8 +412,12 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         Log.i(TAG, "Registered broadcast receiver");
         //https://www.youtube.com/watch?v=yS-BU6eYUDE
         NotificationManagerCompat.from(this).cancel(NOTIFICATION_ID);
-        startButton.setText("Start");
+        startButton.setText(R.string.Start);
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(broadcastReceiver);
+    }
 }

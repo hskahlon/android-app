@@ -58,8 +58,6 @@ public class BackgroundService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-
-
     }
 
 
