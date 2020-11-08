@@ -3,19 +3,27 @@ package ca.cmpt276.charcoal.practicalparent;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.AudioAttributes;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
+import android.media.audiofx.AudioEffect;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
@@ -55,7 +63,8 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
     private PresetTimeCustomSpinner preSetTimeSpinner;
 
-    private final long[] pattern = {400, 100};
+    private final long[] pattern = {0, 400, 300};
+    private final int NOTIFICATION_ID = 0;
 
 
 
@@ -184,6 +193,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
                 setButton.setVisibility(View.VISIBLE);
                 setTimeText.setVisibility(View.VISIBLE);
 
+                startButton.setText("STOP");
                 notifyTimerDone();
             }
             //if user press cancel when the timer is running
@@ -209,16 +219,50 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
     private void notifyTimerDone() {
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-        r.play();
+        Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(), notification);
+        ringtone.play();
 
-        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        v.vibrate(pattern, 0);
+        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        if (Build.VERSION.SDK_INT >= 26) {
+            // source https://stackoverflow.com/questions/60466695/android-vibration-app-doesnt-work-anymore-after-android-10-api-29-update
+            vibrator.vibrate(VibrationEffect.createWaveform(pattern, 0)
+            , new AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .setUsage(AudioAttributes.USAGE_ALARM)
+                    .build()
+            );
 
-        new Handler().postDelayed(() ->{
-            r.stop();
-            v.cancel();
-        }, 5000);
+        } else {
+            vibrator.vibrate(pattern, 0);
+        }
+
+        createNotification(ringtone, vibrator);
+    }
+
+    private void createNotification(Ringtone ringtone, Vibrator vibrator) {
+        Intent intent = makeLaunchIntent(this);
+        PendingIntent pendingLaunchIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        Intent stopTimerIntent = new Intent(this, NotificationStopBroadcastReceiver.class);
+        stopTimerIntent.putExtra(getString(R.string.NotificationID_intentNametag), NOTIFICATION_ID);
+        PendingIntent pendingStopTimerIntent = PendingIntent.getBroadcast(this, 0, stopTimerIntent, 0);
+
+        AlarmInfo alarmInfo = AlarmInfo.getInstance();
+        alarmInfo.setRingtone(ringtone);
+        alarmInfo.setVibrator(vibrator);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getString(R.string.timout_alarm_notification_ID))
+                .setSmallIcon(R.drawable.ic_baseline_alarm_24)
+                .setContentTitle(getString(R.string.timeout_notification_title))
+                .setContentText(getString(R.string.timeout_notification_body))
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setFullScreenIntent(pendingLaunchIntent, true)
+                .setOngoing(true)
+                .setCategory(Notification.CATEGORY_CALL)
+
+                .addAction(R.drawable.ic_baseline_alarm_24, "Stop", pendingStopTimerIntent);
+
+        NotificationManagerCompat.from(this).notify(NOTIFICATION_ID, builder.build());
     }
 
     private void setupPauseButton() {
@@ -250,12 +294,19 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (timeLeftInMillis < 1000) {
-                    Toast.makeText(TimeOutActivity.this, "No Timer Made", Toast.LENGTH_SHORT).show();
-                    return;
+                if (startButton.getText().equals("STOP")) {
+                    Intent stopTimerIntent = new Intent(TimeOutActivity.this, NotificationStopBroadcastReceiver.class);
+                    stopTimerIntent.putExtra(getString(R.string.NotificationID_intentNametag), NOTIFICATION_ID);
+                    sendBroadcast(stopTimerIntent);
+                    startButton.setText("Start");
+                } else {
+                    if (timeLeftInMillis < 1000) {
+                        Toast.makeText(TimeOutActivity.this, "No Timer Made", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Toast.makeText(TimeOutActivity.this, "Started", Toast.LENGTH_SHORT).show();
+                    startTimer();
                 }
-                Toast.makeText(TimeOutActivity.this, "Started", Toast.LENGTH_SHORT).show();
-                startTimer();
             }
         });
     }
@@ -364,8 +415,10 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     protected void onResume() {
         super.onResume();
         registerReceiver(broadcastReceiver, new IntentFilter(BackgroundService.COUNTDOWN_BR));
-        Log.i(TAG, "Registered broacast receiver");
+        Log.i(TAG, "Registered broadcast receiver");
         //https://www.youtube.com/watch?v=yS-BU6eYUDE
+        NotificationManagerCompat.from(this).cancel(NOTIFICATION_ID);
+        startButton.setText("Start");
     }
 
 
