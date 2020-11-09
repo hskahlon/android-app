@@ -50,7 +50,7 @@
     <string name="tailsDecision">User chose tails!</string>
     <string name="userChooseTails">User chose tails!</string>
     <string name="userChooseHeads">User chose heads!</string>
-    <string name="chooses">\" Chooses\"</string>
+    <string name="chooses">\ Chooses\</string>
 
 
 </resources>

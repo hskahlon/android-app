@@ -216,17 +216,24 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
                 chooseUser();
 
                 if (randomChoice == TAILS) {
+
                     result.setText(R.string.tailsString);
-                    if (userDecision == getString(R.string.userChooseTails)) {
+
+                    if (userDecision == getString(R.string.userChooseTails))
+                    {
                         setResultText(getString(R.string.tailsOutcome),getString(R.string.tailsChoice));
-                    } else if (userDecision == getString(R.string.userChooseHeads)){
+                    } else if (userDecision == getString(R.string.userChooseHeads))
+                    {
                         setResultText(getString(R.string.tailsOutcome),getString(R.string.headsOutcome));
                     }
+
                 } else {
                     result.setText(R.string.headsString);
-                    if (userDecision == getString(R.string.userChooseHeads)) {
+                    if (userDecision == getString(R.string.userChooseHeads))
+                    {
                         setResultText(getString(R.string.headsOutcome),getString(R.string.headsOutcome));
-                    } else if (userDecision == getString(R.string.userChooseTails)){
+                    } else if (userDecision == getString(R.string.userChooseTails))
+                    {
                         setResultText(getString(R.string.headsOutcome),getString(R.string.tailsOutcome));
                     }
                 }
@@ -235,9 +242,8 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-    // Sets the TextViews on Result
-    private void setResultText(String outcome, String choice) {
 
+    private void setResultText(String outcome, String choice) {
 
         TextView result = findViewById(R.id.coinFlipResultText);
         if (outcome == getString(R.string.tailsOutcome))
