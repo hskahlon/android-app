@@ -32,6 +32,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     private static final String PREFS_NAME = "CoinFlipData";
     private static final String USER_INDEX = "CurrentUser";
     public static final int TAILS = 0;
+    public static final int HEADS = 1;
     private Button btn;
     private Button flipBtn;
     private Button heads;
@@ -207,7 +208,6 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
                     .scaleYBy(SCALEY)
                     .withEndAction(
                             () -> {
-                                TextView result = findViewById(R.id.coinFlipResultText);
                                 if (randomChoice == 0) {
                                     coin.setImageResource(R.drawable.ic_tails);
                                 } else {
@@ -233,7 +233,12 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
                 if (randomChoice == TAILS) {
 
-                    if (userDecision.equals(getString(R.string.userChooseTails)))
+                    if (userDecision == null)
+                    {
+                        result.setText(getString(R.string.tailsString));
+
+                    }
+                    else if (userDecision.equals(getString(R.string.userChooseTails)))
                     {
                         setResultText(getString(R.string.tailsOutcome),getString(R.string.tailsChoice));
                     } else if (userDecision.equals(getString(R.string.userChooseHeads)))
@@ -241,9 +246,13 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
                         setResultText(getString(R.string.tailsOutcome),getString(R.string.headsOutcome));
                     }
 
-                } else {
+                } else if (randomChoice == HEADS){
 
-                    if (userDecision.equals(getString(R.string.userChooseHeads)))
+                    if (userDecision == null)
+                    {
+                        result.setText(getString(R.string.headsString));
+                    }
+                    else if (userDecision.equals(getString(R.string.userChooseHeads)))
                     {
 
                         setResultText(getString(R.string.headsOutcome),getString(R.string.headsOutcome));
@@ -251,7 +260,9 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
                     {
                         setResultText(getString(R.string.headsOutcome),getString(R.string.tailsOutcome));
                     }
+
                 }
+
             }, DURATION*2);
 
 
