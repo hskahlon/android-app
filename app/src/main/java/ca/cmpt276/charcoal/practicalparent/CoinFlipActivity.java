@@ -248,6 +248,8 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
                     if (userDecision == null)
                     {
                         result.setText(getString(R.string.tailsString));
+                        TextView showWinOrLoss = findViewById(R.id.resultWinOrLoss);
+                        showWinOrLoss.setText(R.string.noResult);
 
                     }
                     else if (userDecision.equals(getString(R.string.userChooseTails)))
@@ -257,12 +259,15 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
                     {
                         setResultText(getString(R.string.tailsString),getString(R.string.headsString));
                     }
+                    userDecision = null;
 
                 } else if (randomChoice == HEADS){
 
                     if (userDecision == null)
                     {
                         result.setText(getString(R.string.headsString));
+                        TextView showWinOrLoss = findViewById(R.id.resultWinOrLoss);
+                        showWinOrLoss.setText(R.string.noResult);
                     }
                     else if (userDecision.equals(getString(R.string.userChooseHeads)))
                     {
@@ -272,7 +277,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
                     {
                         setResultText(getString(R.string.headsString),getString(R.string.tailsString));
                     }
-
+                    userDecision = null;
                 }
 
             }, DURATION*2);
@@ -312,6 +317,10 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
             showWinOrLoss.setText(getString(R.string.loserResult));
             showWinOrLoss.setTextColor(getColor(R.color.incorrect_red));
         }
+
+        userDecision.equals(null);
+
+
 
     }
 
