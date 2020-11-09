@@ -111,6 +111,7 @@ public class BackgroundService extends Service {
                 .setContentText(getString(R.string.timeout_notification_body))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setFullScreenIntent(pendingLaunchIntent, true)
+                .setAutoCancel(false)
                 .setOngoing(true)
                 .setCategory(Notification.CATEGORY_CALL)
                 .setAutoCancel(false)
