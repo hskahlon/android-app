@@ -156,12 +156,12 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     private void updateHeadTailSelectorButtons(String flag) {
         heads = findViewById(R.id.selectHeads);
         tails = findViewById(R.id.priorRecordsBtn);
-        if (userDecision == getString(R.string.userChooseHeads)) {
+        if (userDecision.equals(getString(R.string.userChooseHeads))) {
 
             heads.setBackgroundColor(getColor(R.color.selectedHeadTail));
             tails.setBackgroundColor(getColor(R.color.unselectedHeadTail));
             Toast.makeText(this, "Heads selected", Toast.LENGTH_SHORT).show();
-        } else if (userDecision == getString(R.string.userChooseTails)) {
+        } else if (userDecision.equals(getString(R.string.userChooseTails))) {
 
             heads.setBackgroundColor(getColor(R.color.unselectedHeadTail));
             tails.setBackgroundColor(getColor(R.color.selectedHeadTail));
@@ -175,12 +175,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
             int randomChoice = getRandom();
             flipCoin(randomChoice);
             flipBtn.setVisibility(View.INVISIBLE);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    flipBtn.setVisibility(View.VISIBLE);
-                }
-            }, DURATION*2);
+            new Handler().postDelayed(() -> flipBtn.setVisibility(View.VISIBLE), DURATION*2);
         });
     }
 
@@ -232,29 +227,27 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
             new Handler().postDelayed(() -> {
                 TextView result = findViewById(R.id.coinFlipResultText);
 
-
                 // set the user who is choosing as last user for next turn
                 setCurrentIndex(currentIndex+1);
                 chooseUser();
 
                 if (randomChoice == TAILS) {
 
-                    result.setText(R.string.tailsString);
-
-                    if (userDecision == getString(R.string.userChooseTails))
+                    if (userDecision.equals(getString(R.string.userChooseTails)))
                     {
                         setResultText(getString(R.string.tailsOutcome),getString(R.string.tailsChoice));
-                    } else if (userDecision == getString(R.string.userChooseHeads))
+                    } else if (userDecision.equals(getString(R.string.userChooseHeads)))
                     {
                         setResultText(getString(R.string.tailsOutcome),getString(R.string.headsOutcome));
                     }
 
                 } else {
-                    result.setText(R.string.headsString);
-                    if (userDecision == getString(R.string.userChooseHeads))
+
+                    if (userDecision.equals(getString(R.string.userChooseHeads)))
                     {
+
                         setResultText(getString(R.string.headsOutcome),getString(R.string.headsOutcome));
-                    } else if (userDecision == getString(R.string.userChooseTails))
+                    } else if (userDecision.equals(getString(R.string.userChooseTails)))
                     {
                         setResultText(getString(R.string.headsOutcome),getString(R.string.tailsOutcome));
                     }
@@ -268,28 +261,28 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
 
     private void setResultText(String outcome, String choice) {
-
         TextView result = findViewById(R.id.coinFlipResultText);
-        if (outcome == getString(R.string.tailsOutcome))
+        if (outcome.equals(getString(R.string.tailsOutcome)))
         {
-            result.setText(R.string.tailsString);
+            result.setText(getString(R.string.tailsString));
         }
         else
         {
-            result.setText(R.string.headsString);
+            result.setText(getString(R.string.headsString));
         }
 
         TextView showWinOrLoss = findViewById(R.id.resultWinOrLoss);
-        if (outcome == choice)
+        if (outcome.equals(choice))
         {
             addRecord(true,choice);
-            showWinOrLoss.setText(R.string.winnerResult);
+            showWinOrLoss.setText(getString(R.string.winnerResult));
             showWinOrLoss.setTextColor(getColor(R.color.correct_green));
         }
         else
         {
+
             addRecord(false,choice);
-            showWinOrLoss.setText(R.string.loserResult);
+            showWinOrLoss.setText(getString(R.string.loserResult));
             showWinOrLoss.setTextColor(getColor(R.color.incorrect_red));
         }
 
@@ -302,7 +295,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
     private void addRecord(boolean b, String Choice) {
 
-        if (currentUser != "")
+        if (!currentUser.equals(""))
         {
             manager.addChoice(Choice);
             manager.addUser(currentUser);
