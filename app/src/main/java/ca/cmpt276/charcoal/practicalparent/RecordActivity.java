@@ -95,9 +95,6 @@ public class RecordActivity extends AppCompatActivity {
             flipResult.setText(rResults.get(position));
             date.setText(rDateTime.get(position));
 
-
-
-
             return row;
         }
     }

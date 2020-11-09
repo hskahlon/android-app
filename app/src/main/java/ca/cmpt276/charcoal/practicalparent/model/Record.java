@@ -15,9 +15,11 @@ public class Record {
     private List<Integer> images = new ArrayList<>();
     private static Record instance;
 
+
     private Record() {
 
     }
+
 
     public void addUser(String User) { users.add(User);}
 
