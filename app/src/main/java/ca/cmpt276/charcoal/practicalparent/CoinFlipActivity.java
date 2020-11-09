@@ -24,7 +24,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 
 import ca.cmpt276.charcoal.practicalparent.model.Child;
@@ -34,7 +33,7 @@ import ca.cmpt276.charcoal.practicalparent.model.Record;
 
 public class CoinFlipActivity extends AppCompatActivity implements View.OnClickListener{
     private static final String PREFS_NAME = "RecordData";
-    private Button btn;
+    private Button flipBtn;
     private Button heads;
     private Button tails;
     private String userDecision;
@@ -134,10 +133,17 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void setupCoinButton() {
-        btn = findViewById(R.id.flipBtn);
-        btn.setOnClickListener(v -> {
+        flipBtn = findViewById(R.id.flipBtn);
+        flipBtn.setOnClickListener(v -> {
             int randomChoice = getRandom();
             flipCoin(randomChoice);
+            flipBtn.setVisibility(View.INVISIBLE);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    flipBtn.setVisibility(View.VISIBLE);
+                }
+            }, DURATION*2);
         });
     }
 
