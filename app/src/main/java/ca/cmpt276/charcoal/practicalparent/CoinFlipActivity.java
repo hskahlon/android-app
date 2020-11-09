@@ -96,6 +96,11 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
                 currentIndex = 0;
                 currentUser = children.get(currentIndex).getName();
             }
+            else
+            {
+                currentIndex = 0;
+                currentUser = children.get(currentIndex).getName();
+            }
 
             setUserText();
 
@@ -230,6 +235,8 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
                 setCurrentIndex(currentIndex+1);
                 chooseUser();
 
+                resetButtons();
+
                 if (randomChoice == TAILS) {
 
                     if (userDecision == null)
@@ -267,7 +274,11 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+    private void resetButtons() {
 
+        heads.setBackgroundColor(getColor(R.color.unselectedHeadTail));
+        tails.setBackgroundColor(getColor(R.color.unselectedHeadTail));
+    }
 
 
     private void setResultText(String outcome, String choice) {
