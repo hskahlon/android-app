@@ -120,4 +120,18 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent=".85" />
 
+    <TextView
+        android:id="@+id/userToChoose_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/userToChoose_String"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/rightCentringGuideline"
+        app:layout_constraintStart_toStartOf="@+id/leftCentringGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/flipBtn" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
