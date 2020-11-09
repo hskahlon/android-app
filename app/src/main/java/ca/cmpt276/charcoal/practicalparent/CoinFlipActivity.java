@@ -43,9 +43,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     private static final float SCALEX = 0.5f;
     private static final float SCALEY = 0.5f;
     Record manager = Record.getInstance();
-
     int currentIndex;
-
     String currentUser = "";
 
 
@@ -56,7 +54,6 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
         // intially set current index to -1
         currentIndex = -1;
-
 
         setupCoinButton();
 
@@ -86,7 +83,6 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
         //Toast.makeText(this, "IDX"+currentIndex+children.get(currentIndex).getName(), Toast.LENGTH_SHORT).show();
         if (currentIndex < children.size() && children.size()!=0)
          {
-
               currentUser = children.get(currentIndex).getName();
          }
         else if (currentIndex == children.size()  && children.size()!=0)
@@ -94,11 +90,6 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
             currentIndex = 0;
             currentUser = children.get(currentIndex).getName();
         }
-
-
-
-
-
     }
 
     @Override
@@ -119,13 +110,10 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
         heads = findViewById(R.id.selectHeads);
         tails = findViewById(R.id.priorRecordsBtn);
         if (userDecision == "User chose heads!") {
-
-
             heads.setBackgroundColor(getColor(R.color.selectedHeadTail));
             tails.setBackgroundColor(getColor(R.color.unselectedHeadTail));
             Toast.makeText(this, "Heads selected", Toast.LENGTH_SHORT).show();
         } else if (userDecision == "User chose tails!") {
-
             heads.setBackgroundColor(getColor(R.color.unselectedHeadTail));
             tails.setBackgroundColor(getColor(R.color.selectedHeadTail));
             Toast.makeText(this, "Tails selected", Toast.LENGTH_SHORT).show();
@@ -164,6 +152,8 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     private void flipCoin(int randomChoice) {
         final View currentCoin = coin;
         TextView showWinOrLoss = findViewById(R.id.resultWinOrLoss);
+        heads = findViewById(R.id.selectHeads);
+        tails = findViewById(R.id.priorRecordsBtn);
 
         // Rotates by 1800 degrees -> changes view at last flip
             currentCoin.animate().withLayer()
@@ -202,6 +192,8 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
                         addRecord(false,"Heads");
                         showWinOrLoss.setText(R.string.loserResult);
                         showWinOrLoss.setTextColor(getColor(R.color.incorrect_red));
+                    } else {
+                        showWinOrLoss.setText(R.string.noResult);
                     }
                 } else {
                     result.setText(R.string.headsString);
@@ -213,8 +205,13 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
                         addRecord(false,"Tails");
                         showWinOrLoss.setText(R.string.loserResult);
                         showWinOrLoss.setTextColor(getColor(R.color.incorrect_red));
+                    } else {
+                        showWinOrLoss.setText(R.string.noResult);
                     }
                 }
+                heads.setBackgroundColor(getColor(R.color.unselectedHeadTail));
+                tails.setBackgroundColor(getColor(R.color.unselectedHeadTail));
+                userDecision = null;
             }, DURATION*2);
     }
 
@@ -231,12 +228,9 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
             manager.addResult(b);
             saveRecord();
         }
-
     }
 
     private void saveRecord() {
-
-
 
         List<String> users = manager.getUsers();
         List<Boolean> result = manager.getResults();
@@ -249,9 +243,8 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
         RecordsConfig.writeNameInPref(getApplicationContext(),users);
         RecordsConfig.writeChoiceInPref(getApplicationContext(),choices);
 
-
-
     }
+
     public static List<String> getSavedUser(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         List<String> users;
@@ -266,5 +259,4 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
             return null;
         }
     }
-
 }
