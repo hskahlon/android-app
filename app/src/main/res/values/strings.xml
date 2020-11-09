@@ -52,4 +52,14 @@
     <string name="chooses">\ Chooses\</string>
 
 
+    <!--        Strings for TimeOutActivity       -->
+    <string name="Pause">Pause</string>
+    <string name="STOP">STOP</string>
+    <string name="Resume">Resume</string>
+    <string name="Start">Start</string>
+    <string name="reset">Reset</string>
+    <string name="minutes">Minutes</string>
+    <string name="set">Set</string>
+    <string name="_00_00">00:00</string>
+
 </resources>

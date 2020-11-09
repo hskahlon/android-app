@@ -23,7 +23,7 @@
         android:id="@+id/countDownText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="00:00"
+        android:text="@string/_00_00"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="50sp"
@@ -37,19 +37,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/purple_btn"
-        android:text="Start"
+        android:text="@string/Start"
         app:layout_constraintBottom_toTopOf="@+id/guideline19"
         app:layout_constraintEnd_toStartOf="@+id/rightCenteringGuideline"
         app:layout_constraintStart_toStartOf="@+id/leftCenteringGuideline"
         app:layout_constraintTop_toTopOf="@+id/guideline" />
 
     <Button
-        android:id="@+id/cancelBtn"
+        android:id="@+id/resetBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:backgroundTint="@color/black"
-        android:text="Cancel"
+        android:text="@string/reset"
         android:visibility="invisible"
         app:iconTint="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/guideline19"
@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:backgroundTint="@color/red_btn"
-        android:text="Pause"
+        android:text="@string/Pause"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/guideline19"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
@@ -83,7 +83,7 @@
         android:layout_height="wrap_content"
 
         android:layout_centerHorizontal="true"
-        android:hint="Minutes"
+        android:hint="@string/minutes"
         android:inputType="number"
         android:maxLength="4"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
@@ -94,9 +94,8 @@
         android:id="@+id/setBtn"
         android:layout_width="71dp"
         android:layout_height="38dp"
-
         android:layout_marginStart="8dp"
-        android:text="Set"
+        android:text="@string/set"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintStart_toEndOf="@+id/setTimeText" />
 
