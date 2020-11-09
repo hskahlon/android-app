@@ -14,20 +14,11 @@ public class Record {
     private List<Boolean> results = new ArrayList<>();
     private List<Integer> images = new ArrayList<>();
     private static Record instance;
-    private Integer index = 0;
+
 
     private Record() {
 
     }
-    public void setIndex(int index)
-    {
-        this.index = index;
-    }
-    public Integer getIndex()
-    {
-        return index;
-    }
-
 
 
     public void addUser(String User) { users.add(User);}

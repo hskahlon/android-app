@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,7 +29,8 @@ import ca.cmpt276.charcoal.practicalparent.model.Record;
 
 
 public class CoinFlipActivity extends AppCompatActivity implements View.OnClickListener{
-    private static final String PREFS_NAME = "RecordData";
+    private static final String PREFS_NAME = "CoinFlipData";
+    private static final String USER_INDEX = "CurrentUser";
     public static final int TAILS = 0;
     private Button btn;
     private Button flipBtn;
@@ -74,7 +76,8 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
     public void chooseUser() {
 
-        currentIndex = manager.getIndex();
+
+        currentIndex = getCurrentIndex();
 
         if (childrenExist())
         {
@@ -83,12 +86,12 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
             List<Child> children = manager.getChildren();
 
 
-            if (currentIndex < children.size() && children.size()!=0)
+            if (currentIndex < children.size())
             {
 
                 currentUser = children.get(currentIndex).getName();
             }
-            else if (currentIndex == children.size()  && children.size()!=0)
+            else if (currentIndex == children.size())
             {
                 currentIndex = 0;
                 currentUser = children.get(currentIndex).getName();
@@ -101,6 +104,17 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+    private int getCurrentIndex() {
+        SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        return prefs.getInt(USER_INDEX, 0);
+
+    }
+    private void setCurrentIndex(int i) {
+        SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(USER_INDEX,i);
+        editor.apply();
+    }
     private void setUserText() {
         if (childrenExist())
         {
@@ -220,7 +234,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
 
                 // set the user who is choosing as last user for next turn
-                manager.setIndex(currentIndex+1);
+                setCurrentIndex(currentIndex+1);
                 chooseUser();
 
                 if (randomChoice == TAILS) {
@@ -249,6 +263,8 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
 
     }
+
+
 
 
     private void setResultText(String outcome, String choice) {
