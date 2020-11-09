@@ -1,4 +1,5 @@
 <resources>
+    <!--        Strings for CoinFlipActivity        -->
     <string name="app_name">Practical Parent</string>
     <string name="flipcoins">flipCoins</string>
     <string name="flipBtnText">FLIP</string>
@@ -7,6 +8,9 @@
     <string name="headsString">The Result is Heads</string>
     <string name="winnerResult">You win!!</string>
     <string name="loserResult">You lost :(</string>
+    <string name="noResult"> </string>
+    <string name="storeHeads">Heads</string>
+    <string name="storeTails">Tails</string>
 
     <string-array name="preSetTimes">
         <item>1</item>
