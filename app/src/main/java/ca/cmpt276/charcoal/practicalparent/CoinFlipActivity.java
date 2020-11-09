@@ -74,7 +74,6 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
         chooseUser();
     }
 
-
     public void chooseUser() {
 
 
