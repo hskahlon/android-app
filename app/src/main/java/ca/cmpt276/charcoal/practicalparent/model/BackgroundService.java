@@ -22,6 +22,7 @@ import androidx.core.app.NotificationManagerCompat;
 
 import ca.cmpt276.charcoal.practicalparent.NotificationStopBroadcastReceiver;
 import ca.cmpt276.charcoal.practicalparent.R;
+import ca.cmpt276.charcoal.practicalparent.TimeOutActivity;
 
 public class BackgroundService extends Service {
 //reference: https://www.youtube.com/watch?v=BbXuumYactY
@@ -46,7 +47,7 @@ public class BackgroundService extends Service {
     private void startTimer() {
         Log.i(TAG, "timeLeftinMillis" + timeLeftInMillis);
 
-        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+        countDownTimer = new CountDownTimer(timeLeftInMillis, 350) {
             @Override
             public void onTick(long millisUntilFinished) {
                 isTimerRunning = true;
@@ -93,7 +94,7 @@ public class BackgroundService extends Service {
     }
 
     private void createNotification(Ringtone ringtone, Vibrator vibrator) {
-        Intent intent = makeLaunchIntent(this,0);
+        Intent intent = TimeOutActivity.makeLaunchIntent(this);
         PendingIntent pendingLaunchIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         Intent stopTimerIntent = new Intent(this, NotificationStopBroadcastReceiver.class);
@@ -112,6 +113,7 @@ public class BackgroundService extends Service {
                 .setFullScreenIntent(pendingLaunchIntent, true)
                 .setOngoing(true)
                 .setCategory(Notification.CATEGORY_CALL)
+                .setAutoCancel(false)
 
                 .addAction(R.drawable.ic_baseline_alarm_24, "Stop", pendingStopTimerIntent);
 

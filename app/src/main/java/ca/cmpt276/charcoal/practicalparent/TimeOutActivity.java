@@ -119,7 +119,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
     private void setupSpinner() {
         preSetTimeSpinner = (PresetTimeCustomSpinner) findViewById(R.id.preSetTimeSpinner);
-        preSetTimeSpinner.setVisibility(View.INVISIBLE);
+       // preSetTimeSpinner.setVisibility(View.INVISIBLE);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.preSetTimes, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
