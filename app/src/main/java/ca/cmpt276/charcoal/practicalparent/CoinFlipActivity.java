@@ -239,10 +239,10 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
                     }
                     else if (userDecision.equals(getString(R.string.userChooseTails)))
                     {
-                        setResultText(getString(R.string.tailsOutcome),getString(R.string.tailsChoice));
+                        setResultText(getString(R.string.tailsString),getString(R.string.tailsString));
                     } else if (userDecision.equals(getString(R.string.userChooseHeads)))
                     {
-                        setResultText(getString(R.string.tailsOutcome),getString(R.string.headsOutcome));
+                        setResultText(getString(R.string.tailsString),getString(R.string.headsString));
                     }
 
                 } else if (randomChoice == HEADS){
@@ -254,10 +254,10 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
                     else if (userDecision.equals(getString(R.string.userChooseHeads)))
                     {
 
-                        setResultText(getString(R.string.headsOutcome),getString(R.string.headsOutcome));
+                        setResultText(getString(R.string.headsString),getString(R.string.headsString));
                     } else if (userDecision.equals(getString(R.string.userChooseTails)))
                     {
-                        setResultText(getString(R.string.headsOutcome),getString(R.string.tailsOutcome));
+                        setResultText(getString(R.string.headsString),getString(R.string.tailsString));
                     }
 
                 }
@@ -272,7 +272,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
     private void setResultText(String outcome, String choice) {
         TextView result = findViewById(R.id.coinFlipResultText);
-        if (outcome.equals(getString(R.string.tailsOutcome)))
+        if (outcome.equals(getString(R.string.tailsString)))
         {
             result.setText(getString(R.string.tailsString));
         }
