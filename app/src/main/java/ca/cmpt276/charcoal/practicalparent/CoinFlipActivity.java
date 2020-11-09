@@ -81,6 +81,9 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
         if (childrenExist())
         {
+            heads.setVisibility(View.VISIBLE);
+            tails.setVisibility(View.VISIBLE);
+
             // get the list of users
             ChildManager manager = ChildManager.getInstance();
             List<Child> children = manager.getChildren();
@@ -104,6 +107,9 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
             setUserText();
 
+        } else {
+            heads.setVisibility(View.INVISIBLE);
+            tails.setVisibility(View.INVISIBLE);
         }
 
 
