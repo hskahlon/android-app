@@ -43,7 +43,7 @@ public class RecordActivity extends AppCompatActivity {
         ListView listView;
         if (childList != null && choices != null && dateTimes != null && resultImages != null ) {
             listView = findViewById(R.id.recordListView);
-            // create adapter class
+            // Create adapter class
             MyAdapter adapter = new MyAdapter(this, (ArrayList<String>) childList,
                     (ArrayList<String>) choices,(ArrayList<Integer>) resultImages, (ArrayList<String>) dateTimes);
             listView.setAdapter(adapter);
