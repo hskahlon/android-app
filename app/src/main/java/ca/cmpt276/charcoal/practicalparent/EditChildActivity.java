@@ -25,9 +25,7 @@ import java.util.List;
 import ca.cmpt276.charcoal.practicalparent.model.Child;
 import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
 
-/**
- *  Sets-up edit child actiivty and allows for saving and editing children.
- */
+
 public class EditChildActivity extends AppCompatActivity {
     private static final String PREFS_NAME = "SavedData";
     private static final String CHILDREN_PREFS = "My children";
@@ -61,7 +59,6 @@ public class EditChildActivity extends AppCompatActivity {
         nameBox = findViewById(R.id.childNameTextBox);
         extractIntentData();
         preFillNameBox();
-
     }
 
     private void preFillNameBox() {
@@ -136,7 +133,8 @@ public class EditChildActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    // Gson serialization code found here: https://stackoverflow.com/questions/28107647/how-to-save-listobject-to-sharedpreferences/28107838
+    // Gson serialization code found here:
+    //   https://stackoverflow.com/questions/28107647/how-to-save-listobject-to-sharedpreferences/28107838
     public static List<Child> getSavedChildren(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         List<Child> children;

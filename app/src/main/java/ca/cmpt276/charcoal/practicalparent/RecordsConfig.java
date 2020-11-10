@@ -11,9 +11,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Stores data for records activity and allows read/write access in Shared Preferences
- */
 
 public class RecordsConfig {
     private static final String NAME_KEY = "list_key1";
@@ -21,7 +18,8 @@ public class RecordsConfig {
     private static final String DATE_KEY = "list_key3";
     private static final String IMG_KEY = "list_key4";
     private static final String CHOICE_KEY = "list_key5";
-    // save list as json
+
+    // Save list as json
     public static void writeResultInPref(Context context, List<String> list) {
         Gson gson = new Gson();
         String jsonString = gson.toJson(list);
@@ -31,7 +29,7 @@ public class RecordsConfig {
         editor.putString(RESULT_KEY, jsonString);
         editor.apply();
     }
-    //read list
+
     public static List<String> readResultFromPref(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         String jsonString = pref.getString(RESULT_KEY, "");
@@ -40,9 +38,7 @@ public class RecordsConfig {
             Type type = new TypeToken<ArrayList<String>>() {}.getType();
             List<String> list = gson.fromJson(jsonString, type);
             return list;
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
@@ -56,7 +52,7 @@ public class RecordsConfig {
         editor.putString(NAME_KEY, jsonString);
         editor.apply();
     }
-    //read list
+
     public static List<String> readNameFromPref(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         String jsonString = pref.getString(NAME_KEY, "");
@@ -65,9 +61,7 @@ public class RecordsConfig {
             Type type = new TypeToken<ArrayList<String>>() {}.getType();
             List<String> list = gson.fromJson(jsonString, type);
             return list;
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
@@ -81,7 +75,7 @@ public class RecordsConfig {
         editor.putString(DATE_KEY, jsonString);
         editor.apply();
     }
-    //read list
+
     public static List<String> readDateFromPref(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         String jsonString = pref.getString(DATE_KEY, "");
@@ -90,9 +84,7 @@ public class RecordsConfig {
             Type type = new TypeToken<ArrayList<String>>() {}.getType();
             List<String> list = gson.fromJson(jsonString, type);
             return list;
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
@@ -106,7 +98,7 @@ public class RecordsConfig {
         editor.putString(IMG_KEY, jsonString);
         editor.apply();
     }
-    //read list
+
     public static List<Integer> readImageFromPref(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         String jsonString = pref.getString(IMG_KEY, "");
@@ -115,12 +107,11 @@ public class RecordsConfig {
             Type type = new TypeToken<ArrayList<Integer>>() {}.getType();
             List<Integer> list = gson.fromJson(jsonString, type);
             return list;
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
+
     public static void writeChoiceInPref(Context context, List<String> list) {
         Gson gson = new Gson();
         String jsonString = gson.toJson(list);
@@ -130,7 +121,7 @@ public class RecordsConfig {
         editor.putString(CHOICE_KEY, jsonString);
         editor.apply();
     }
-    //read list
+
     public static List<String> readChoiceFromPref(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         String jsonString = pref.getString(CHOICE_KEY, "");
@@ -139,11 +130,8 @@ public class RecordsConfig {
             Type type = new TypeToken<ArrayList<String>>() {}.getType();
             List<String> list = gson.fromJson(jsonString, type);
             return list;
-        }
-        else
-        {
+        } else {
             return null;
         }
-
     }
 }

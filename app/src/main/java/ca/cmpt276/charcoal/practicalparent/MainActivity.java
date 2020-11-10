@@ -15,11 +15,8 @@ import ca.cmpt276.charcoal.practicalparent.model.Child;
 import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
 import ca.cmpt276.charcoal.practicalparent.model.Record;
 
-/**
- *  Setups Main Activity and allows for access to all other activities
- */
-public class MainActivity extends AppCompatActivity {
 
+public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupCoinActivityBtn() {
         Button btn = findViewById(R.id.coinflipActivity);
-
         btn.setOnClickListener(v -> {
             Intent i = CoinFlipActivity.makeLaunchIntent(MainActivity.this);
             startActivity(i);
@@ -54,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         List<String> user = RecordsConfig.readNameFromPref(this);
         List<String> choice = RecordsConfig.readChoiceFromPref(this);
         List<String> date = RecordsConfig.readDateFromPref(this);
-        List<String> res = RecordsConfig.readResultFromPref(this);
         List<Integer> img = RecordsConfig.readImageFromPref(this);
         if (user != null) {
             Record recManager = Record.getInstance();
@@ -67,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupTimeOutActivityBtn() {
         Button btn = findViewById(R.id.timeoutActivity);
-
         btn.setOnClickListener(v -> {
             Intent i = TimeOutActivity.makeLaunchIntent(MainActivity.this);
             startActivity(i);
@@ -76,15 +70,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupRecordActivityBtn() {
         Button btn = findViewById(R.id.recordsActivity);
-
         btn.setOnClickListener(v -> {
             Intent i = RecordActivity.makeLaunchIntent(MainActivity.this);
             startActivity(i);
         });
     }
+
     private void setupChildrenActivityBtn() {
         Button btn =  findViewById(R.id.childrenActivity);
-
         btn.setOnClickListener(v -> {
             Intent i = ChildrenActivity.makeLaunchIntent(MainActivity.this);
             startActivity(i);
@@ -100,11 +93,11 @@ public class MainActivity extends AppCompatActivity {
             int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel(getString(R.string.timout_alarm_notification_ID), name, importance);
             channel.setDescription(description);
+
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
     }
-
 }

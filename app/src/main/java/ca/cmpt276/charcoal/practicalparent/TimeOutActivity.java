@@ -3,7 +3,6 @@ package ca.cmpt276.charcoal.practicalparent;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
 import android.animation.Animator;
@@ -30,9 +29,7 @@ import ca.cmpt276.charcoal.practicalparent.model.BackgroundService;
 import ca.cmpt276.charcoal.practicalparent.model.GetRandomBackgroundImage;
 import ca.cmpt276.charcoal.practicalparent.model.PresetTimeCustomSpinner;
 
-/**
- *  Creates TimeOut activity and setups up buttons
- */
+
 public class TimeOutActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     String TAG = "TimeOut";
     private long startTimeInMillis;
@@ -46,7 +43,6 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     private boolean isTimerRunning;
     private boolean isTimerReset;
 
-
     private PresetTimeCustomSpinner preSetTimeSpinner;
 
     @Override
@@ -54,30 +50,23 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_out);
 
-        //Reference: https://codinginflow.com/tutorials/android/countdowntimer/part-1-countdown-timer
+        // Reference:
+        //   https://codinginflow.com/tutorials/android/countdowntimer/part-1-countdown-timer
         setupSetButton();
         setupStartButton();
         setupResetButton();
         setupPauseButton();
         setupSpinner();
-
         setLoadingScreen();
         setRandomBackgroundImage();
 
-        //TODO: Delete logs when submitting
-        //TODO: Vibration and sound when the alarm is finished
-        //TODO: REFACTOR
-
-        //Enable "up" on toolbar
+        // Enable "up" on toolbar
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
-
     }
 
     private void setLoadingScreen() {
         countDownText = (TextView) findViewById(R.id.countDownText);
-
-
         loadingView = (ProgressBar) findViewById(R.id.loading_spinner);
         loadingView.animate()
                 .alpha(0f)
@@ -110,7 +99,6 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
                 .setListener(null);
     }
 
-
     private void setRandomBackgroundImage() {
         ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.timeoutLayout);
         layout.setBackground(ContextCompat.getDrawable(this, GetRandomBackgroundImage.getId()));
@@ -122,7 +110,6 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
     private void setupSpinner() {
         preSetTimeSpinner = (PresetTimeCustomSpinner) findViewById(R.id.preSetTimeSpinner);
-       // preSetTimeSpinner.setVisibility(View.INVISIBLE);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.preSetTimes, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -140,9 +127,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
     }
-
 
     private void updateUI() {
         if (isTimerRunning) {
@@ -150,44 +135,35 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
             pauseButton.setVisibility(View.VISIBLE);
             pauseButton.setText(R.string.Pause);
             startButton.setVisibility(View.INVISIBLE);
-
             preSetTimeSpinner.setVisibility(View.INVISIBLE);
-
             setButton.setVisibility(View.INVISIBLE);
             setTimeText.setVisibility(View.INVISIBLE);
-
         } else {
-            //If the timer is done
+            // If the timer is done:
             if (timeLeftInMillis < 1000) {
                 resetButton.setVisibility(View.INVISIBLE);
                 pauseButton.setVisibility(View.INVISIBLE);
                 pauseButton.setText(R.string.Pause);
                 startButton.setVisibility(View.VISIBLE);
-
                 preSetTimeSpinner.setVisibility(View.VISIBLE);
-
                 setButton.setVisibility(View.VISIBLE);
                 setTimeText.setVisibility(View.VISIBLE);
-            }
-            //if user press cancel when the timer is running
-            else if(isTimerReset){
+            } else if (isTimerReset) {
+                // If user press cancel when the timer is running:
                 resetButton.setVisibility(View.INVISIBLE);
                 startButton.setVisibility(View.VISIBLE);
                 pauseButton.setVisibility(View.INVISIBLE);
                 setButton.setVisibility(View.VISIBLE);
                 setTimeText.setVisibility(View.VISIBLE);
                 preSetTimeSpinner.setVisibility(View.VISIBLE);
-
-            }
-            //if the timer is paused
-            else if (timeLeftInMillis < startTimeInMillis) {
+            } else if (timeLeftInMillis < startTimeInMillis) {
+                // If the timer is paused:
                 resetButton.setVisibility(View.VISIBLE);
                 pauseButton.setVisibility(View.VISIBLE);
                 pauseButton.setText(R.string.Resume);
                 startButton.setVisibility(View.INVISIBLE);
             }
         }
-
     }
 
     private void setupPauseButton() {
@@ -226,7 +202,6 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
                 Toast.makeText(TimeOutActivity.this, "Started", Toast.LENGTH_SHORT).show();
                 startTimer();
             }
-
         });
     }
 
@@ -238,13 +213,13 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
             public void onClick(View v) {
                 String input = setTimeText.getText().toString();
 
-                //If input is empty
+                // If input is empty
                 if (input.length() == 0) {
                     Toast.makeText(TimeOutActivity.this, "Field can't be empty", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 long millisInput = Long.parseLong(input) * 60000;
-                //If entered 0
+                // If entered 0
                 if (millisInput == 0) {
                     Toast.makeText(TimeOutActivity.this, "Please enter a positive number", Toast.LENGTH_SHORT).show();
                     return;
@@ -278,12 +253,10 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         Log.i(TAG,"Reset service");
         timeLeftInMillis = startTimeInMillis;
         updateCountDownText();
-
         updateUI();
     }
 
     private void updateCountDownText() {
-
         int hours = (int) (timeLeftInMillis / 1000) / 3600;
         int minutes = (int) ((timeLeftInMillis / 1000) % 3600) / 60;
         int seconds = (int) (timeLeftInMillis / 1000) % 60;
@@ -315,7 +288,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            //update timeLeftinmillis
+            // Update timeLeftinmillis
             if(intent.getExtras() != null) {
                 timeLeftInMillis = intent.getLongExtra("countDown", 1000);
                 isTimerRunning = intent.getBooleanExtra("isTimerRunning", false);
