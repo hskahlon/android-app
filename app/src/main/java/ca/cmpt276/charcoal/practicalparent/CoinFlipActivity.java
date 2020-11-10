@@ -29,11 +29,10 @@ import ca.cmpt276.charcoal.practicalparent.model.Record;
 
 
 public class CoinFlipActivity extends AppCompatActivity implements View.OnClickListener{
-    private static final String PREFS_NAME = "CoinFlipData";
-    private static final String USER_INDEX = "CurrentUser";
+    public static final String PREFS_NAME = "CoinFlipData";
+    public static final String USER_INDEX = "CurrentUser";
     public static final int TAILS = 0;
     public static final int HEADS = 1;
-    private Button btn;
     private Button flipBtn;
     private Button heads;
     private Button tails;
@@ -43,9 +42,9 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     private static final int DURATION = 300;
     private static final float SCALEX = 0.5f;
     private static final float SCALEY = 0.5f;
-    Record manager = Record.getInstance();
-    int currentIndex;
-    String currentUser = "";
+    private final Record manager = Record.getInstance();
+    private int currentIndex;
+    private String currentUser = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +76,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     public void chooseUser() {
 
 
-        currentIndex = getCurrentIndex();
+        currentIndex = getCurrentIndex(this);
 
         if (childrenExist())
         {
@@ -88,22 +87,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
             ChildManager manager = ChildManager.getInstance();
             List<Child> children = manager.getChildren();
 
-
-            if (currentIndex < children.size())
-            {
-
-                currentUser = children.get(currentIndex).getName();
-            }
-            else if (currentIndex == children.size())
-            {
-                currentIndex = 0;
-                currentUser = children.get(currentIndex).getName();
-            }
-            else
-            {
-                currentIndex = 0;
-                currentUser = children.get(currentIndex).getName();
-            }
+            currentUser = children.get(currentIndex).getName();
 
             setUserText();
 
@@ -115,14 +99,22 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-    private int getCurrentIndex() {
-        SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+    public static int getCurrentIndex(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         return prefs.getInt(USER_INDEX, 0);
 
     }
     private void setCurrentIndex(int i) {
         SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
+
+        ChildManager manager = ChildManager.getInstance();
+        List<Child> children = manager.getChildren();
+
+        if (i >= children.size()) {
+            i = 0;
+        }
+
         editor.putInt(USER_INDEX,i);
         editor.apply();
     }
@@ -339,7 +331,6 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     private void saveRecord() {
 
         List<String> users = manager.getUsers();
-        List<Boolean> result = manager.getResults();
         List<String> choices = manager.getChoices();
         List<String> dateTimes = manager.getDateTimes();
         List<Integer> img = manager.getImages();
