@@ -49,7 +49,7 @@
             android:parentActivityName=".MainActivity"
             android:launchMode="singleTop">
         </activity>
-        <receiver android:name=".NotificationStopBroadcastReceiver"/>
+        <receiver android:name=".model.NotificationStopBroadcastReceiver"/>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">

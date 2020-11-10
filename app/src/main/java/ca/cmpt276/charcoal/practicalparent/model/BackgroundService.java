@@ -20,7 +20,6 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import ca.cmpt276.charcoal.practicalparent.NotificationStopBroadcastReceiver;
 import ca.cmpt276.charcoal.practicalparent.R;
 import ca.cmpt276.charcoal.practicalparent.TimeOutActivity;
 

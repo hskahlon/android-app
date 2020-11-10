@@ -27,7 +27,6 @@ import java.util.Locale;
 
 import ca.cmpt276.charcoal.practicalparent.model.BackgroundService;
 import ca.cmpt276.charcoal.practicalparent.model.GetRandomBackgroundImage;
-import ca.cmpt276.charcoal.practicalparent.model.PresetTimeCustomSpinner;
 
 /**
  *  Sets up TimeOut activity and timer
@@ -170,65 +169,51 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
     private void setupPauseButton() {
         pauseButton = (Button) findViewById(R.id.pauseBtn);
-        pauseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isTimerRunning) {
-                    pauseTimer();
-                } else {
-                    startTimer();
-                }
+        pauseButton.setOnClickListener(v -> {
+            if (isTimerRunning) {
+                pauseTimer();
+            } else {
+                startTimer();
             }
         });
     }
 
     private void setupResetButton() {
         resetButton = (Button) findViewById(R.id.resetBtn);
-        resetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resetTimer();
-            }
-        });
+        resetButton.setOnClickListener(v -> resetTimer());
     }
 
     private void setupStartButton() {
         startButton = (Button) findViewById(R.id.startBtn);
-        startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (timeLeftInMillis < 1000) {
-                    Toast.makeText(TimeOutActivity.this, "No Timer Made", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Toast.makeText(TimeOutActivity.this, "Started", Toast.LENGTH_SHORT).show();
-                startTimer();
+        startButton.setOnClickListener(v -> {
+            if (timeLeftInMillis < 1000) {
+                Toast.makeText(TimeOutActivity.this, "No Timer Made", Toast.LENGTH_SHORT).show();
+                return;
             }
+            Toast.makeText(TimeOutActivity.this, "Started", Toast.LENGTH_SHORT).show();
+            startTimer();
         });
     }
 
     private void setupSetButton() {
         setButton = (Button) findViewById(R.id.setBtn);
         setTimeText = (EditText) findViewById(R.id.setTimeText);
-        setButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String input = setTimeText.getText().toString();
+        setButton.setOnClickListener(v -> {
+            String input = setTimeText.getText().toString();
 
-                // If input is empty
-                if (input.length() == 0) {
-                    Toast.makeText(TimeOutActivity.this, "Field can't be empty", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                long millisInput = Long.parseLong(input) * 60000;
-                // If entered 0
-                if (millisInput == 0) {
-                    Toast.makeText(TimeOutActivity.this, "Please enter a positive number", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                setTime(millisInput);
-                setTimeText.setText("");
+            // If input is empty
+            if (input.length() == 0) {
+                Toast.makeText(TimeOutActivity.this, "Field can't be empty", Toast.LENGTH_SHORT).show();
+                return;
             }
+            long millisInput = Long.parseLong(input) * 60000;
+            // If entered 0
+            if (millisInput == 0) {
+                Toast.makeText(TimeOutActivity.this, "Please enter a positive number", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            setTime(millisInput);
+            setTimeText.setText("");
         });
     }
 
@@ -248,7 +233,6 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         }
     }
 
-    //TODO: Refactor updating buttons to updateUI()
     private void resetTimer() {
         isTimerReset = true;
         stopService(new Intent(this,BackgroundService.class));

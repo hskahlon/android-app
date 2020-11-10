@@ -1,4 +1,4 @@
-package ca.cmpt276.charcoal.practicalparent;
+package ca.cmpt276.charcoal.practicalparent.model;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,6 +7,7 @@ import android.media.Ringtone;
 import android.os.Vibrator;
 import androidx.core.app.NotificationManagerCompat;
 
+import ca.cmpt276.charcoal.practicalparent.R;
 import ca.cmpt276.charcoal.practicalparent.model.AlarmInfo;
 
 /**

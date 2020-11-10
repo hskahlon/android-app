@@ -25,6 +25,7 @@ import java.util.Random;
 import ca.cmpt276.charcoal.practicalparent.model.Child;
 import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
 import ca.cmpt276.charcoal.practicalparent.model.Record;
+import ca.cmpt276.charcoal.practicalparent.model.RecordsConfig;
 
 /**
  *  Sets up coin flip activity and allows for saving and recalling current child to flip
@@ -125,10 +126,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     private boolean childrenExist() {
         ChildManager manager = ChildManager.getInstance();
         List<Child> children = manager.getChildren();
-        if (children.size()!=0) {
-            return true;
-        }
-        return false;
+        return children.size() != 0;
     }
 
     @Override

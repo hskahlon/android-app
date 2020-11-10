@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
+import ca.cmpt276.charcoal.practicalparent.model.RecordsConfig;
 
 /**
  *  Sets up Record Activity, and Associated buttons for the activity

@@ -14,6 +14,7 @@ import java.util.List;
 import ca.cmpt276.charcoal.practicalparent.model.Child;
 import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
 import ca.cmpt276.charcoal.practicalparent.model.Record;
+import ca.cmpt276.charcoal.practicalparent.model.RecordsConfig;
 
 /**
  *  Sets up Main Activity and buttons for starting activities
