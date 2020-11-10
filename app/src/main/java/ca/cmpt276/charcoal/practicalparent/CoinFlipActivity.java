@@ -204,7 +204,6 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
                 ).start();
             new Handler().postDelayed(() -> {
                 // set the user who is choosing as last user for next turn
-                chooseUser();
                 resetButtons();
 
                 if (randomChoice == TAILS) {
@@ -226,6 +225,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
                 }
                 userDecision = null;
                 setCurrentIndex(currentIndex+1);
+                chooseUser();
             }, DURATION*2);
     }
 
