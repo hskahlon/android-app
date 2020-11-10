@@ -6,9 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +19,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.cmpt276.charcoal.practicalparent.model.Child;
 import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
-import ca.cmpt276.charcoal.practicalparent.model.Record;
 
 public class RecordActivity extends AppCompatActivity {
     private Button currentRecords;
@@ -55,10 +51,6 @@ public class RecordActivity extends AppCompatActivity {
             MyAdapter adapter = new MyAdapter(this, (ArrayList<String>) childList, (ArrayList<String>) choices,(ArrayList<Integer>) resultImages, (ArrayList<String>) dateTimes);
             listView.setAdapter(adapter);
         }
-
-
-
-
     }
     class MyAdapter extends ArrayAdapter<String>
     {
@@ -116,7 +108,7 @@ public class RecordActivity extends AppCompatActivity {
         priorRecords = findViewById(R.id.priorRecordsBtn);
         currentRecords.setOnClickListener(v -> {
             currentRecords.setBackgroundColor(getColor(R.color.selectedRecord));
-            showCurrentRecord();
+            showCurrentChildRecords();
             priorRecords.setBackgroundColor(getColor(R.color.unSelectedRecord));
         });
         priorRecords.setOnClickListener(v -> {
@@ -127,7 +119,7 @@ public class RecordActivity extends AppCompatActivity {
 
     }
 
-    private void showCurrentRecord() {
+    private void showCurrentChildRecords() {
         int currentIndex = CoinFlipActivity.getCurrentIndex(this);
 
         List<String> childList = RecordsConfig.readNameFromPref(this);

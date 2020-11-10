@@ -176,11 +176,6 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
         return new Intent(context, CoinFlipActivity.class);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
     private void flipCoin(int randomChoice) {
         playSound();
         final View currentCoin = coin;
@@ -210,10 +205,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
                         }
                 ).start();
             new Handler().postDelayed(() -> {
-                TextView result = findViewById(R.id.coinFlipResultText);
-
                 // set the user who is choosing as last user for next turn
-                setCurrentIndex(currentIndex+1);
                 chooseUser();
                 resetButtons();
 
@@ -235,6 +227,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
                     }
                 }
                 userDecision = null;
+                setCurrentIndex(currentIndex+1);
             }, DURATION*2);
     }
 
