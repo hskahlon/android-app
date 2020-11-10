@@ -19,6 +19,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
 
 /**
  *  Sets up Record Activity, and Associated buttons for the activity
@@ -105,7 +106,7 @@ public class RecordActivity extends AppCompatActivity {
         priorRecords = findViewById(R.id.priorRecordsBtn);
         currentRecords.setOnClickListener(v -> {
             currentRecords.setBackgroundColor(getColor(R.color.selectedRecord));
-            showCurrentRecord();
+            showCurrentChildRecords();
             priorRecords.setBackgroundColor(getColor(R.color.unSelectedRecord));
         });
         priorRecords.setOnClickListener(v -> {
@@ -115,35 +116,38 @@ public class RecordActivity extends AppCompatActivity {
         });
     }
 
-    private void showCurrentRecord() {
+    private void showCurrentChildRecords() {
+        int currentIndex = CoinFlipActivity.getCurrentIndex(this);
+
         List<String> childList = RecordsConfig.readNameFromPref(this);
-        List<String> choices   = RecordsConfig.readChoiceFromPref(this);
-        List<String> dateTimes= RecordsConfig.readDateFromPref(this);
+        List<String> choices = RecordsConfig.readChoiceFromPref(this);
+        List<String> dateTimes = RecordsConfig.readDateFromPref(this);
         List<Integer> resultImages = RecordsConfig.readImageFromPref(this);
 
-        if (childList != null && choices != null && dateTimes != null && resultImages != null ) {
-            String currentChild  = childList.get(childList.size()-1);
-            String currentChoice   = choices.get(choices.size()-1);
-            String currentDateTimes= dateTimes.get(dateTimes.size()-1);
-            int currentResultImages = resultImages.get(resultImages.size()-1);
+        ArrayList<String> filteredChildNames = new ArrayList<>();
+        ArrayList<String> filteredChoices = new ArrayList<>();
+        ArrayList<String> filteredDateTimes = new ArrayList<>();
+        ArrayList<Integer> filteredResultImages = new ArrayList<>();
 
-            childList.clear();
-            choices.clear();
-            dateTimes.clear();
-            resultImages.clear();
+        ChildManager childrenManager = ChildManager.getInstance();
 
-            childList.add(currentChild);
-            choices.add(currentChoice);
-            dateTimes.add(currentDateTimes);
-            resultImages.add(currentResultImages);
+        if (childrenManager.getChildren().size() > 0) {
+            String currentChild = childrenManager.getChild(currentIndex).getName();
 
-            ListView listView;
-            listView = findViewById(R.id.recordListView);
+            if (childList != null && choices != null && dateTimes != null && resultImages != null) {
+                for (int i = 0; i < childList.size(); i++) {
+                    if (childList.get(i).equals(currentChild)) {
+                        filteredChildNames.add(currentChild);
+                        filteredChoices.add(choices.get(i));
+                        filteredDateTimes.add(dateTimes.get(i));
+                        filteredResultImages.add(resultImages.get(i));
+                    }
+                }
 
-            // Create adapter class
-            MyAdapter adapter = new MyAdapter(this, (ArrayList<String>) childList,
-                    (ArrayList<String>) choices,(ArrayList<Integer>) resultImages, (ArrayList<String>) dateTimes);
-            listView.setAdapter(adapter);
+                ListView listView = findViewById(R.id.recordListView);
+                MyAdapter adapter = new MyAdapter(this, filteredChildNames, filteredChoices, filteredResultImages, filteredDateTimes);
+                listView.setAdapter(adapter);
+            }
         }
     }
 }

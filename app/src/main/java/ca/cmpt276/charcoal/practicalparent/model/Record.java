@@ -14,7 +14,6 @@ public class Record {
     private List<String> users= new ArrayList<>();
     private List<String> dateTimes = new ArrayList<>();
     private List<String> choices = new ArrayList<>();
-    private List<Boolean> results = new ArrayList<>();
     private List<Integer> images = new ArrayList<>();
     private static Record instance;
 
@@ -24,23 +23,22 @@ public class Record {
     }
 
 
-    public void addUser(String User) { users.add(User);}
+    public void addUser(String User) { users.add(0, User);}
 
-    public void addDateTime(String dateTime) { dateTimes.add(dateTime);}
+    public void addDateTime(String dateTime) { dateTimes.add(0, dateTime);}
 
-    public void addChoice(String choice) { choices.add(choice);}
+    public void addChoice(String choice) { choices.add(0, choice);}
 
     public void addResult(Boolean result) {
         if (result)
         {
-            images.add(R.drawable.ic_won);
+            images.add(0, R.drawable.ic_won);
 
         }
         else
         {
-            images.add(R.drawable.ic_lost);
+            images.add(0, R.drawable.ic_lost);
         }
-        results.add(result);
     }
 
     public List<String> getUsers() { return users;}
@@ -48,8 +46,6 @@ public class Record {
     public List<String> getDateTimes() { return dateTimes;}
 
     public List<String> getChoices() { return choices;}
-
-    public List<Boolean> getResults() { return results;}
 
     public static Record getInstance() {
         if (instance == null) {
@@ -77,8 +73,4 @@ public class Record {
         this.images = image;
     }
 
-    public void setResults(List<Boolean> res) {
-        this.results = res;
-    }
-    
 }

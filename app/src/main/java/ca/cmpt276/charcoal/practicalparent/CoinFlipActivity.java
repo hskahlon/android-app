@@ -30,8 +30,8 @@ import ca.cmpt276.charcoal.practicalparent.model.Record;
  *  Sets up coin flip activity and allows for saving and recalling current child to flip
  */
 public class CoinFlipActivity extends AppCompatActivity implements View.OnClickListener{
-    private static final String PREFS_NAME = "CoinFlipData";
-    private static final String USER_INDEX = "CurrentUser";
+    public static final String PREFS_NAME = "CoinFlipData";
+    public static final String USER_INDEX = "CurrentUser";
     public static final int TAILS = 0;
     public static final int HEADS = 1;
     private Button flipBtn;
@@ -43,9 +43,9 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     private static final int DURATION = 300;
     private static final float SCALEX = 0.5f;
     private static final float SCALEY = 0.5f;
-    Record manager = Record.getInstance();
-    int currentIndex;
-    String currentUser = "";
+    private final Record manager = Record.getInstance();
+    private int currentIndex;
+    private String currentUser = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +75,8 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public void chooseUser() {
-        currentIndex = getCurrentIndex();
+        currentIndex = getCurrentIndex(this);
+
         if (childrenExist()) {
             heads.setVisibility(View.VISIBLE);
             tails.setVisibility(View.VISIBLE);
@@ -84,15 +85,8 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
             ChildManager manager = ChildManager.getInstance();
             List<Child> children = manager.getChildren();
 
-            if (currentIndex < children.size()) {
-                currentUser = children.get(currentIndex).getName();
-            } else if (currentIndex == children.size()) {
-                currentIndex = 0;
-                currentUser = children.get(currentIndex).getName();
-            } else {
-                currentIndex = 0;
-                currentUser = children.get(currentIndex).getName();
-            }
+            currentUser = children.get(currentIndex).getName();
+
             setUserText();
         } else {
             heads.setVisibility(View.INVISIBLE);
@@ -100,14 +94,22 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    private int getCurrentIndex() {
-        SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+    public static int getCurrentIndex(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         return prefs.getInt(USER_INDEX, 0);
     }
 
     private void setCurrentIndex(int i) {
         SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
+
+        ChildManager manager = ChildManager.getInstance();
+        List<Child> children = manager.getChildren();
+
+        if (i >= children.size()) {
+            i = 0;
+        }
+
         editor.putInt(USER_INDEX,i);
         editor.apply();
     }
@@ -174,11 +176,6 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
         return new Intent(context, CoinFlipActivity.class);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
     private void flipCoin(int randomChoice) {
         playSound();
         final View currentCoin = coin;
@@ -208,10 +205,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
                         }
                 ).start();
             new Handler().postDelayed(() -> {
-                TextView result = findViewById(R.id.coinFlipResultText);
-
-                // Set the user who is choosing as last user for next turn
-                setCurrentIndex(currentIndex+1);
+                // set the user who is choosing as last user for next turn
                 chooseUser();
                 resetButtons();
 
@@ -233,6 +227,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
                     }
                 }
                 userDecision = null;
+                setCurrentIndex(currentIndex+1);
             }, DURATION*2);
     }
 
@@ -245,8 +240,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
         TextView result = findViewById(R.id.coinFlipResultText);
         if (outcome.equals(getString(R.string.tailsString))) {
             result.setText(getString(R.string.tailsString));
-        }
-        else {
+        } else {
             result.setText(getString(R.string.headsString));
         }
 
