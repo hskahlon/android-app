@@ -146,10 +146,10 @@ public class RecordActivity extends AppCompatActivity {
             if (childList != null && choices != null && dateTimes != null && resultImages != null) {
                 for (int i = 0; i < childList.size(); i++) {
                     if (childList.get(i).equals(currentChild)) {
-                        filteredChildNames.add(0, currentChild);
-                        filteredChoices.add(0, choices.get(i));
-                        filteredDateTimes.add(0, dateTimes.get(i));
-                        filteredResultImages.add(0, resultImages.get(i));
+                        filteredChildNames.add(currentChild);
+                        filteredChoices.add(choices.get(i));
+                        filteredDateTimes.add(dateTimes.get(i));
+                        filteredResultImages.add(resultImages.get(i));
                     }
                 }
 
