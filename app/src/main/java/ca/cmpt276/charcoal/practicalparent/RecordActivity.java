@@ -21,6 +21,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.cmpt276.charcoal.practicalparent.model.Child;
 import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
 import ca.cmpt276.charcoal.practicalparent.model.Record;
 
@@ -129,19 +130,20 @@ public class RecordActivity extends AppCompatActivity {
     private void showCurrentRecord() {
         int currentIndex = CoinFlipActivity.getCurrentIndex(this);
 
-            List<String> childList = RecordsConfig.readNameFromPref(this);
-            List<String> choices = RecordsConfig.readChoiceFromPref(this);
-            List<String> dateTimes = RecordsConfig.readDateFromPref(this);
-            List<Integer> resultImages = RecordsConfig.readImageFromPref(this);
+        List<String> childList = RecordsConfig.readNameFromPref(this);
+        List<String> choices = RecordsConfig.readChoiceFromPref(this);
+        List<String> dateTimes = RecordsConfig.readDateFromPref(this);
+        List<Integer> resultImages = RecordsConfig.readImageFromPref(this);
 
-            ArrayList<String> filteredChildNames = new ArrayList<>();
-            ArrayList<String> filteredChoices = new ArrayList<>();
-            ArrayList<String> filteredDateTimes = new ArrayList<>();
-            ArrayList<Integer> filteredResultImages = new ArrayList<>();
+        ArrayList<String> filteredChildNames = new ArrayList<>();
+        ArrayList<String> filteredChoices = new ArrayList<>();
+        ArrayList<String> filteredDateTimes = new ArrayList<>();
+        ArrayList<Integer> filteredResultImages = new ArrayList<>();
 
-            ChildManager childrenManager = ChildManager.getInstance();
+        ChildManager childrenManager = ChildManager.getInstance();
+
+        if (childrenManager.getChildren().size() > 0) {
             String currentChild = childrenManager.getChild(currentIndex).getName();
-
 
             if (childList != null && choices != null && dateTimes != null && resultImages != null) {
                 for (int i = 0; i < childList.size(); i++) {
@@ -154,13 +156,9 @@ public class RecordActivity extends AppCompatActivity {
                 }
 
                 ListView listView = findViewById(R.id.recordListView);
-                // create adapter class
                 MyAdapter adapter = new MyAdapter(this, filteredChildNames, filteredChoices, filteredResultImages, filteredDateTimes);
                 listView.setAdapter(adapter);
-
-
-
             }
-
+        }
     }
 }
