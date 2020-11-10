@@ -1,8 +1,8 @@
 <resources>
     <!--        Strings for CoinFlipActivity        -->
     <string name="app_name">Practical Parent</string>
-    <string name="main_label"></string>
-    <string name="coinFlip_label"></string>
+    <string name="main_label">Kiddie Carpe Diem</string>
+    <string name="coinFlip_label"> </string>
     <string name="flipcoins">flipCoins</string>
     <string name="flipBtnText">FLIP</string>
     <string name="title_activity_children">Your Children</string>
