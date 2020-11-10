@@ -72,12 +72,7 @@ public class EditChildActivity extends AppCompatActivity {
 
     private void setupSaveButton() {
         Button saveBtn = findViewById(R.id.editChildSave_btn);
-        saveBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveChild();
-            }
-        });
+        saveBtn.setOnClickListener(v -> saveChild());
     }
 
     private void saveChild() {
@@ -99,8 +94,14 @@ public class EditChildActivity extends AppCompatActivity {
             nameBox.setError(getString(R.string.editChildNameError));
             return false;
         } else {
-            return true;
+            for (Child child : manager.getChildren()) {
+                if (childName.equals(child.getName())) {
+                    nameBox.setError("Children names must be unique");
+                    return false;
+                }
+            }
         }
+        return true;
     }
 
     @Override
