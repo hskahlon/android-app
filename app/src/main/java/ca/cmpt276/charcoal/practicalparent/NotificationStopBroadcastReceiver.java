@@ -12,6 +12,9 @@ import androidx.core.app.NotificationManagerCompat;
 
 import ca.cmpt276.charcoal.practicalparent.model.AlarmInfo;
 
+/**
+ *  Allows notifications to persist for TimeOut Activity
+ */
 public class NotificationStopBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {

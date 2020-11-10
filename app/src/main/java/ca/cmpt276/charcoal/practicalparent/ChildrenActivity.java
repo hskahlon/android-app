@@ -20,6 +20,9 @@ import java.util.List;
 import ca.cmpt276.charcoal.practicalparent.model.Child;
 import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
 
+/**
+ *  Creates Children activity list view, and allows for registering clicks
+ */
 public class ChildrenActivity extends AppCompatActivity {
     private ArrayAdapter<Child> adapter;
 

@@ -6,6 +6,9 @@ import java.util.List;
 
 import ca.cmpt276.charcoal.practicalparent.R;
 
+/**
+ *  Records class allows for storage of user, dates, and information required for records activity
+ */
 public class Record {
 
     private List<String> users= new ArrayList<>();

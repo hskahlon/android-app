@@ -2,6 +2,9 @@ package ca.cmpt276.charcoal.practicalparent.model;
 
 import androidx.annotation.NonNull;
 
+/**
+ *  Child activity allows for setting and getting information for child class
+ */
 public class Child {
     private String name;
 

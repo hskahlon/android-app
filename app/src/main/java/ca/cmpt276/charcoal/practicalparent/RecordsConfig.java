@@ -11,6 +11,10 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Stores data for records activity and allows read/write access in Shared Preferences
+ */
+
 public class RecordsConfig {
     private static final String NAME_KEY = "list_key1";
     private static final String RESULT_KEY = "list_key2";

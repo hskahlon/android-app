@@ -27,7 +27,9 @@ import ca.cmpt276.charcoal.practicalparent.model.Child;
 import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
 import ca.cmpt276.charcoal.practicalparent.model.Record;
 
-
+/**
+ *  Sets up coin flip activity and allows for saving and recalling current child to flip
+ */
 public class CoinFlipActivity extends AppCompatActivity implements View.OnClickListener{
     private static final String PREFS_NAME = "CoinFlipData";
     private static final String USER_INDEX = "CurrentUser";

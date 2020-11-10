@@ -15,6 +15,9 @@ import ca.cmpt276.charcoal.practicalparent.model.Child;
 import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
 import ca.cmpt276.charcoal.practicalparent.model.Record;
 
+/**
+ *  Setups Main Activity and allows for access to all other activities
+ */
 public class MainActivity extends AppCompatActivity {
 
     @Override

@@ -25,6 +25,9 @@ import java.util.List;
 import ca.cmpt276.charcoal.practicalparent.model.Child;
 import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
 
+/**
+ *  Sets-up edit child actiivty and allows for saving and editing children.
+ */
 public class EditChildActivity extends AppCompatActivity {
     private static final String PREFS_NAME = "SavedData";
     private static final String CHILDREN_PREFS = "My children";

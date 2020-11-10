@@ -22,6 +22,9 @@ import java.util.List;
 import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
 import ca.cmpt276.charcoal.practicalparent.model.Record;
 
+/**
+ *  Sets up Record Activity, and Associated buttons for the activity
+ */
 public class RecordActivity extends AppCompatActivity {
     private Button currentRecords;
     private Button priorRecords;

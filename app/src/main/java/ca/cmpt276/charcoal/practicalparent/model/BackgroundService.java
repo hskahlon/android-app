@@ -24,6 +24,9 @@ import ca.cmpt276.charcoal.practicalparent.NotificationStopBroadcastReceiver;
 import ca.cmpt276.charcoal.practicalparent.R;
 import ca.cmpt276.charcoal.practicalparent.TimeOutActivity;
 
+/**
+ *  Background service for timer activity allows timer to continue in background
+ */
 public class BackgroundService extends Service {
 //reference: https://www.youtube.com/watch?v=BbXuumYactY
 

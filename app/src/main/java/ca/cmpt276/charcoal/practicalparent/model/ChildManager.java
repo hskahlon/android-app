@@ -3,6 +3,9 @@ package ca.cmpt276.charcoal.practicalparent.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *  Child manager activity stores information required for child
+ */
 public class ChildManager {
     List<Child> children = new ArrayList<>();
 
