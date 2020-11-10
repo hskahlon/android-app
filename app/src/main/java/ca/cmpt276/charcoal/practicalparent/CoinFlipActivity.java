@@ -74,12 +74,9 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public void chooseUser() {
-
-
         currentIndex = getCurrentIndex(this);
 
-        if (childrenExist())
-        {
+        if (childrenExist()) {
             heads.setVisibility(View.VISIBLE);
             tails.setVisibility(View.VISIBLE);
 
@@ -90,20 +87,17 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
             currentUser = children.get(currentIndex).getName();
 
             setUserText();
-
         } else {
             heads.setVisibility(View.INVISIBLE);
             tails.setVisibility(View.INVISIBLE);
         }
-
-
     }
 
     public static int getCurrentIndex(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         return prefs.getInt(USER_INDEX, 0);
-
     }
+
     private void setCurrentIndex(int i) {
         SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
@@ -118,25 +112,20 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
         editor.putInt(USER_INDEX,i);
         editor.apply();
     }
+
     private void setUserText() {
-        if (childrenExist())
-        {
+        if (childrenExist()) {
             // set the textview for current User
             TextView current = findViewById(R.id.userToChoose_TextView);
             current.setText(currentUser+getString(R.string.chooses));
-
         }
     }
 
 
     private boolean childrenExist() {
-
         ChildManager manager = ChildManager.getInstance();
-
         List<Child> children = manager.getChildren();
-
-        if (children.size()!=0)
-        {
+        if (children.size()!=0) {
             return true;
         }
         return false;
@@ -147,28 +136,24 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.selectHeads:
                 userDecision = getString(R.string.userChooseHeads);
-                updateHeadTailSelectorButtons(userDecision);
+                updateHeadTailSelectorButtons();
                 break;
             case R.id.priorRecordsBtn:
                 userDecision = getString(R.string.userChooseTails);
-                updateHeadTailSelectorButtons(userDecision);
+                updateHeadTailSelectorButtons();
                 break;
         }
     }
 
-    private void updateHeadTailSelectorButtons(String flag) {
+    private void updateHeadTailSelectorButtons() {
         heads = findViewById(R.id.selectHeads);
         tails = findViewById(R.id.priorRecordsBtn);
         if (userDecision.equals(getString(R.string.userChooseHeads))) {
-
             heads.setBackgroundColor(getColor(R.color.selectedHeadTail));
             tails.setBackgroundColor(getColor(R.color.unselectedHeadTail));
-            Toast.makeText(this, "Heads selected", Toast.LENGTH_SHORT).show();
         } else if (userDecision.equals(getString(R.string.userChooseTails))) {
-
             heads.setBackgroundColor(getColor(R.color.unselectedHeadTail));
             tails.setBackgroundColor(getColor(R.color.selectedHeadTail));
-            Toast.makeText(this, "Tails selected", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -193,9 +178,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     protected void onResume() {
-
         super.onResume();
-
     }
 
     private void flipCoin(int randomChoice) {
@@ -203,108 +186,83 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
         final View currentCoin = coin;
 
         // Rotates by 1800 degrees -> changes view at last flip
-            currentCoin.animate().withLayer()
-                    .rotationYBy(YROTATE)
-                    .setDuration(DURATION)
-                    .scaleXBy(SCALEX)
-                    .scaleYBy(SCALEY)
-                    .withEndAction(
-                            () -> {
-                                if (randomChoice == 0) {
-                                    coin.setImageResource(R.drawable.ic_tails);
-                                } else {
-                                    coin.setImageResource(R.drawable.ic_heads);
-                                }
-
-                                //second quarter turn
-                                currentCoin.setRotationY(-YROTATE);
-                                currentCoin.animate().withLayer()
-                                        .rotationY(0)
-                                        .scaleXBy(-SCALEY)
-                                        .scaleYBy(-SCALEY)
-                                        .setDuration(DURATION)
-                                        .start();
+        currentCoin.animate().withLayer()
+                .rotationYBy(YROTATE)
+                .setDuration(DURATION)
+                .scaleXBy(SCALEX)
+                .scaleYBy(SCALEY)
+                .withEndAction(
+                        () -> {
+                            if (randomChoice == 0) {
+                                coin.setImageResource(R.drawable.ic_tails);
+                            } else {
+                                coin.setImageResource(R.drawable.ic_heads);
                             }
-                    ).start();
+
+                            //second quarter turn
+                            currentCoin.setRotationY(-YROTATE);
+                            currentCoin.animate().withLayer()
+                                    .rotationY(0)
+                                    .scaleXBy(-SCALEY)
+                                    .scaleYBy(-SCALEY)
+                                    .setDuration(DURATION)
+                                    .start();
+                        }
+                ).start();
             new Handler().postDelayed(() -> {
                 TextView result = findViewById(R.id.coinFlipResultText);
 
                 // set the user who is choosing as last user for next turn
                 setCurrentIndex(currentIndex+1);
                 chooseUser();
-
                 resetButtons();
 
                 if (randomChoice == TAILS) {
-
-                    if (userDecision == null)
-                    {
-                        result.setText(getString(R.string.tailsString));
-
-                    }
-                    else if (userDecision.equals(getString(R.string.userChooseTails)))
-                    {
+                    if (userDecision == null) {
+                        setResultText(getString(R.string.tailsString), null);
+                    } else if (userDecision.equals(getString(R.string.userChooseTails))) {
                         setResultText(getString(R.string.tailsString),getString(R.string.tailsString));
-                    } else if (userDecision.equals(getString(R.string.userChooseHeads)))
-                    {
+                    } else if (userDecision.equals(getString(R.string.userChooseHeads))) {
                         setResultText(getString(R.string.tailsString),getString(R.string.headsString));
                     }
-
                 } else if (randomChoice == HEADS){
-
-                    if (userDecision == null)
-                    {
-                        result.setText(getString(R.string.headsString));
-                    }
-                    else if (userDecision.equals(getString(R.string.userChooseHeads)))
-                    {
-
+                    if (userDecision == null) {
+                        setResultText(getString(R.string.headsString), null);
+                    } else if (userDecision.equals(getString(R.string.userChooseHeads))) {
                         setResultText(getString(R.string.headsString),getString(R.string.headsString));
-                    } else if (userDecision.equals(getString(R.string.userChooseTails)))
-                    {
+                    } else if (userDecision.equals(getString(R.string.userChooseTails))) {
                         setResultText(getString(R.string.headsString),getString(R.string.tailsString));
                     }
-
                 }
-
+                userDecision = null;
             }, DURATION*2);
-
-
     }
 
     private void resetButtons() {
-
         heads.setBackgroundColor(getColor(R.color.unselectedHeadTail));
         tails.setBackgroundColor(getColor(R.color.unselectedHeadTail));
     }
 
-
     private void setResultText(String outcome, String choice) {
         TextView result = findViewById(R.id.coinFlipResultText);
-        if (outcome.equals(getString(R.string.tailsString)))
-        {
+        if (outcome.equals(getString(R.string.tailsString))) {
             result.setText(getString(R.string.tailsString));
-        }
-        else
-        {
+        } else {
             result.setText(getString(R.string.headsString));
         }
 
         TextView showWinOrLoss = findViewById(R.id.resultWinOrLoss);
-        if (outcome.equals(choice))
-        {
+        if (choice == null) {
+            showWinOrLoss.setText(R.string.noResult);
+        } else if (outcome.equals(choice)) {
             addRecord(true,choice);
             showWinOrLoss.setText(getString(R.string.winnerResult));
             showWinOrLoss.setTextColor(getColor(R.color.correct_green));
-        }
-        else
-        {
-
+        } else {
             addRecord(false,choice);
             showWinOrLoss.setText(getString(R.string.loserResult));
             showWinOrLoss.setTextColor(getColor(R.color.incorrect_red));
         }
-
     }
 
     private void playSound() {
@@ -313,9 +271,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void addRecord(boolean b, String Choice) {
-
-        if (!currentUser.equals(""))
-        {
+        if (!currentUser.equals("")) {
             manager.addChoice(Choice);
             manager.addUser(currentUser);
             Date currentTime = Calendar.getInstance().getTime();
@@ -325,11 +281,9 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
             manager.addResult(b);
             saveRecord();
         }
-
     }
 
     private void saveRecord() {
-
         List<String> users = manager.getUsers();
         List<String> choices = manager.getChoices();
         List<String> dateTimes = manager.getDateTimes();
@@ -341,6 +295,4 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
         RecordsConfig.writeChoiceInPref(getApplicationContext(),choices);
 
     }
-
-
 }
