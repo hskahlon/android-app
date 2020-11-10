@@ -59,6 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginRight="1dp"
         android:text="@string/headsText"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/guidelineHeadsTails"
@@ -69,6 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginLeft="1dp"
         android:text="@string/tailsText"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/guidelineHeadsTails"
@@ -124,22 +126,23 @@
         android:id="@+id/userToChoose_TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:fontFamily="sans-serif-light"
         android:text="@string/userToChoose_String"
         android:textAlignment="center"
+
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-
+        app:layout_constraintBottom_toTopOf="@+id/guideline13"
         app:layout_constraintEnd_toStartOf="@+id/rightCentringGuideline"
         app:layout_constraintStart_toStartOf="@+id/leftCentringGuideline"
-        app:layout_constraintTop_toBottomOf="@+id/flipBtn" />
+        app:layout_constraintTop_toBottomOf="@id/flipBtn" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.74" />
+        app:layout_constraintGuide_percent="1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
