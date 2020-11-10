@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -27,7 +26,9 @@ import ca.cmpt276.charcoal.practicalparent.model.Child;
 import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
 import ca.cmpt276.charcoal.practicalparent.model.Record;
 
-
+/**
+ *  Sets up coin flip activity and allows for saving and recalling current child to flip
+ */
 public class CoinFlipActivity extends AppCompatActivity implements View.OnClickListener{
     public static final String PREFS_NAME = "CoinFlipData";
     public static final String USER_INDEX = "CurrentUser";
@@ -80,7 +81,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
             heads.setVisibility(View.VISIBLE);
             tails.setVisibility(View.VISIBLE);
 
-            // get the list of users
+            // Get the list of users
             ChildManager manager = ChildManager.getInstance();
             List<Child> children = manager.getChildren();
 
@@ -115,12 +116,11 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
     private void setUserText() {
         if (childrenExist()) {
-            // set the textview for current User
+            // Set the textview for current User
             TextView current = findViewById(R.id.userToChoose_TextView);
             current.setText(currentUser+getString(R.string.chooses));
         }
     }
-
 
     private boolean childrenExist() {
         ChildManager manager = ChildManager.getInstance();
@@ -194,7 +194,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
                                 coin.setImageResource(R.drawable.ic_heads);
                             }
 
-                            //second quarter turn
+                            // Second quarter turn
                             currentCoin.setRotationY(-YROTATE);
                             currentCoin.animate().withLayer()
                                     .rotationY(0)
@@ -286,6 +286,5 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
         RecordsConfig.writeImageInPref(getApplicationContext(), img);
         RecordsConfig.writeNameInPref(getApplicationContext(),users);
         RecordsConfig.writeChoiceInPref(getApplicationContext(),choices);
-
     }
 }

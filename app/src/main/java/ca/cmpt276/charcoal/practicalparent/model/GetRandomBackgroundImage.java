@@ -4,6 +4,9 @@ import java.util.Random;
 
 import ca.cmpt276.charcoal.practicalparent.R;
 
+/**
+ *  Gets a random background image for timer activity
+ */
 public class GetRandomBackgroundImage {
     private final static int[] idArr = new int[] {
             R.drawable.timer_wallpaper1,

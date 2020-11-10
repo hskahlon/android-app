@@ -21,16 +21,18 @@ import java.util.List;
 
 import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
 
+/**
+ *  Sets up Record Activity, and Associated buttons for the activity
+ */
 public class RecordActivity extends AppCompatActivity {
     private Button currentRecords;
     private Button priorRecords;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
-        setUpIntialButton();
+        setUpInitialButton();
         setUpRecordSelectorButtons();
 
         setUpListView();
@@ -43,18 +45,16 @@ public class RecordActivity extends AppCompatActivity {
         List<Integer> resultImages = RecordsConfig.readImageFromPref(this);
 
         ListView listView;
-
-        if (childList != null && choices != null && dateTimes != null && resultImages != null )
-        {
+        if (childList != null && choices != null && dateTimes != null && resultImages != null ) {
             listView = findViewById(R.id.recordListView);
-            // create adapter class
-            MyAdapter adapter = new MyAdapter(this, (ArrayList<String>) childList, (ArrayList<String>) choices,(ArrayList<Integer>) resultImages, (ArrayList<String>) dateTimes);
+            // Create adapter class
+            MyAdapter adapter = new MyAdapter(this, (ArrayList<String>) childList,
+                    (ArrayList<String>) choices,(ArrayList<Integer>) resultImages, (ArrayList<String>) dateTimes);
             listView.setAdapter(adapter);
         }
     }
-    class MyAdapter extends ArrayAdapter<String>
-    {
 
+    class MyAdapter extends ArrayAdapter<String> {
         Context context;
         ArrayList<String> rName;
         ArrayList<String> rResults;
@@ -68,9 +68,7 @@ public class RecordActivity extends AppCompatActivity {
             this.rResults = results;
             this.rImgs = imgs;
             this.rDateTime = rDateTime;
-
         }
-
 
         @NonNull
         @Override
@@ -82,7 +80,7 @@ public class RecordActivity extends AppCompatActivity {
             TextView flipResult = row.findViewById(R.id.flipResult_TextView);
             TextView date = row.findViewById(R.id.dateTimeFlip_TextView);
 
-            // now set our resources on views
+            // Now set our resources on views
             images.setImageResource(rImgs.get(position));
             whoPicked.setText(rName.get(position));
             flipResult.setText(rResults.get(position));
@@ -91,18 +89,18 @@ public class RecordActivity extends AppCompatActivity {
             return row;
         }
     }
-    private void setUpIntialButton() {
+
+    private void setUpInitialButton() {
         currentRecords = findViewById(R.id.currentRecordBtn);
         currentRecords.setBackgroundColor(getColor(R.color.unSelectedRecord));
         priorRecords = findViewById(R.id.priorRecordsBtn);
         priorRecords.setBackgroundColor(getColor(R.color.selectedRecord));
-
     }
-
 
     public static Intent makeLaunchIntent(Context context) {
         return new Intent(context, RecordActivity.class);
     }
+
     private void setUpRecordSelectorButtons() {
         currentRecords = findViewById(R.id.currentRecordBtn);
         priorRecords = findViewById(R.id.priorRecordsBtn);
@@ -116,7 +114,6 @@ public class RecordActivity extends AppCompatActivity {
             priorRecords.setBackgroundColor(getColor(R.color.selectedRecord));
             currentRecords.setBackgroundColor(getColor(R.color.unSelectedRecord));
         });
-
     }
 
     private void showCurrentChildRecords() {
