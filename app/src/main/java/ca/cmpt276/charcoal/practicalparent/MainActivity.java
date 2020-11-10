@@ -59,9 +59,7 @@ public class MainActivity extends AppCompatActivity {
             recManager.setDateTimes(date);
             recManager.setChoices(choice);
             recManager.setImages(img);
-
         }
-
     }
 
     private void setupTimeOutActivityBtn() {
