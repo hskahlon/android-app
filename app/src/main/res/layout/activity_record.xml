@@ -11,7 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/recordBtnLayout"
         android:layout_width="match_parent"
-        android:layout_height="51dp"
+        android:layout_height="55dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,9 +62,7 @@
     <ListView
         android:id="@+id/recordListView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-    </ListView>
+        android:layout_height="wrap_content"></ListView>
 
     <ListView
 

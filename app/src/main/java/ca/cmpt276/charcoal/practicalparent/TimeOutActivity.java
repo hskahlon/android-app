@@ -29,7 +29,9 @@ import ca.cmpt276.charcoal.practicalparent.model.BackgroundService;
 import ca.cmpt276.charcoal.practicalparent.model.GetRandomBackgroundImage;
 import ca.cmpt276.charcoal.practicalparent.model.PresetTimeCustomSpinner;
 
-
+/**
+ *  Sets up TimeOut activity and timer
+ */
 public class TimeOutActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     String TAG = "TimeOut";
     private long startTimeInMillis;

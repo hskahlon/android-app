@@ -9,13 +9,14 @@
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="@string/main_label"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PracticalParent">
 
         <activity
             android:name=".CoinFlipActivity"
+            android:label="@string/coinFlip_label"
             android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity">
         </activity>

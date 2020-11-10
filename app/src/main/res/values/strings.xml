@@ -1,6 +1,8 @@
 <resources>
     <!--        Strings for CoinFlipActivity        -->
     <string name="app_name">Practical Parent</string>
+    <string name="main_label"></string>
+    <string name="coinFlip_label"></string>
     <string name="flipcoins">flipCoins</string>
     <string name="flipBtnText">FLIP</string>
     <string name="title_activity_children">Your Children</string>
@@ -38,8 +40,8 @@
     <string name="editChildNameLabel_txt">Name:</string>
     <string name="editChildNameError">Name length must be greater than 0</string>
     <!--        Strings for RecordActivity       -->
-    <string name="current_record_String">Current Record</string>
-    <string name="prior_records_String">Prior Records</string>
+    <string name="current_record_String">Current Child Records</string>
+    <string name="prior_records_String">Total Records History</string>
     <!--        Strings for CoinFlipActivity       -->
     <string name="headsText">Heads</string>
     <string name="tailsText">Tails</string>

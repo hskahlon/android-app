@@ -9,7 +9,9 @@ import androidx.core.app.NotificationManagerCompat;
 
 import ca.cmpt276.charcoal.practicalparent.model.AlarmInfo;
 
-
+/**
+ *  Stops ringtone for TimeOut activity
+ */
 public class NotificationStopBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
