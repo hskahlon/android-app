@@ -32,6 +32,15 @@ public class MainActivity extends AppCompatActivity {
         createNotificationChannel();
         setupRecordActivityBtn();
         setupRecords();
+        setupHelpActivityBtn();
+    }
+
+    private void setupHelpActivityBtn() {
+        Button btn = findViewById(R.id.helpActivity);
+        btn.setOnClickListener(v -> {
+            Intent i = HelpActivity.makeLaunchIntent(MainActivity.this);
+            startActivity(i);
+        });
     }
 
     private void setupCoinActivityBtn() {

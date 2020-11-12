@@ -64,4 +64,13 @@
     <string name="set">Set</string>
     <string name="_00_00">00:00</string>
 
+    <!--        Strings for HelpActivity       -->
+    <string name="title_activity_help">Help</string>
+    <string name="kiddie_carpe_diem">Kiddie Carpe Diem</string>
+    <string name="your_daily_caretaker_managing_app_made_easy">Your daily caretaker managing app made easy</string>
+    <string name="timeout">Timeout</string>
+    <string name="records">Records</string>
+    <string name="children">Children</string>
+    <string name="help">Help</string>
+
 </resources>
