@@ -64,4 +64,21 @@
     <string name="set">Set</string>
     <string name="_00_00">00:00</string>
 
+    <!--        Strings for HelpActivity       -->
+    <string name="title_activity_help">Help</string>
+    <string name="kiddie_carpe_diem">Kiddie Carpe Diem</string>
+    <string name="your_daily_caretaker_managing_app_made_easy">Your daily caretaker managing app made easy</string>
+    <string name="timeout">Timeout</string>
+    <string name="records">Records</string>
+    <string name="children">Children</string>
+    <string name="help">Help</string>
+    <string name="created_by_charcoal">Created By: Charcoal</string>
+    <string name="developers_name">Developers: Bryan, Harjot, Hyeonyoung, Jason</string>
+    <string name="copyrights">Copyrights:</string>
+    <string name="timer_wallpaper1_link">timer_wallpaper1 - http://wallpaperswide.com/beach_29-wallpapers.html</string>
+    <string name="timer_wallpaper2_link">timer_wallpaper2 - http://wallpaperswide.com/pink_desert_blue_sky-wallpapers.html</string>
+    <string name="timer_wallpaper3_link">timer_wallpaper3 - http://wallpaperswide.com/beach_drone_photography-wallpapers.html</string>
+    <string name="timer_wallpaper4_link">timer_wallpaper4 -http://wallpaperswide.com/search.html?q=calm</string>
+    <string name="timer_wallpaper5_link">timer_wallpaper5 - http://wallpaperswide.com/seaside_4-wallpapers.html</string>
+
 </resources>
