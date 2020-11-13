@@ -15,6 +15,8 @@ import ca.cmpt276.charcoal.practicalparent.model.Child;
 import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
 import ca.cmpt276.charcoal.practicalparent.model.Record;
 import ca.cmpt276.charcoal.practicalparent.model.RecordsConfig;
+import ca.cmpt276.charcoal.practicalparent.model.Task;
+import ca.cmpt276.charcoal.practicalparent.model.TasksManager;
 
 /**
  *  Sets up Main Activity and buttons for starting activities
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setupChildrenActivityBtn();
         setupTimeOutActivityBtn();
         setupChildren();
+        setupTasks();
         createNotificationChannel();
         setupRecordActivityBtn();
         setupRecords();
@@ -39,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupTaskActivityBtn() {
         Button btn = findViewById(R.id.taskActivity);
         btn.setOnClickListener(v -> {
-            Intent i = TaskActivity.makeLaunchIntent(MainActivity.this);
+            Intent i = TasksActivity.makeLaunchIntent(MainActivity.this);
             startActivity(i);
         });
     }
@@ -65,6 +68,14 @@ public class MainActivity extends AppCompatActivity {
         if (children != null) {
             ChildManager manager = ChildManager.getInstance();
             manager.setChildren(children);
+        }
+    }
+
+    private void setupTasks() {
+        List<Task> tasks = EditTaskActivity.getSavedTasks(this);
+        if (tasks != null) {
+            TasksManager manager = TasksManager.getInstance();
+            manager.setTasks(tasks);
         }
     }
 
