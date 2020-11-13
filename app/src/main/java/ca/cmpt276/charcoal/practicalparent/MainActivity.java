@@ -33,6 +33,15 @@ public class MainActivity extends AppCompatActivity {
         setupRecordActivityBtn();
         setupRecords();
         setupHelpActivityBtn();
+        setupTaskActivityBtn();
+    }
+
+    private void setupTaskActivityBtn() {
+        Button btn = findViewById(R.id.taskActivity);
+        btn.setOnClickListener(v -> {
+            Intent i = TaskActivity.makeLaunchIntent(MainActivity.this);
+            startActivity(i);
+        });
     }
 
     private void setupHelpActivityBtn() {
