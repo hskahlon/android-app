@@ -35,6 +35,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     public static final String USER_INDEX = "CurrentUser";
     public static final int TAILS = 0;
     public static final int HEADS = 1;
+    private Button changeChild;
     private Button flipBtn;
     private Button heads;
     private Button tails;
@@ -53,7 +54,10 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip);
 
+        setupChangeChildButton();
         setupCoinButton();
+
+
 
         coin = findViewById(R.id.coinImageView);
 
@@ -73,6 +77,14 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
         // Choose user if users are entered
         chooseUser();
+    }
+
+    private void setupChangeChildButton() {
+        changeChild = findViewById(R.id.changeChild_Btn);
+        changeChild.setOnClickListener(v -> {
+            Intent i = ChooseChildActivity.makeLaunchIntent(CoinFlipActivity.this);
+            startActivity(i);
+        });
     }
 
     public void chooseUser() {
