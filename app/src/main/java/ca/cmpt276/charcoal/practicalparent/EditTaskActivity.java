@@ -34,7 +34,7 @@ import ca.cmpt276.charcoal.practicalparent.model.TasksManager;
  */
 public class EditTaskActivity extends AppCompatActivity {
     private static String TAG = "EditTaskActivity";
-    private static final String PREFS_NAME = "SavedTasksData";
+    private static final String PREFS_NAME = "SavedData";
     private static final String TASKS_PREF = "Tasks";
     public static final String EXTRA_TASK_INDEX = "ca.cmpt276.charcoal.practicalparent - taskIndex";
     private int taskIndex;
@@ -84,7 +84,7 @@ public class EditTaskActivity extends AppCompatActivity {
                     return;
                 }
                 if(childManager.getChildren().size() <= 0 ){
-                    Toast.makeText(EditTaskActivity.this,"No Child Configured ",Toast.LENGTH_SHORT)
+                    Toast.makeText(EditTaskActivity.this,"No Child Added ",Toast.LENGTH_SHORT)
                             .show();
                 }
                 else{
@@ -92,7 +92,7 @@ public class EditTaskActivity extends AppCompatActivity {
                     Task currentTask = taskManager.getTask(taskIndex);
                     int nextChildIdx = currentTask.getChildIdx();
                     Child nextChild = childManager.getChild(nextChildIdx);
-                    childNameBox.setText("" + nextChild.getName());
+                    childNameBox.setText(String.format("%s", nextChild.getName()));
 
                     saveTasksInSharedPrefs();
                     finish();
@@ -106,11 +106,11 @@ public class EditTaskActivity extends AppCompatActivity {
             Task currentTask = taskManager.getTask(taskIndex);
             taskNameBox.setText(currentTask.getTaskName());
             if( childManager.getChildren().size() <= 0){
-                childNameBox.setText("No Child Added");
+                childNameBox.setText(R.string.no_child_added);
             }
             else{
                 Child currentChild = childManager.getChild(currentTask.getChildIdx());
-                childNameBox.setText(""+ currentChild.getName());
+                childNameBox.setText(String.format("%s", currentChild.getName()));
             }
         }
     }

@@ -40,7 +40,7 @@ public class Task {
     public String toString() {
         ChildManager manager = ChildManager.getInstance();
         if(manager.getChildren().size() <= 0 ){
-            return ("Task: " + taskName + "  Name: No Childern Configured" );
+            return ("Task: " + taskName + "  Name: No Childern Added" );
         }
         else{
             return ("Task: " + taskName + "  Name: " + manager.getChild(childIdx).getName());

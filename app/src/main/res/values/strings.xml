@@ -85,4 +85,9 @@
     <string name="name_of_the_task">Name of the Task</string>
     <string name="title_activity_tasks">Tasks</string>
     <string name="title_activity_edit_task">Edit Task</string>
+    <string name="no_child_added">No Child Added</string>
+    <string name="content_edit_task_save_btn_txt">save</string>
+    <string name="content_edit_task_label_txt">Task:</string>
+    <string name="content_edit_task_name_label_txt">Name:</string>
+    <string name="content_edit_task_confirm_btn_txt">Task Finished</string>
 </resources>
