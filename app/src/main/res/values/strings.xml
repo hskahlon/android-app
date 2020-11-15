@@ -23,6 +23,13 @@
     </string-array>
 
     <!--        Strings for MainActivity            -->
+    <string name="title_activity_help">Help</string>
+    <string name="kiddie_carpe_diem">Kiddie Carpe Diem</string>
+    <string name="your_daily_caretaker_managing_app_made_easy">Your daily caretaker managing app made easy</string>
+    <string name="timeout">Timeout</string>
+    <string name="records">Records</string>
+    <string name="children">Children</string>
+    <string name="help">Help</string>
     <string name="notification_channel">Timer Alert</string>
     <string name="channel_description">Sends a notification when the timeout timer has expired</string>
 
@@ -65,13 +72,6 @@
     <string name="_00_00">00:00</string>
 
     <!--        Strings for HelpActivity       -->
-    <string name="title_activity_help">Help</string>
-    <string name="kiddie_carpe_diem">Kiddie Carpe Diem</string>
-    <string name="your_daily_caretaker_managing_app_made_easy">Your daily caretaker managing app made easy</string>
-    <string name="timeout">Timeout</string>
-    <string name="records">Records</string>
-    <string name="children">Children</string>
-    <string name="help">Help</string>
     <string name="created_by_charcoal">Created By: Charcoal</string>
     <string name="developers_name">Developers: Bryan, Harjot, Hyeonyoung, Jason</string>
     <string name="copyrights">Copyrights:</string>
@@ -81,4 +81,13 @@
     <string name="timer_wallpaper4_link">timer_wallpaper4 -http://wallpaperswide.com/search.html?q=calm</string>
     <string name="timer_wallpaper5_link">timer_wallpaper5 - http://wallpaperswide.com/seaside_4-wallpapers.html</string>
 
+    <!--        Strings for EditTaskActivity       -->
+    <string name="name_of_the_task">Name of the Task</string>
+    <string name="title_activity_tasks">Tasks</string>
+    <string name="title_activity_edit_task">Edit Task</string>
+    <string name="no_child_added">No Child Added</string>
+    <string name="content_edit_task_save_btn_txt">save</string>
+    <string name="content_edit_task_label_txt">Task:</string>
+    <string name="content_edit_task_name_label_txt">Name:</string>
+    <string name="content_edit_task_confirm_btn_txt">Task Finished</string>
 </resources>

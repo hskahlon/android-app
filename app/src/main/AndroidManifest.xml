@@ -14,24 +14,37 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PracticalParent">
         <activity
+            android:name=".TasksActivity"
+            android:label="@string/title_activity_tasks"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.PracticalParent.NoActionBar"/>
+        <activity
+            android:name=".EditTaskActivity"
+            android:label="@string/title_activity_edit_task"
+            android:parentActivityName=".TasksActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.PracticalParent.NoActionBar" />
+        <activity
             android:name=".HelpActivity"
             android:label="@string/title_activity_help"
-            android:screenOrientation="portrait"></activity>
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".CoinFlipActivity"
             android:label="@string/coinFlip_label"
             android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".EditChildActivity"
             android:label="@string/title_activity_edit_child"
             android:parentActivityName=".ChildrenActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.PracticalParent.NoActionBar"></activity>
+            android:theme="@style/Theme.PracticalParent.NoActionBar" />
         <activity
             android:name=".RecordActivity"
             android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
 
         <service android:name=".model.BackgroundService" />
 
@@ -40,12 +53,12 @@
             android:label="@string/title_activity_children"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.PracticalParent.NoActionBar"></activity>
+            android:theme="@style/Theme.PracticalParent.NoActionBar" />
         <activity
             android:name=".TimeOutActivity"
             android:launchMode="singleTop"
             android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
 
         <receiver android:name=".model.NotificationStopBroadcastReceiver" />
 
