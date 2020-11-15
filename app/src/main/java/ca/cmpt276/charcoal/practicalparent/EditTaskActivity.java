@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,15 +21,11 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
+import ca.cmpt276.charcoal.practicalparent.model.Child;
+import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
 import ca.cmpt276.charcoal.practicalparent.model.Task;
 import ca.cmpt276.charcoal.practicalparent.model.TasksManager;
 
@@ -38,10 +36,12 @@ public class EditTaskActivity extends AppCompatActivity {
     private static String TAG = "EditTaskActivity";
     private static final String PREFS_NAME = "SavedTasksData";
     private static final String TASKS_PREF = "Tasks";
-    public static final String EXTRA_TASK_INDEX = "ca.cmpt276.charcoal.practicalparent - childIndex";
+    public static final String EXTRA_TASK_INDEX = "ca.cmpt276.charcoal.practicalparent - taskIndex";
     private int taskIndex;
-    private EditText nameBox;
-    private final TasksManager manager = TasksManager.getInstance();
+    private TextView childNameBox;
+    private EditText taskNameBox;
+    private final ChildManager childManager = ChildManager.getInstance();
+    private final TasksManager taskManager = TasksManager.getInstance();
 
     public static Intent makeLaunchIntent(Context context, int childIndex) {
         Intent intent = new Intent(context, EditTaskActivity.class);
@@ -65,15 +65,53 @@ public class EditTaskActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
 
         setupSaveButton();
-        nameBox = findViewById(R.id.taskNameTextBox);
+        taskNameBox = findViewById(R.id.taskNameTextBox);
+        childNameBox = findViewById(R.id.childNameText);
         extractIntentData();
         preFillNameBox();
+
+        setupConfirmButton();
+    }
+
+    private void setupConfirmButton() {
+        Button confirmButton = findViewById(R.id.taskFinishedButton);
+        confirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(taskIndex < 0){
+                    Toast.makeText(EditTaskActivity.this, "You can only confirm when editing Task",Toast.LENGTH_SHORT)
+                            .show();
+                    return;
+                }
+                if(childManager.getChildren().size() <= 0 ){
+                    Toast.makeText(EditTaskActivity.this,"No Child Configured ",Toast.LENGTH_SHORT)
+                            .show();
+                }
+                else{
+                    taskManager.reassignChildIdx(taskIndex);
+                    Task currentTask = taskManager.getTask(taskIndex);
+                    int nextChildIdx = currentTask.getChildIdx();
+                    Child nextChild = childManager.getChild(nextChildIdx);
+                    childNameBox.setText("" + nextChild.getName());
+
+                    saveTasksInSharedPrefs();
+                    finish();
+                }
+            }
+        });
     }
 
     private void preFillNameBox() {
         if (taskIndex >= 0) {
-            Task currentTask = manager.getTaskIdx(taskIndex);
-            nameBox.setText(currentTask.getTaskName());
+            Task currentTask = taskManager.getTask(taskIndex);
+            taskNameBox.setText(currentTask.getTaskName());
+            if( childManager.getChildren().size() <= 0){
+                childNameBox.setText("No Child Added");
+            }
+            else{
+                Child currentChild = childManager.getChild(currentTask.getChildIdx());
+                childNameBox.setText(""+ currentChild.getName());
+            }
         }
     }
 
@@ -83,13 +121,13 @@ public class EditTaskActivity extends AppCompatActivity {
     }
 
     private void saveTaskInManager() {
-        String taskName = nameBox.getText().toString();
+        String taskName = taskNameBox.getText().toString();
         if (nameIsValid(taskName)) {
             if (taskIndex >= 0) {
-                Task currentTask = manager.getTaskIdx(taskIndex);
+                Task currentTask = taskManager.getTask(taskIndex);
                 currentTask.setTaskName(taskName);
             } else {
-                manager.add(new Task(taskName));
+                taskManager.add(new Task(taskName));
             }
             saveTasksInSharedPrefs();
             finish();
@@ -98,12 +136,12 @@ public class EditTaskActivity extends AppCompatActivity {
 
     private boolean nameIsValid(String taskName) {
         if (taskName.length() == 0) {
-            nameBox.setError(getString(R.string.editChildNameError));
+            taskNameBox.setError(getString(R.string.editChildNameError));
             return false;
         } else {
-            for (Task task : manager.getTasks()) {
+            for (Task task : taskManager.getTasks()) {
                 if (taskName.equals(task.getTaskName())) {
-                    nameBox.setError("Tasks names must be unique");
+                    taskNameBox.setError("Tasks names must be unique");
                     return false;
                 }
             }
@@ -121,7 +159,7 @@ public class EditTaskActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_delete) {
             if (taskIndex >= 0) {
-                manager.remove(taskIndex);
+                taskManager.remove(taskIndex);
                 saveTasksInSharedPrefs();
                 finish();
             } else {
@@ -136,20 +174,12 @@ public class EditTaskActivity extends AppCompatActivity {
         SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
-//        List<Task> tasks = manager.getTasks();
-//        Gson gson = new Gson();
-//        String json = gson.toJson(tasks);
-//        Log.i(TAG, json + "" );
-//
-//        editor.apply();
+        List<Task> tasks = taskManager.getTasks();
+        Gson gson = new Gson();
+        String json = gson.toJson(tasks);
+        Log.i(TAG, json + "" );
 
-        Set<String> set = new HashSet<String>();
-        for (int i = 0; i < manager.getArraySize(); i++) {
-            set.add(manager.getTaskIdx(i).getJSONObject().toString());
-        }
-                Log.i(TAG, set + "" );
-
-        editor.putStringSet(PREFS_NAME, set);
+        editor.putString(TASKS_PREF, json);
         editor.apply();
     }
 
@@ -157,35 +187,15 @@ public class EditTaskActivity extends AppCompatActivity {
     //   https://stackoverflow.com/questions/28107647/how-to-save-listobject-to-sharedpreferences/28107838
     public static List<Task> getSavedTasks(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-//        List<Task> tasks;
-//        String serializedTasks = prefs.getString(TASKS_PREF, null);
-//        Log.i(TAG , "seriallizedTasks: " + serializedTasks);
-//        if (serializedTasks != null) {
-//            Gson gson = new Gson();
-//            Type type = new TypeToken<List<Task>>(){}.getType();
-//            Log.i(TAG, "Type: " + type);
-//            tasks = gson.fromJson(serializedTasks, type);
-//            Log.i(TAG, "tasks after getting the data from sharedPref: " + tasks);
-//            return tasks;
-//        } else {
-//            return null;
-//        }
-        List<Task> tasks = new ArrayList<>();
-        Set<String> set = prefs.getStringSet(PREFS_NAME, null);
-        if (set != null) {
-            for (String s : set) {
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    String taskName = jsonObject.getString("taskName");
-                    String child = jsonObject.getString("child");
-                    Task task = new Task(taskName);
-
-                    tasks.add(task);
-                    Log.i(TAG, "tasks after getting the data from sharedPref: " + tasks);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
+        List<Task> tasks;
+        String serializedTasks = prefs.getString(TASKS_PREF, null);
+        Log.i(TAG , "seriallizedTasks: " + serializedTasks);
+        if (serializedTasks != null) {
+            Gson gson = new Gson();
+            Type type = new TypeToken<List<Task>>(){}.getType();
+            Log.i(TAG, "Type: " + type);
+            tasks = gson.fromJson(serializedTasks, type);
+            Log.i(TAG, "tasks after getting the data from sharedPref: " + tasks);
             return tasks;
         } else {
             return null;

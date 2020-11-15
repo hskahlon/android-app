@@ -1,11 +1,15 @@
 package ca.cmpt276.charcoal.practicalparent.model;
 
+import androidx.annotation.NonNull;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 public class Task {
     private String taskName;
-    private Child child;
+    private int childIdx = 0;
 
     public Task(String taskName) {
         this.taskName = taskName;
@@ -19,24 +23,29 @@ public class Task {
         this.taskName = taskName;
     }
 
-    public void setChild(Child child){
-        this.child = child;
+    public int getChildIdx() {
+        return childIdx;
     }
 
-    public Child getChild(){
-        return child;
+    public void setChildIdx(int childIdx) {
+        this.childIdx = childIdx;
     }
 
-    public JSONObject getJSONObject() {
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("taskName", this.taskName);
-            obj.put("Child", this.child);
-        } catch (JSONException e) {
-            e.printStackTrace();
+    public void decrementChildIdx(){
+        this.childIdx--;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        ChildManager manager = ChildManager.getInstance();
+        if(manager.getChildren().size() <= 0 ){
+            return ("Task: " + taskName + "  Name: No Childern Configured" );
         }
-        return obj;
-    }
+        else{
+            return ("Task: " + taskName + "  Name: " + manager.getChild(childIdx).getName());
+        }
 
+    }
 
 }

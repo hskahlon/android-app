@@ -5,6 +5,7 @@ import java.util.List;
 
 public class TasksManager {
     List<Task> tasks = new ArrayList<>();
+    private final ChildManager childManager = ChildManager.getInstance();
 
     private static TasksManager instance;
     private TasksManager() {
@@ -21,12 +22,21 @@ public class TasksManager {
         tasks.add(task);
     }
 
-    public Task getTaskIdx(int index) {
-        return tasks.get(index);
+    public void reassignChildIdx(int taskIdx) {
+        Task task = tasks.get(taskIdx);
+        if(childManager.getChildren().size() <= 0){
+            task.setChildIdx(-1);
+        }
+        else{
+            int currentChildIdx = task.getChildIdx();
+            int newChildIdx = (currentChildIdx+1) % (childManager.getChildren().size());
+            task.setChildIdx(newChildIdx);
+        }
     }
 
-    public int getArraySize() {
-        return tasks.size();
+
+    public Task getTask(int index) {
+        return tasks.get(index);
     }
 
     public void remove(int index) {

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,17 +25,23 @@ import java.util.List;
 
 import ca.cmpt276.charcoal.practicalparent.model.Child;
 import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
+import ca.cmpt276.charcoal.practicalparent.model.Task;
+import ca.cmpt276.charcoal.practicalparent.model.TasksManager;
 
 /**
  *  Sets up Edit Child Activity, Allows for Editing children, and saving data
  */
 public class EditChildActivity extends AppCompatActivity {
+    private static String TAG = "EditChildActivity";
     private static final String PREFS_NAME = "SavedData";
+    private static final String TASKS_PREF = "Tasks";
+
     private static final String CHILDREN_PREFS = "My children";
     public static final String EXTRA_CHILD_INDEX = "ca.cmpt276.charcoal.practicalparent - childIndex";
     private int childIndex;
     private EditText nameBox;
     private final ChildManager manager = ChildManager.getInstance();
+    private final TasksManager tasksManager = TasksManager.getInstance();
 
     public static Intent makeLaunchIntent(Context context, int childIndex) {
         Intent intent = new Intent(context, EditChildActivity.class);
@@ -114,6 +121,7 @@ public class EditChildActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_delete) {
             if (childIndex >= 0) {
+                reassignTaskForDeletedChild(childIndex);
                 manager.remove(childIndex);
                 saveChildren();
                 finish();
@@ -125,6 +133,30 @@ public class EditChildActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void reassignTaskForDeletedChild(int deletedChildIndex) {
+        List<Task> tasks = tasksManager.getTasks();
+        for (Task task : tasks) {
+            if (task.getChildIdx() == deletedChildIndex) {
+                task.decrementChildIdx();
+            }
+        }
+        tasksManager.setTasks(tasks);
+        saveTasksInSharedPrefs();
+        return;
+    }
+
+    private void saveTasksInSharedPrefs() {
+        SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        List<Task> tasks = tasksManager.getTasks();
+        Gson gson = new Gson();
+        String json = gson.toJson(tasks);
+        Log.i(TAG, json + "" );
+
+        editor.putString(TASKS_PREF, json);
+        editor.apply();
+    }
     private void saveChildren() {
         SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
