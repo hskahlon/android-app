@@ -43,8 +43,7 @@ public class TasksManager {
             }
             if(childManager.getChildren().size() <= 0){
                 task.setChildIdx(0);
-            }
-            else if (task.getChildIdx() == childManager.getChildren().size()){
+            } else if (task.getChildIdx() == childManager.getChildren().size()){
                 int currentChildIdx = task.getChildIdx();
                 int newChildIdx = (currentChildIdx) % (childManager.getChildren().size());
                 task.setChildIdx(newChildIdx);
