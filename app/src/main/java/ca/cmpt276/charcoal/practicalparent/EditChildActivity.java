@@ -22,7 +22,6 @@ import java.util.List;
 
 import ca.cmpt276.charcoal.practicalparent.model.Child;
 import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
-import ca.cmpt276.charcoal.practicalparent.model.Task;
 import ca.cmpt276.charcoal.practicalparent.model.TasksManager;
 
 /**
@@ -120,24 +119,19 @@ public class EditChildActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_delete) {
-            reassignTaskForDeletedChild(childIndex);
             childManager.remove(childIndex);
             saveChildren();
+            reassignTaskForDeletedChild(childIndex);
             finish();
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void reassignTaskForDeletedChild(int deletedChildIndex) {
-        List<Task> tasks = tasksManager.getTasks();
-        for (Task task : tasks) {
-            if (task.getChildIdx() == deletedChildIndex) {
-                task.decrementChildIdx();
-            }
-        }
-        tasksManager.setTasks(tasks);
+        tasksManager.reassignTaskForDeletedChild(deletedChildIndex);
         EditTaskActivity.saveTasksInSharedPrefs(this);
     }
+
     private void saveChildren() {
         SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
