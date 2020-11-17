@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -40,6 +41,7 @@ public class EditChildActivity extends AppCompatActivity {
     public static final String EXTRA_CHILD_INDEX = "ca.cmpt276.charcoal.practicalparent - childIndex";
     private int childIndex;
     private EditText nameBox;
+    private ImageView childPhotoDefault;
     private final ChildManager manager = ChildManager.getInstance();
     private final TasksManager tasksManager = TasksManager.getInstance();
 
@@ -66,6 +68,10 @@ public class EditChildActivity extends AppCompatActivity {
 
         setupSaveButton();
         nameBox = findViewById(R.id.childNameTextBox);
+
+        childPhotoDefault = (ImageView) findViewById(R.id.childImage);
+        childPhotoDefault.setImageResource(R.drawable.editchild_default_image);
+
         extractIntentData();
         preFillNameBox();
     }

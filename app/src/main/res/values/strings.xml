@@ -46,9 +46,13 @@
     <string name="editChildSaveBtn_txt">Save</string>
     <string name="editChildNameLabel_txt">Name:</string>
     <string name="editChildNameError">Name length must be greater than 0</string>
+    <string name="edit_image_txt">Image:</string>
+    <string name="button_edit_image">Edit</string>
+
     <!--        Strings for RecordActivity       -->
     <string name="current_record_String">Current Child Records</string>
     <string name="prior_records_String">Total Records History</string>
+
     <!--        Strings for CoinFlipActivity       -->
     <string name="headsText">Heads</string>
     <string name="tailsText">Tails</string>
@@ -59,7 +63,6 @@
     <string name="userChooseTails">User chose tails!</string>
     <string name="userChooseHeads">User chose heads!</string>
     <string name="chooses">\ Chooses\</string>
-
 
     <!--        Strings for TimeOutActivity       -->
     <string name="Pause">Pause</string>
