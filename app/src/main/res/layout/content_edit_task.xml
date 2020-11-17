@@ -7,7 +7,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <EditText
-        android:id="@+id/taskNameTextBox"
+        android:id="@+id/edit_task_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/editTaskSave_btn"
+        android:id="@+id/button_save_task"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -37,7 +37,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/nameLabel_txt"
+        android:id="@+id/text_name_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -47,7 +47,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/nameLabel_txt2"
+        android:id="@+id/text_child_name_label_task"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -64,18 +64,18 @@
         app:layout_constraintGuide_percent="0.500684" />
 
     <Button
-        android:id="@+id/taskFinishedButton"
+        android:id="@+id/button_task_finished"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:text="@string/content_edit_task_confirm_btn_txt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/childNameText"
+        app:layout_constraintStart_toEndOf="@+id/text_child_name_task"
         app:layout_constraintTop_toTopOf="@+id/guideline21" />
 
     <TextView
-        android:id="@+id/childNameText"
+        android:id="@+id/text_child_name_task"
         android:layout_width="224dp"
         android:layout_height="44dp"
         android:layout_marginStart="16dp"

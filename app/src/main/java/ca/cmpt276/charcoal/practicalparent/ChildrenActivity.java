@@ -57,15 +57,15 @@ public class ChildrenActivity extends AppCompatActivity {
         ChildManager manager = ChildManager.getInstance();
         List<Child> children = manager.getChildren();
         if (children != null) {
-            adapter = new ArrayAdapter<>(this, R.layout.child_item, children);
+            adapter = new ArrayAdapter<>(this, R.layout.child_row, children);
 
-            ListView list = findViewById(R.id.children_list);
+            ListView list = findViewById(R.id.list_children);
             list.setAdapter(adapter);
         }
     }
 
     private void registerClickCallback() {
-        ListView list = findViewById(R.id.children_list);
+        ListView list = findViewById(R.id.list_children);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {

@@ -65,8 +65,8 @@ public class EditTaskActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
 
         setupSaveButton();
-        taskNameBox = findViewById(R.id.taskNameTextBox);
-        childNameBox = findViewById(R.id.childNameText);
+        taskNameBox = findViewById(R.id.edit_task_name);
+        childNameBox = findViewById(R.id.text_child_name_task);
         extractIntentData();
         preFillNameBox();
 
@@ -74,7 +74,7 @@ public class EditTaskActivity extends AppCompatActivity {
     }
 
     private void setupConfirmButton() {
-        Button confirmButton = findViewById(R.id.taskFinishedButton);
+        Button confirmButton = findViewById(R.id.button_task_finished);
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,7 +116,7 @@ public class EditTaskActivity extends AppCompatActivity {
     }
 
     private void setupSaveButton() {
-        Button saveBtn = findViewById(R.id.editTaskSave_btn);
+        Button saveBtn = findViewById(R.id.button_save_task);
         saveBtn.setOnClickListener(v -> saveTaskInManager());
     }
 
@@ -163,7 +163,7 @@ public class EditTaskActivity extends AppCompatActivity {
                 saveTasksInSharedPrefs();
                 finish();
             } else {
-                Toast.makeText(this, "You can only delete a child you are editing", Toast.LENGTH_SHORT)
+                Toast.makeText(this, R.string.task_delete_error_message, Toast.LENGTH_SHORT)
                         .show();
             }
         }
