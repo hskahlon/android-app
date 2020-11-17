@@ -90,4 +90,5 @@
     <string name="content_edit_task_label_txt">Task:</string>
     <string name="content_edit_task_name_label_txt">Name:</string>
     <string name="content_edit_task_confirm_btn_txt">Task Finished</string>
+    <string name="task_delete_error_message">You can only delete a task you are editing</string>
 </resources>

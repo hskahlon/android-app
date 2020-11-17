@@ -63,7 +63,7 @@ public class RecordActivity extends AppCompatActivity {
         ArrayList<Integer> rImgs;
 
         MyAdapter (Context c, ArrayList<String> childName, ArrayList<String> results, ArrayList<Integer> imgs, ArrayList<String> rDateTime) {
-            super(c, R.layout.record_row, R.id.childNameTextBox, childName);
+            super(c, R.layout.record_row, R.id.edit_child_name, childName);
             this.context = c;
             this.rName = childName;
             this.rResults = results;

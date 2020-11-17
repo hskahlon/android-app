@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -65,7 +64,7 @@ public class EditChildActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
 
         setupSaveButton();
-        nameBox = findViewById(R.id.childNameTextBox);
+        nameBox = findViewById(R.id.edit_child_name);
         extractIntentData();
         preFillNameBox();
     }
@@ -78,7 +77,7 @@ public class EditChildActivity extends AppCompatActivity {
     }
 
     private void setupSaveButton() {
-        Button saveBtn = findViewById(R.id.editChildSave_btn);
+        Button saveBtn = findViewById(R.id.button_save_child);
         saveBtn.setOnClickListener(v -> saveChild());
     }
 
