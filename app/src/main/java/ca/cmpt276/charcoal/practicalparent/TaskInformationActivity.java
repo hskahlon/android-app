@@ -7,10 +7,13 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -28,11 +31,12 @@ import ca.cmpt276.charcoal.practicalparent.model.TasksManager;
 public class TaskInformationActivity extends AppCompatActivity {
     public static final String EXTRA_TASK_INDEX = "ca.cmpt276.charcoal.practicalparent - taskIndex";
     private int taskIndex;
+
     private final ChildManager childManager = ChildManager.getInstance();
+
     private final TasksManager taskManager = TasksManager.getInstance();
     private TextView childNameBox;
     private TextView taskNameBox;
-
 
     public static Intent makeLaunchIntent(Context context, int childIndex) {
         Intent intent = new Intent(context, TaskInformationActivity.class);
@@ -62,6 +66,22 @@ public class TaskInformationActivity extends AppCompatActivity {
 
         setupFinishedTaskButton();
         populateTextViews();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_task_information, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_edit) {
+            Intent intent = EditTaskActivity.makeLaunchIntent(this, taskIndex);
+            startActivity(intent);
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void populateTextViews() {

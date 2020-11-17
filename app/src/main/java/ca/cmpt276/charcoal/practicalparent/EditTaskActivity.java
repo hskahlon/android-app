@@ -38,9 +38,7 @@ public class EditTaskActivity extends AppCompatActivity {
     private static final String TASKS_PREF = "Tasks";
     public static final String EXTRA_TASK_INDEX = "ca.cmpt276.charcoal.practicalparent - taskIndex";
     private int taskIndex;
-    private TextView childNameBox;
     private EditText taskNameBox;
-    private final ChildManager childManager = ChildManager.getInstance();
     private final TasksManager taskManager = TasksManager.getInstance();
 
     public static Intent makeLaunchIntent(Context context, int taskIndex) {
@@ -66,52 +64,15 @@ public class EditTaskActivity extends AppCompatActivity {
 
         setupSaveButton();
         taskNameBox = findViewById(R.id.edit_task_name);
-        childNameBox = findViewById(R.id.text_child_name_task);
         extractIntentData();
         preFillNameBox();
 
-        setupConfirmButton();
-    }
-
-    private void setupConfirmButton() {
-        Button confirmButton = findViewById(R.id.button_task_finished);
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(taskIndex < 0){
-                    Toast.makeText(EditTaskActivity.this, "You can only confirm when editing Task",Toast.LENGTH_SHORT)
-                            .show();
-                    return;
-                }
-                if(childManager.getChildren().size() <= 0 ){
-                    Toast.makeText(EditTaskActivity.this,"No Child Added ",Toast.LENGTH_SHORT)
-                            .show();
-                }
-                else{
-                    taskManager.reassignChildIdx(taskIndex);
-                    Task currentTask = taskManager.getTask(taskIndex);
-                    int nextChildIdx = currentTask.getChildIdx();
-                    Child nextChild = childManager.getChild(nextChildIdx);
-                    childNameBox.setText(String.format("%s", nextChild.getName()));
-
-                    saveTasksInSharedPrefs(EditTaskActivity.this);
-                    finish();
-                }
-            }
-        });
     }
 
     private void preFillNameBox() {
         if (taskIndex >= 0) {
             Task currentTask = taskManager.getTask(taskIndex);
             taskNameBox.setText(currentTask.getTaskName());
-            if( childManager.getChildren().size() <= 0){
-                childNameBox.setText(R.string.no_child_added);
-            }
-            else{
-                Child currentChild = childManager.getChild(currentTask.getChildIdx());
-                childNameBox.setText(String.format("%s", currentChild.getName()));
-            }
         }
     }
 
@@ -152,6 +113,9 @@ public class EditTaskActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_edit_task, menu);
+        if (taskIndex == -1) {
+            menu.findItem(R.id.action_delete).setVisible(false);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -162,9 +126,6 @@ public class EditTaskActivity extends AppCompatActivity {
                 taskManager.remove(taskIndex);
                 saveTasksInSharedPrefs(this);
                 finish();
-            } else {
-                Toast.makeText(this, R.string.task_delete_error_message, Toast.LENGTH_SHORT)
-                        .show();
             }
         }
         return super.onOptionsItemSelected(item);
@@ -189,7 +150,7 @@ public class EditTaskActivity extends AppCompatActivity {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         List<Task> tasks;
         String serializedTasks = prefs.getString(TASKS_PREF, null);
-        Log.i(TAG , "seriallizedTasks: " + serializedTasks);
+        Log.i(TAG , "serializedTasks: " + serializedTasks);
         if (serializedTasks != null) {
             Gson gson = new Gson();
             Type type = new TypeToken<List<Task>>(){}.getType();
