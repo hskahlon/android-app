@@ -114,21 +114,20 @@ public class EditChildActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_edit_child, menu);
+        if (childIndex == -1) {
+            menu.findItem(R.id.action_delete)
+                    .setVisible(false);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_delete) {
-            if (childIndex >= 0) {
-                reassignTaskForDeletedChild(childIndex);
-                manager.remove(childIndex);
-                saveChildren();
-                finish();
-            } else {
-                Toast.makeText(this, "You can only delete a child you are editing", Toast.LENGTH_SHORT)
-                        .show();
-            }
+            reassignTaskForDeletedChild(childIndex);
+            manager.remove(childIndex);
+            saveChildren();
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
