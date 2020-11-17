@@ -43,9 +43,9 @@ public class EditTaskActivity extends AppCompatActivity {
     private final ChildManager childManager = ChildManager.getInstance();
     private final TasksManager taskManager = TasksManager.getInstance();
 
-    public static Intent makeLaunchIntent(Context context, int childIndex) {
+    public static Intent makeLaunchIntent(Context context, int taskIndex) {
         Intent intent = new Intent(context, EditTaskActivity.class);
-        intent.putExtra(EXTRA_TASK_INDEX, childIndex);
+        intent.putExtra(EXTRA_TASK_INDEX, taskIndex);
         return intent;
     }
 
@@ -94,7 +94,7 @@ public class EditTaskActivity extends AppCompatActivity {
                     Child nextChild = childManager.getChild(nextChildIdx);
                     childNameBox.setText(String.format("%s", nextChild.getName()));
 
-                    saveTasksInSharedPrefs();
+                    saveTasksInSharedPrefs(EditTaskActivity.this);
                     finish();
                 }
             }
@@ -129,7 +129,7 @@ public class EditTaskActivity extends AppCompatActivity {
             } else {
                 taskManager.add(new Task(taskName));
             }
-            saveTasksInSharedPrefs();
+            saveTasksInSharedPrefs(this);
             finish();
         }
     }
@@ -160,7 +160,7 @@ public class EditTaskActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.action_delete) {
             if (taskIndex >= 0) {
                 taskManager.remove(taskIndex);
-                saveTasksInSharedPrefs();
+                saveTasksInSharedPrefs(this);
                 finish();
             } else {
                 Toast.makeText(this, R.string.task_delete_error_message, Toast.LENGTH_SHORT)
@@ -170,11 +170,11 @@ public class EditTaskActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void saveTasksInSharedPrefs() {
-        SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+    public static void saveTasksInSharedPrefs(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
-        List<Task> tasks = taskManager.getTasks();
+        List<Task> tasks = TasksManager.getInstance().getTasks();
         Gson gson = new Gson();
         String json = gson.toJson(tasks);
         Log.i(TAG, json + "" );
