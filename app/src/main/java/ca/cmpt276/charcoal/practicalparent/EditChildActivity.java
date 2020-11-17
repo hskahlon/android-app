@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -39,7 +41,7 @@ public class EditChildActivity extends AppCompatActivity {
     public static final String EXTRA_CHILD_INDEX = "ca.cmpt276.charcoal.practicalparent - childIndex";
     private int childIndex;
     private EditText nameBox;
-    private final ChildManager manager = ChildManager.getInstance();
+    private final ChildManager childManager = ChildManager.getInstance();
     private final TasksManager tasksManager = TasksManager.getInstance();
 
     public static Intent makeLaunchIntent(Context context, int childIndex) {
@@ -71,7 +73,7 @@ public class EditChildActivity extends AppCompatActivity {
 
     private void preFillNameBox() {
         if (childIndex >= 0) {
-            Child currentChild = manager.getChild(childIndex);
+            Child currentChild = childManager.getChild(childIndex);
             nameBox.setText(currentChild.getName());
         }
     }
@@ -85,10 +87,10 @@ public class EditChildActivity extends AppCompatActivity {
         String childName = nameBox.getText().toString();
         if (nameIsValid(childName)) {
             if (childIndex >= 0) {
-                Child currentChild = manager.getChild(childIndex);
+                Child currentChild = childManager.getChild(childIndex);
                 currentChild.setName(childName);
             } else {
-                manager.add(new Child(childName));
+                childManager.add(new Child(childName));
             }
             saveChildren();
             finish();
@@ -100,7 +102,7 @@ public class EditChildActivity extends AppCompatActivity {
             nameBox.setError(getString(R.string.editChildNameError));
             return false;
         } else {
-            for (Child child : manager.getChildren()) {
+            for (Child child : childManager.getChildren()) {
                 if (childName.equals(child.getName())) {
                     nameBox.setError("Children names must be unique");
                     return false;
@@ -123,24 +125,17 @@ public class EditChildActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_delete) {
-            reassignTaskForDeletedChild(childIndex);
-            manager.remove(childIndex);
+            childManager.remove(childIndex);
             saveChildren();
+            reassignTaskForDeletedChild(childIndex);
             finish();
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void reassignTaskForDeletedChild(int deletedChildIndex) {
-        List<Task> tasks = tasksManager.getTasks();
-        for (Task task : tasks) {
-            if (task.getChildIdx() == deletedChildIndex) {
-                task.decrementChildIdx();
-            }
-        }
-        tasksManager.setTasks(tasks);
+        tasksManager.reassignTaskForDeletedChild(deletedChildIndex);
         saveTasksInSharedPrefs();
-        return;
     }
 
     private void saveTasksInSharedPrefs() {
@@ -159,7 +154,7 @@ public class EditChildActivity extends AppCompatActivity {
         SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
-        List<Child> children = manager.getChildren();
+        List<Child> children = childManager.getChildren();
         Gson gson = new Gson();
         String json = gson.toJson(children);
         editor.putString(CHILDREN_PREFS, json);

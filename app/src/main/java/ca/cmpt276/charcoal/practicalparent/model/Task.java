@@ -31,9 +31,6 @@ public class Task {
         this.childIdx = childIdx;
     }
 
-    public void decrementChildIdx(){
-        this.childIdx--;
-    }
 
     @NonNull
     @Override
