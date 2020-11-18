@@ -1,4 +1,10 @@
 <resources>
+    <!-- General Use -->
+    <string name="label_task">Task:</string>
+    <string name="label_name">Name:</string>
+    <string name="action_edit">action_edit</string>
+    <string name="action_delete">action_delete</string>
+
     <!--        Strings for CoinFlipActivity        -->
     <string name="app_name">Practical Parent</string>
     <string name="main_label">Kiddie Carpe Diem</string>
@@ -14,14 +20,6 @@
     <string name="storeHeads">Heads</string>
     <string name="storeTails">Tails</string>
 
-    <string-array name="preSetTimes">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>5</item>
-        <item>10</item>
-    </string-array>
-
     <!--        Strings for MainActivity            -->
     <string name="title_activity_help">Help</string>
     <string name="kiddie_carpe_diem">Kiddie Carpe Diem</string>
@@ -34,11 +32,25 @@
     <string name="channel_description">Sends a notification when the timeout timer has expired</string>
 
     <!--        Strings for TimeOutActivity         -->
-    <string name="action_delete">action_delete</string>
+    <string-array name="preSetTimes">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
     <string name="timout_alarm_notification_ID">timoutAlarmNotification</string>
     <string name="timeout_notification_title">Timeout Over</string>
     <string name="timeout_notification_body">Your child\'s timeout is over</string>
     <string name="NotificationID_intentNametag">NotificationId</string>
+    <string name="Pause">Pause</string>
+    <string name="STOP">STOP</string>
+    <string name="Resume">Resume</string>
+    <string name="Start">Start</string>
+    <string name="reset">Reset</string>
+    <string name="minutes">Minutes</string>
+    <string name="set">Set</string>
+    <string name="_00_00">00:00</string>
 
     <!--        Strings for EditChildActivity       -->
     <string name="title_activity_edit_child">Edit Child</string>
@@ -68,16 +80,6 @@
     <string name="userChooseHeads">User chose heads!</string>
     <string name="chooses">\ Chooses\</string>
 
-    <!--        Strings for TimeOutActivity       -->
-    <string name="Pause">Pause</string>
-    <string name="STOP">STOP</string>
-    <string name="Resume">Resume</string>
-    <string name="Start">Start</string>
-    <string name="reset">Reset</string>
-    <string name="minutes">Minutes</string>
-    <string name="set">Set</string>
-    <string name="_00_00">00:00</string>
-
     <!--        Strings for HelpActivity       -->
     <string name="created_by_charcoal">Created By: Charcoal</string>
     <string name="developers_name">Developers: Bryan, Harjot, Hyeonyoung, Jason</string>
@@ -94,7 +96,10 @@
     <string name="title_activity_edit_task">Edit Task</string>
     <string name="no_child_added">No Child Added</string>
     <string name="content_edit_task_save_btn_txt">save</string>
-    <string name="content_edit_task_label_txt">Task:</string>
-    <string name="content_edit_task_name_label_txt">Name:</string>
     <string name="content_edit_task_confirm_btn_txt">Task Finished</string>
+    <string name="task_delete_error_message">You can only delete a task you are editing</string>
+
+    <!--        Strings for TaskInformationActivity -->
+    <string name="title_activity_task_information">Task Information</string>
+
 </resources>

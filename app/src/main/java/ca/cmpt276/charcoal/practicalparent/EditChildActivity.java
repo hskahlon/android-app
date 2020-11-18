@@ -4,10 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,7 +24,6 @@ import java.util.List;
 
 import ca.cmpt276.charcoal.practicalparent.model.Child;
 import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
-import ca.cmpt276.charcoal.practicalparent.model.Task;
 import ca.cmpt276.charcoal.practicalparent.model.TasksManager;
 
 /**
@@ -35,14 +32,13 @@ import ca.cmpt276.charcoal.practicalparent.model.TasksManager;
 public class EditChildActivity extends AppCompatActivity {
     private static String TAG = "EditChildActivity";
     private static final String PREFS_NAME = "SavedData";
-    private static final String TASKS_PREF = "Tasks";
 
     private static final String CHILDREN_PREFS = "My children";
     public static final String EXTRA_CHILD_INDEX = "ca.cmpt276.charcoal.practicalparent - childIndex";
     public ImageView childPhotoDefault;
     private int childIndex;
     private EditText nameBox;
-    private final ChildManager manager = ChildManager.getInstance();
+    private final ChildManager childManager = ChildManager.getInstance();
     private final TasksManager tasksManager = TasksManager.getInstance();
 
     public static Intent makeLaunchIntent(Context context, int childIndex) {
@@ -67,7 +63,7 @@ public class EditChildActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
 
         setupSaveButton();
-        nameBox = findViewById(R.id.childNameTextBox);
+        nameBox = findViewById(R.id.edit_child_name);
 
         childPhotoDefault = (ImageView) findViewById(R.id.childImage);
         childPhotoDefault.setImageResource(R.drawable.editchild_default_image);
@@ -80,7 +76,7 @@ public class EditChildActivity extends AppCompatActivity {
 
     private void preFillNameBox() {
         if (childIndex >= 0) {
-            Child currentChild = manager.getChild(childIndex);
+            Child currentChild = childManager.getChild(childIndex);
             nameBox.setText(currentChild.getName());
         }
     }
@@ -114,7 +110,7 @@ public class EditChildActivity extends AppCompatActivity {
     }
 
     private void setupSaveButton() {
-        Button saveBtn = findViewById(R.id.editChildSave_btn);
+        Button saveBtn = findViewById(R.id.button_save_child);
         saveBtn.setOnClickListener(v -> saveChild());
     }
 
@@ -122,10 +118,10 @@ public class EditChildActivity extends AppCompatActivity {
         String childName = nameBox.getText().toString();
         if (nameIsValid(childName)) {
             if (childIndex >= 0) {
-                Child currentChild = manager.getChild(childIndex);
+                Child currentChild = childManager.getChild(childIndex);
                 currentChild.setName(childName);
             } else {
-                manager.add(new Child(childName));
+                childManager.add(new Child(childName));
             }
             saveChildren();
             finish();
@@ -137,7 +133,7 @@ public class EditChildActivity extends AppCompatActivity {
             nameBox.setError(getString(R.string.editChildNameError));
             return false;
         } else {
-            for (Child child : manager.getChildren()) {
+            for (Child child : childManager.getChildren()) {
                 if (childName.equals(child.getName())) {
                     nameBox.setError("Children names must be unique");
                     return false;
@@ -150,55 +146,34 @@ public class EditChildActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_edit_child, menu);
+        if (childIndex == -1) {
+            menu.findItem(R.id.action_delete)
+                    .setVisible(false);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_delete) {
-            if (childIndex >= 0) {
-                reassignTaskForDeletedChild(childIndex);
-                manager.remove(childIndex);
-                saveChildren();
-                finish();
-            } else {
-                Toast.makeText(this, "You can only delete a child you are editing", Toast.LENGTH_SHORT)
-                        .show();
-            }
+            childManager.remove(childIndex);
+            saveChildren();
+            reassignTaskForDeletedChild(childIndex);
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void reassignTaskForDeletedChild(int deletedChildIndex) {
-        List<Task> tasks = tasksManager.getTasks();
-        for (Task task : tasks) {
-            if (task.getChildIdx() == deletedChildIndex) {
-                task.decrementChildIdx();
-            }
-        }
-        tasksManager.setTasks(tasks);
-        saveTasksInSharedPrefs();
-        return;
-    }
-
-    private void saveTasksInSharedPrefs() {
-        SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-
-        List<Task> tasks = tasksManager.getTasks();
-        Gson gson = new Gson();
-        String json = gson.toJson(tasks);
-        Log.i(TAG, json + "" );
-
-        editor.putString(TASKS_PREF, json);
-        editor.apply();
+        tasksManager.reassignTaskForDeletedChild(deletedChildIndex);
+        EditTaskActivity.saveTasksInSharedPrefs(this);
     }
 
     private void saveChildren() {
         SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
-        List<Child> children = manager.getChildren();
+        List<Child> children = childManager.getChildren();
         Gson gson = new Gson();
         String json = gson.toJson(children);
         editor.putString(CHILDREN_PREFS, json);

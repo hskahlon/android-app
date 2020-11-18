@@ -16,8 +16,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-import ca.cmpt276.charcoal.practicalparent.model.Child;
-import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
 import ca.cmpt276.charcoal.practicalparent.model.Task;
 import ca.cmpt276.charcoal.practicalparent.model.TasksManager;
 
@@ -59,19 +57,19 @@ public class TasksActivity extends AppCompatActivity {
         TasksManager manager = TasksManager.getInstance();
         List<Task> tasks = manager.getTasks();
         if (tasks != null) {
-            adapter = new ArrayAdapter<>(this, R.layout.task_item, tasks);
+            adapter = new ArrayAdapter<>(this, R.layout.task_row, tasks);
 
-            ListView list = findViewById(R.id.tasks_list);
+            ListView list = findViewById(R.id.list_tasks);
             list.setAdapter(adapter);
         }
     }
 
     private void registerClickCallback() {
-        ListView list = findViewById(R.id.tasks_list);
+        ListView list = findViewById(R.id.list_tasks);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
-                Intent intent = EditTaskActivity.makeLaunchIntent(TasksActivity.this, position);
+                Intent intent = TaskInformationActivity.makeLaunchIntent(TasksActivity.this, position);
                 startActivity(intent);
             }
         });
