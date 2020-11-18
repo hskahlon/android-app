@@ -47,7 +47,11 @@
     <string name="editChildNameLabel_txt">Name:</string>
     <string name="editChildNameError">Name length must be greater than 0</string>
     <string name="edit_image_txt">Image:</string>
-    <string name="button_edit_image">Edit</string>
+    <string name="button_editImageUpload">Upload</string>
+    <string name="button_editImageCamera">Camera</string>
+
+    <!--        Strings for EditChildImageActivity       -->
+    <string name="editChildImage_button">Upload from Gallery</string>
 
     <!--        Strings for RecordActivity       -->
     <string name="current_record_String">Current Child Records</string>

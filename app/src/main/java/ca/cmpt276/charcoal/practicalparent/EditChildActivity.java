@@ -39,9 +39,9 @@ public class EditChildActivity extends AppCompatActivity {
 
     private static final String CHILDREN_PREFS = "My children";
     public static final String EXTRA_CHILD_INDEX = "ca.cmpt276.charcoal.practicalparent - childIndex";
+    public ImageView childPhotoDefault;
     private int childIndex;
     private EditText nameBox;
-    private ImageView childPhotoDefault;
     private final ChildManager manager = ChildManager.getInstance();
     private final TasksManager tasksManager = TasksManager.getInstance();
 
@@ -74,6 +74,8 @@ public class EditChildActivity extends AppCompatActivity {
 
         extractIntentData();
         preFillNameBox();
+        setupEditImageUploadButton();
+        setupEditImageCameraButton();
     }
 
     private void preFillNameBox() {
@@ -81,6 +83,34 @@ public class EditChildActivity extends AppCompatActivity {
             Child currentChild = manager.getChild(childIndex);
             nameBox.setText(currentChild.getName());
         }
+    }
+
+    // TODO: Finish this function and its Activity
+    private void setupEditImageUploadButton() {
+        Button editImageUploadButton = findViewById(R.id.editImageUpload_btn);
+        editImageUploadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(EditChildActivity.this, "Upload a photo", Toast.LENGTH_SHORT)
+                        .show();
+                Intent intent = new Intent(EditChildActivity.this, EditChildImageUploadActivity.class);
+//                startActivity(intent);
+            }
+        });
+    }
+
+    // TODO: Finish this function and its Activity
+    private void setupEditImageCameraButton() {
+        Button editImageCameraButton = findViewById(R.id.editImageCamera_btn);
+        editImageCameraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(EditChildActivity.this, "Take a photo", Toast.LENGTH_SHORT)
+                        .show();
+                Intent intent = new Intent(EditChildActivity.this, EditChildImageCameraActivity.class);
+//                startActivity(intent);
+            }
+        });
     }
 
     private void setupSaveButton() {
@@ -163,6 +193,7 @@ public class EditChildActivity extends AppCompatActivity {
         editor.putString(TASKS_PREF, json);
         editor.apply();
     }
+
     private void saveChildren() {
         SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();

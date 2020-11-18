@@ -63,13 +63,22 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <Button
-        android:id="@+id/button2"
-        android:layout_width="75dp"
+        android:id="@+id/editImageUpload_btn"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:text="@string/button_edit_image"
+        android:text="@string/button_editImageUpload"
         app:layout_constraintEnd_toStartOf="@+id/guideline24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/childImage" />
+
+    <Button
+        android:id="@+id/editImageCamera_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_editImageCamera"
+        app:layout_constraintEnd_toStartOf="@+id/guideline24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editImageUpload_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
