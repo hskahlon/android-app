@@ -26,8 +26,7 @@ public class TasksManager {
         Task task = tasks.get(taskIdx);
         if(childManager.getChildren().size() <= 0){
             task.setChildIdx(0);
-        }
-        else{
+        } else {
             int currentChildIdx = task.getChildIdx();
             int newChildIdx = (currentChildIdx+1) % (childManager.getChildren().size());
             task.setChildIdx(newChildIdx);
@@ -41,7 +40,7 @@ public class TasksManager {
                 int newChildIdx = currentChildIdx - 1;
                 task.setChildIdx(newChildIdx);
             }
-            if(childManager.getChildren().size() <= 0){
+            if (childManager.getChildren().size() <= 0){
                 task.setChildIdx(0);
             } else if (task.getChildIdx() == childManager.getChildren().size()){
                 int currentChildIdx = task.getChildIdx();
@@ -67,6 +66,4 @@ public class TasksManager {
     public void setTasks (List<Task> tasks) {
         this.tasks = tasks;
     }
-
-
 }

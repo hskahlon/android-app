@@ -69,7 +69,7 @@ public class TasksActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
-                Intent intent = EditTaskActivity.makeLaunchIntent(TasksActivity.this, position);
+                Intent intent = TaskInformationActivity.makeLaunchIntent(TasksActivity.this, position);
                 startActivity(intent);
             }
         });

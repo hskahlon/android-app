@@ -4,14 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -26,7 +22,6 @@ import java.util.List;
 
 import ca.cmpt276.charcoal.practicalparent.model.Child;
 import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
-import ca.cmpt276.charcoal.practicalparent.model.Task;
 import ca.cmpt276.charcoal.practicalparent.model.TasksManager;
 
 /**
@@ -35,7 +30,6 @@ import ca.cmpt276.charcoal.practicalparent.model.TasksManager;
 public class EditChildActivity extends AppCompatActivity {
     private static String TAG = "EditChildActivity";
     private static final String PREFS_NAME = "SavedData";
-    private static final String TASKS_PREF = "Tasks";
 
     private static final String CHILDREN_PREFS = "My children";
     public static final String EXTRA_CHILD_INDEX = "ca.cmpt276.charcoal.practicalparent - childIndex";
@@ -135,21 +129,9 @@ public class EditChildActivity extends AppCompatActivity {
 
     private void reassignTaskForDeletedChild(int deletedChildIndex) {
         tasksManager.reassignTaskForDeletedChild(deletedChildIndex);
-        saveTasksInSharedPrefs();
+        EditTaskActivity.saveTasksInSharedPrefs(this);
     }
 
-    private void saveTasksInSharedPrefs() {
-        SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-
-        List<Task> tasks = tasksManager.getTasks();
-        Gson gson = new Gson();
-        String json = gson.toJson(tasks);
-        Log.i(TAG, json + "" );
-
-        editor.putString(TASKS_PREF, json);
-        editor.apply();
-    }
     private void saveChildren() {
         SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
