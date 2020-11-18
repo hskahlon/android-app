@@ -9,12 +9,11 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-public class EditChildImageCameraActivity extends AppCompatActivity {
+public class ImportImageActivity extends AppCompatActivity {
     ImageView imageFromCamera;
 
     public static Intent makeLaunchIntent(Context context) {
-        Intent intent = new Intent(context, EditChildImageCameraActivity.class);
-        return intent;
+        return new Intent(context, ImportImageActivity.class);
     }
 
     @Override

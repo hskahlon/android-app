@@ -1,17 +1,22 @@
 package ca.cmpt276.charcoal.practicalparent;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -35,7 +40,8 @@ public class EditChildActivity extends AppCompatActivity {
 
     private static final String CHILDREN_PREFS = "My children";
     public static final String EXTRA_CHILD_INDEX = "ca.cmpt276.charcoal.practicalparent - childIndex";
-    public ImageView childPhotoDefault;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    public ImageView childPhoto;
     private int childIndex;
     private EditText nameBox;
     private final ChildManager childManager = ChildManager.getInstance();
@@ -65,13 +71,13 @@ public class EditChildActivity extends AppCompatActivity {
         setupSaveButton();
         nameBox = findViewById(R.id.edit_child_name);
 
-        childPhotoDefault = (ImageView) findViewById(R.id.childImage);
-        childPhotoDefault.setImageResource(R.drawable.editchild_default_image);
+        childPhoto = findViewById(R.id.image_child);
+        childPhoto.setImageResource(R.drawable.editchild_default_image);
 
         extractIntentData();
         preFillNameBox();
-        setupEditImageUploadButton();
-        setupEditImageCameraButton();
+        setupImportImageButton();
+        setupCameraImageButton();
     }
 
     private void preFillNameBox() {
@@ -82,31 +88,20 @@ public class EditChildActivity extends AppCompatActivity {
     }
 
     // TODO: Finish this function and its Activity
-    private void setupEditImageUploadButton() {
-        Button editImageUploadButton = findViewById(R.id.editImageUpload_btn);
-        editImageUploadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(EditChildActivity.this, "Upload a photo", Toast.LENGTH_SHORT)
-                        .show();
-                Intent intent = new Intent(EditChildActivity.this, EditChildImageUploadActivity.class);
+    private void setupImportImageButton() {
+        Button importImageButton = findViewById(R.id.button_image_import);
+        importImageButton.setOnClickListener(v -> {
+            Toast.makeText(EditChildActivity.this, "Upload a photo", Toast.LENGTH_SHORT)
+                    .show();
+            Intent intent = new Intent(EditChildActivity.this, ImportImageActivity.class);
 //                startActivity(intent);
-            }
         });
     }
 
     // TODO: Finish this function and its Activity
-    private void setupEditImageCameraButton() {
-        Button editImageCameraButton = findViewById(R.id.editImageCamera_btn);
-        editImageCameraButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(EditChildActivity.this, "Take a photo", Toast.LENGTH_SHORT)
-                        .show();
-                Intent intent = new Intent(EditChildActivity.this, EditChildImageCameraActivity.class);
-//                startActivity(intent);
-            }
-        });
+    private void setupCameraImageButton() {
+        Button editImageCameraButton = findViewById(R.id.button_get_camera_image);
+        editImageCameraButton.setOnClickListener(v -> dispatchTakePictureIntent());
     }
 
     private void setupSaveButton() {
@@ -193,6 +188,26 @@ public class EditChildActivity extends AppCompatActivity {
             return children;
         } else {
             return null;
+        }
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        try {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, "Your device does not have a camera", Toast.LENGTH_SHORT)
+                    .show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            childPhoto.setImageBitmap(imageBitmap);
         }
     }
 }

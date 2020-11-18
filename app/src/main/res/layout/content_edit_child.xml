@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:text="@string/editChildSaveBtn_txt"
+        android:text="@string/action_save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -41,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="@string/editChildNameLabel_txt"
+        android:text="@string/label_name"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintStart_toStartOf="@+id/guideline24" />
@@ -54,7 +54,7 @@
         app:layout_constraintGuide_percent="0.27" />
 
     <ImageView
-        android:id="@+id/childImage"
+        android:id="@+id/image_child"
         android:layout_width="75dp"
         android:layout_height="75dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline24"
@@ -63,22 +63,22 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <Button
-        android:id="@+id/editImageUpload_btn"
+        android:id="@+id/button_image_import"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:text="@string/button_editImageUpload"
+        android:text="@string/action_import"
         app:layout_constraintEnd_toStartOf="@+id/guideline24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/childImage" />
+        app:layout_constraintTop_toBottomOf="@+id/image_child" />
 
     <Button
-        android:id="@+id/editImageCamera_btn"
+        android:id="@+id/button_get_camera_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_editImageCamera"
+        android:text="@string/button_get_camera_image"
         app:layout_constraintEnd_toStartOf="@+id/guideline24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editImageUpload_btn" />
+        app:layout_constraintTop_toBottomOf="@+id/button_image_import" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
