@@ -7,7 +7,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <EditText
-        android:id="@+id/childNameTextBox"
+        android:id="@+id/edit_child_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/editChildSave_btn"
+        android:id="@+id/button_save_child"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -37,7 +37,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/nameLabel_txt"
+        android:id="@+id/text_name_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -45,4 +45,5 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
