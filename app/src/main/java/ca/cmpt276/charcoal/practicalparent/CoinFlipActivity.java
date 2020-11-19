@@ -58,7 +58,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
         coin = findViewById(R.id.coinImageView);
 
         heads = findViewById(R.id.selectHeads);
-        tails = findViewById(R.id.priorRecordsBtn);
+        tails = findViewById(R.id.button_prior_record);
 
         // Start both buttons appearing "greyed" out:
         heads.setBackgroundColor(getColor(R.color.unselectedHeadTail));
@@ -136,7 +136,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
                 userDecision = getString(R.string.userChooseHeads);
                 updateHeadTailSelectorButtons();
                 break;
-            case R.id.priorRecordsBtn:
+            case R.id.button_prior_record:
                 userDecision = getString(R.string.userChooseTails);
                 updateHeadTailSelectorButtons();
                 break;
@@ -145,7 +145,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
     private void updateHeadTailSelectorButtons() {
         heads = findViewById(R.id.selectHeads);
-        tails = findViewById(R.id.priorRecordsBtn);
+        tails = findViewById(R.id.button_prior_record);
         if (userDecision.equals(getString(R.string.userChooseHeads))) {
             heads.setBackgroundColor(getColor(R.color.selectedHeadTail));
             tails.setBackgroundColor(getColor(R.color.unselectedHeadTail));

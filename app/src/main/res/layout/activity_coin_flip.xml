@@ -27,7 +27,7 @@
         app:layout_constraintEnd_toStartOf="@+id/rightCentringGuideline"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="@+id/leftCentringGuideline"
-        app:layout_constraintTop_toBottomOf="@+id/priorRecordsBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/button_prior_record" />
 
     <TextView
         android:id="@+id/coinFlipResultText"
@@ -66,7 +66,7 @@
         app:layout_constraintTop_toBottomOf="@+id/coinImageView" />
 
     <Button
-        android:id="@+id/priorRecordsBtn"
+        android:id="@+id/button_prior_record"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
