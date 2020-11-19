@@ -112,7 +112,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     private void setupSpinner() {
         preSetTimeSpinner = (PresetTimeCustomSpinner) findViewById(R.id.spinner_preset_time);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.preSetTimes, android.R.layout.simple_spinner_item);
+                R.array.msg_preset_times, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         preSetTimeSpinner.setAdapter(adapter);
         preSetTimeSpinner.setOnItemSelectedListener(this);
@@ -134,7 +134,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         if (isTimerRunning) {
             resetButton.setVisibility(View.VISIBLE);
             pauseButton.setVisibility(View.VISIBLE);
-            pauseButton.setText(R.string.Pause);
+            pauseButton.setText(R.string.action_pause);
             startButton.setVisibility(View.INVISIBLE);
             preSetTimeSpinner.setVisibility(View.INVISIBLE);
             setButton.setVisibility(View.INVISIBLE);
@@ -144,7 +144,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
             if (timeLeftInMillis < 1000) {
                 resetButton.setVisibility(View.INVISIBLE);
                 pauseButton.setVisibility(View.INVISIBLE);
-                pauseButton.setText(R.string.Pause);
+                pauseButton.setText(R.string.action_pause);
                 startButton.setVisibility(View.VISIBLE);
                 preSetTimeSpinner.setVisibility(View.VISIBLE);
                 setButton.setVisibility(View.VISIBLE);
@@ -161,7 +161,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
                 // If the timer is paused:
                 resetButton.setVisibility(View.VISIBLE);
                 pauseButton.setVisibility(View.VISIBLE);
-                pauseButton.setText(R.string.Resume);
+                pauseButton.setText(R.string.action_resume);
                 startButton.setVisibility(View.INVISIBLE);
             }
         }

@@ -100,7 +100,7 @@ public class BackgroundService extends Service {
         PendingIntent pendingLaunchIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         Intent stopTimerIntent = new Intent(this, NotificationStopBroadcastReceiver.class);
-        stopTimerIntent.putExtra(getString(R.string.NotificationID_intentNametag), NOTIFICATION_ID);
+        stopTimerIntent.putExtra(getString(R.string.NotificationID_intent_name_tag), NOTIFICATION_ID);
         PendingIntent pendingStopTimerIntent = PendingIntent.getBroadcast(this, 0, stopTimerIntent, 0);
 
         AlarmInfo alarmInfo = AlarmInfo.getInstance();

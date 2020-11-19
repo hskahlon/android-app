@@ -32,7 +32,7 @@
     <string name="channel_description">Sends a notification when the timeout timer has expired</string>
 
     <!--        Strings for TimeOutActivity         -->
-    <string-array name="preSetTimes">
+    <string-array name="msg_preset_times">
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -42,20 +42,20 @@
     <string name="timout_alarm_notification_ID">timoutAlarmNotification</string>
     <string name="timeout_notification_title">Timeout Over</string>
     <string name="timeout_notification_body">Your child\'s timeout is over</string>
-    <string name="NotificationID_intentNametag">NotificationId</string>
-    <string name="Pause">Pause</string>
-    <string name="STOP">STOP</string>
-    <string name="Resume">Resume</string>
-    <string name="Start">Start</string>
-    <string name="reset">Reset</string>
-    <string name="minutes">Minutes</string>
-    <string name="set">Set</string>
-    <string name="_00_00">00:00</string>
+    <string name="NotificationID_intent_name_tag">NotificationId</string>
+    <string name="action_pause">Pause</string>
+    <string name="action_stop">STOP</string>
+    <string name="action_resume">Resume</string>
+    <string name="action_start">Start</string>
+    <string name="action_reset">Reset</string>
+    <string name="msg_minutes">Minutes</string>
+    <string name="action_set">Set</string>
+    <string name="msg_time">00:00</string>
 
     <!--        Strings for EditChildActivity       -->
     <string name="title_activity_edit_child">Edit Child</string>
     <string name="edit_child_name_hint">Name</string>
-    <string name="edit_child_msg_save">Save</string>
+    <string name="edit_child_action_save">Save</string>
     <string name="edit_child_label_name">Name:</string>
     <string name="edit_child_error_name">Name length must be greater than 0</string>
 
@@ -89,8 +89,8 @@
     <string name="title_activity_tasks">Tasks</string>
     <string name="title_activity_edit_task">Edit Task</string>
     <string name="msg_add_your_child">Add Your Child</string>
-    <string name="content_edit_task_save_btn_txt">save</string>
-    <string name="content_edit_task_confirm_btn_txt">Task Finished</string>
+    <string name="content_edit_task_action_save">save</string>
+    <string name="content_edit_task_action_confirm">Task Finished</string>
     <string name="error_delete_task">You can only delete a task you are editing</string>
 
     <!--        Strings for TaskInformationActivity -->

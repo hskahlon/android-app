@@ -8,7 +8,6 @@ import android.os.Vibrator;
 import androidx.core.app.NotificationManagerCompat;
 
 import ca.cmpt276.charcoal.practicalparent.R;
-import ca.cmpt276.charcoal.practicalparent.model.AlarmInfo;
 
 /**
  *  Stops ringtone for TimeOut activity
@@ -16,7 +15,7 @@ import ca.cmpt276.charcoal.practicalparent.model.AlarmInfo;
 public class NotificationStopBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        int notificationId = intent.getIntExtra(context.getString(R.string.NotificationID_intentNametag), 0);
+        int notificationId = intent.getIntExtra(context.getString(R.string.NotificationID_intent_name_tag), 0);
 
         AlarmInfo alarmInfo = AlarmInfo.getInstance();
         Ringtone ringtone = alarmInfo.getRingtone();
