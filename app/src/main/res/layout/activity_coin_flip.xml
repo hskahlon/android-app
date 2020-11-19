@@ -151,7 +151,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:layout_marginBottom="2dp"
-        android:text="OverRide Child"
+        android:text="@string/choose_who_picks_String"
         app:layout_constraintBottom_toTopOf="@+id/guideline13"
         app:layout_constraintEnd_toStartOf="@+id/rightCentringGuideline"
         app:layout_constraintStart_toStartOf="@+id/leftCentringGuideline"

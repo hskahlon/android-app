@@ -1,8 +1,10 @@
 package ca.cmpt276.charcoal.practicalparent;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -48,6 +51,25 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     private final Record manager = Record.getInstance();
     private int currentIndex;
     private String currentUser = "";
+    int OVERRIDE_CHILD = 1;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == OVERRIDE_CHILD)
+        {
+            if (resultCode == Activity.RESULT_OK)
+            {
+
+                assert data != null;
+                currentIndex = data.getIntExtra("newIndex",currentIndex);
+
+                setCurrentIndex(currentIndex);
+                chooseUser();
+            }
+
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +95,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
         // Enable "up" on toolbar
         ActionBar ab = getSupportActionBar();
+        assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
         // Choose user if users are entered
@@ -83,7 +106,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
         changeChild = findViewById(R.id.changeChild_Btn);
         changeChild.setOnClickListener(v -> {
             Intent i = ChooseChildActivity.makeLaunchIntent(CoinFlipActivity.this);
-            startActivity(i);
+            startActivityForResult(i,OVERRIDE_CHILD);
         });
     }
 

@@ -81,5 +81,8 @@
     <string name="timer_wallpaper4_link">timer_wallpaper4 -http://wallpaperswide.com/search.html?q=calm</string>
     <string name="timer_wallpaper5_link">timer_wallpaper5 - http://wallpaperswide.com/seaside_4-wallpapers.html</string>
     <string name="queueNumber_String">22</string>
+    <string name="chooses_now_String">Chooses Now</string>
+    <string name="up_next_String">Up Next....</string>
+    <string name="choose_who_picks_String">Choose who Picks</string>
 
 </resources>

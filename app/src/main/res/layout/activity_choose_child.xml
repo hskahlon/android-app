@@ -18,7 +18,6 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline14"
             android:layout_width="wrap_content"
@@ -40,12 +39,42 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="1" />
 
+        <Button
+            android:id="@+id/skipQueue_button"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="@string/chooses_now_String"
+            android:textAllCaps="true"
+            android:backgroundTint="@color/selectedChild"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline18"
+            app:layout_constraintStart_toStartOf="@+id/guideline14"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/queueTitle_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/bangers"
+            android:text="@string/up_next_String"
+            android:textAlignment="textEnd"
+            android:textColor="@color/black"
+            android:textSize="36sp"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline14"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.52" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ListView
         android:id="@+id/queue_listView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="match_parent">
+
+    </ListView>
 
 
 
