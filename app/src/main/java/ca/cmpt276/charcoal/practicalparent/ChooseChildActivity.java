@@ -47,8 +47,6 @@ public class ChooseChildActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_child);
 
-
-
         setUpListView();
 
         setupChooseButton();
@@ -62,12 +60,10 @@ public class ChooseChildActivity extends AppCompatActivity {
             Intent returnIntent = CoinFlipActivity.makeLaunchIntent(this);
             returnIntent.putExtra("newIndex",newIndex);
 
-            if (newIndex == currentIndex)
-            {
+            if (newIndex == currentIndex) {
                 setResult(Activity.RESULT_CANCELED,returnIntent);
             }
-            else
-            {
+            else {
                 setResult(Activity.RESULT_OK,returnIntent);
             }
 
@@ -115,8 +111,7 @@ public class ChooseChildActivity extends AppCompatActivity {
         }
 
 
-        if (children != null)
-        {
+        if (children != null) {
             listView = findViewById(R.id.queue_listView);
             // create adapter class
             MyAdapter adapter = new MyAdapter(this, (ArrayList<String>) childs, (ArrayList<String>) Position, (ArrayList<Integer>) qPortraits);
@@ -140,10 +135,8 @@ public class ChooseChildActivity extends AppCompatActivity {
 
     private void setNewIndex(List<Child> children, String s) {
 
-        for (int i=0; i < children.size(); i++)
-        {
-            if (children.get(i).getName()==s)
-            {
+        for (int i=0; i < children.size(); i++) {
+            if (children.get(i).getName()==s) {
                 newIndex = i;
             }
         }

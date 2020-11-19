@@ -154,9 +154,26 @@
         android:text="@string/choose_who_picks_String"
         app:layout_constraintBottom_toTopOf="@+id/guideline13"
         app:layout_constraintEnd_toStartOf="@+id/rightCentringGuideline"
+        app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="@+id/leftCentringGuideline"
-        app:layout_constraintTop_toBottomOf="@+id/userToChoose_TextView" />
+        app:layout_constraintTop_toBottomOf="@+id/userToChoose_TextView"
+        app:layout_constraintVertical_bias="0.0" />
 
+    <Button
+        android:id="@+id/nobodyPicks_Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:backgroundTint="@color/selectedChild"
+        android:text="@string/nobody_picks_String"
+        app:layout_constraintBottom_toTopOf="@+id/guideline13"
+        app:layout_constraintEnd_toStartOf="@+id/rightCentringGuideline"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="@+id/leftCentringGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/userToChoose_TextView"
+        app:layout_constraintVertical_bias="0.6"
+     />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

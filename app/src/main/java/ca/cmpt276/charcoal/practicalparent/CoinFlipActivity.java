@@ -61,7 +61,6 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
             if (resultCode == Activity.RESULT_OK)
             {
 
-                assert data != null;
                 currentIndex = data.getIntExtra("newIndex",currentIndex);
 
                 setCurrentIndex(currentIndex);
@@ -95,7 +94,6 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
         // Enable "up" on toolbar
         ActionBar ab = getSupportActionBar();
-        assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
         // Choose user if users are entered

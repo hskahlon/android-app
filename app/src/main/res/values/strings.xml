@@ -99,5 +99,6 @@
 
     <!--        Strings for TaskInformationActivity -->
     <string name="title_activity_task_information">Task Information</string>
+    <string name="nobody_picks_String">nobody Picks</string>
 
 </resources>
