@@ -94,7 +94,7 @@ public class EditChildActivity extends AppCompatActivity {
                 Toast.makeText(EditChildActivity.this, "Upload a photo", Toast.LENGTH_SHORT)
                         .show();
                 Intent intent = new Intent(EditChildActivity.this, EditChildImageUploadActivity.class);
-//                startActivity(intent);
+                startActivity(intent);
             }
         });
     }
