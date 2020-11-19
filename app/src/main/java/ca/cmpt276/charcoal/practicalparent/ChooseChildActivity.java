@@ -17,7 +17,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +53,7 @@ public class ChooseChildActivity extends AppCompatActivity {
 
 
     private void setupChooseButton() {
-        saveChoice = findViewById(R.id.skipQueue_button);
+        saveChoice = findViewById(R.id.button_skipQueue);
         saveChoice.setOnClickListener(v -> {
 
             Intent returnIntent = CoinFlipActivity.makeLaunchIntent(this);
@@ -89,30 +88,25 @@ public class ChooseChildActivity extends AppCompatActivity {
 
 
         // Create range equivalent to the number of children
-        for (int i: range)
-        {
+        for (int i: range) {
             Position.add(""+(i+1));
 
             // TEMP ADD CHECKMARK TO PHOTOS
             qPortraits.add(R.drawable.ic_won);
-
             childs.add(manager.getChild(currentIndex).getName());
 
             if (currentIndex < range.length-1)
             {
                 currentIndex++;
-            }
-            else
-            {
+            } else {
                 currentIndex = 0;
             }
-
 
         }
 
 
         if (children != null) {
-            listView = findViewById(R.id.queue_listView);
+            listView = findViewById(R.id.listView_queue);
             // create adapter class
             MyAdapter adapter = new MyAdapter(this, (ArrayList<String>) childs, (ArrayList<String>) Position, (ArrayList<Integer>) qPortraits);
 
@@ -123,7 +117,6 @@ public class ChooseChildActivity extends AppCompatActivity {
 
                     view.setSelected(true);
                     setNewIndex(children,childs.get(position));
-
 
                 }
             });
@@ -153,7 +146,7 @@ public class ChooseChildActivity extends AppCompatActivity {
 
 
         MyAdapter (Context c, ArrayList<String> childName, ArrayList<String> qPosition, ArrayList<Integer> imgs) {
-            super(c, R.layout.queue_row, R.id.childNameQueue_TextView, childName);
+            super(c, R.layout.queue_row, R.id.text_childNameQueue, childName);
             this.context = c;
             this.rChildName = childName;
             this.rPosition = qPosition;
@@ -167,9 +160,9 @@ public class ChooseChildActivity extends AppCompatActivity {
            LayoutInflater layoutInflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
            View row = layoutInflater.inflate(R.layout.queue_row, parent, false);
-           ImageView portraits = row.findViewById(R.id.childPortrait_ImageView);
-           TextView turnNumber = row.findViewById(R.id.queuePosition_textView);
-           TextView childName = row.findViewById(R.id.childNameQueue_TextView);
+           ImageView portraits = row.findViewById(R.id.text_childPortrait);
+           TextView turnNumber = row.findViewById(R.id.text_queuePosition);
+           TextView childName = row.findViewById(R.id.text_childNameQueue);
 
 
            // Now set our resources on views

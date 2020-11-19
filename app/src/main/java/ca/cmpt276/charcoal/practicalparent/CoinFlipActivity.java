@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -56,17 +55,12 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == OVERRIDE_CHILD)
-        {
-            if (resultCode == Activity.RESULT_OK)
-            {
-
+        if (requestCode == OVERRIDE_CHILD) {
+            if (resultCode == Activity.RESULT_OK) {
                 currentIndex = data.getIntExtra("newIndex",currentIndex);
-
                 setCurrentIndex(currentIndex);
                 chooseUser();
             }
-
         }
     }
 
@@ -78,12 +72,10 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
         setupChangeChildButton();
         setupCoinButton();
 
+        coin = findViewById(R.id.image_coin);
 
-
-        coin = findViewById(R.id.coinImageView);
-
-        heads = findViewById(R.id.selectHeads);
-        tails = findViewById(R.id.priorRecordsBtn);
+        heads = findViewById(R.id.button_selectHeads);
+        tails = findViewById(R.id.button_priorRecords);
 
         // Start both buttons appearing "greyed" out:
         heads.setBackgroundColor(getColor(R.color.unselectedHeadTail));
@@ -101,7 +93,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void setupChangeChildButton() {
-        changeChild = findViewById(R.id.changeChild_Btn);
+        changeChild = findViewById(R.id.button_changeChild);
         changeChild.setOnClickListener(v -> {
             Intent i = ChooseChildActivity.makeLaunchIntent(CoinFlipActivity.this);
             startActivityForResult(i,OVERRIDE_CHILD);
@@ -151,7 +143,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     private void setUserText() {
         if (childrenExist()) {
             // Set the textview for current User
-            TextView current = findViewById(R.id.userToChoose_TextView);
+            TextView current = findViewById(R.id.text_userToChoose);
             current.setText(currentUser+getString(R.string.chooses));
         }
     }
@@ -165,11 +157,11 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.selectHeads:
+            case R.id.button_selectHeads:
                 userDecision = getString(R.string.userChooseHeads);
                 updateHeadTailSelectorButtons();
                 break;
-            case R.id.priorRecordsBtn:
+            case R.id.button_priorRecords:
                 userDecision = getString(R.string.userChooseTails);
                 updateHeadTailSelectorButtons();
                 break;
@@ -177,8 +169,8 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void updateHeadTailSelectorButtons() {
-        heads = findViewById(R.id.selectHeads);
-        tails = findViewById(R.id.priorRecordsBtn);
+        heads = findViewById(R.id.button_selectHeads);
+        tails = findViewById(R.id.button_priorRecords);
         if (userDecision.equals(getString(R.string.userChooseHeads))) {
             heads.setBackgroundColor(getColor(R.color.selectedHeadTail));
             tails.setBackgroundColor(getColor(R.color.unselectedHeadTail));
@@ -189,7 +181,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void setupCoinButton() {
-        flipBtn = findViewById(R.id.flipBtn);
+        flipBtn = findViewById(R.id.button_flipBtn);
         flipBtn.setOnClickListener(v -> {
             int randomChoice = getRandom();
             flipCoin(randomChoice);
@@ -268,14 +260,14 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void setResultText(String outcome, String choice) {
-        TextView result = findViewById(R.id.coinFlipResultText);
+        TextView result = findViewById(R.id.text_coinFlipResult);
         if (outcome.equals(getString(R.string.tailsString))) {
             result.setText(getString(R.string.tailsString));
         } else {
             result.setText(getString(R.string.headsString));
         }
 
-        TextView showWinOrLoss = findViewById(R.id.resultWinOrLoss);
+        TextView showWinOrLoss = findViewById(R.id.text_resultWinOrLoss);
         if (choice == null) {
             showWinOrLoss.setText(R.string.noResult);
         } else if (outcome.equals(choice)) {
