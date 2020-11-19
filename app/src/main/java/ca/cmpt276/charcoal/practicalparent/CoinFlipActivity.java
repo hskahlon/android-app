@@ -93,7 +93,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void setupChangeChildButton() {
-        changeChild = findViewById(R.id.button_changeChild);
+        changeChild = findViewById(R.id.button_change_child);
         changeChild.setOnClickListener(v -> {
             Intent i = ChooseChildActivity.makeLaunchIntent(CoinFlipActivity.this);
             startActivityForResult(i,OVERRIDE_CHILD);

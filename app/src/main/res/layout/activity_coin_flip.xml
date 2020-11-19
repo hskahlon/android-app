@@ -146,7 +146,7 @@
         app:layout_constraintGuide_percent="1" />
 
     <Button
-        android:id="@+id/button_changeChild"
+        android:id="@+id/button_change_child"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
@@ -160,7 +160,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/nobodyPicks_Button"
+        android:id="@+id/button_nobody_pics"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
