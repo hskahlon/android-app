@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline8" />
 
     <Button
-        android:id="@+id/button_flipBtn"
+        android:id="@+id/button_flip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/flipBtnText"
@@ -27,10 +27,10 @@
         app:layout_constraintEnd_toStartOf="@+id/rightCentringGuideline"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="@+id/leftCentringGuideline"
-        app:layout_constraintTop_toBottomOf="@+id/button_priorRecords" />
+        app:layout_constraintTop_toBottomOf="@+id/button_prior_records" />
 
     <TextView
-        android:id="@+id/text_coinFlipResult"
+        android:id="@+id/text_coinflip_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -55,7 +55,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button_selectHeads"
+        android:id="@+id/button_select_heads"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -66,7 +66,7 @@
         app:layout_constraintTop_toBottomOf="@+id/image_coin" />
 
     <Button
-        android:id="@+id/button_priorRecords"
+        android:id="@+id/button_prior_records"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -77,7 +77,7 @@
         app:layout_constraintTop_toBottomOf="@+id/image_coin" />
 
     <TextView
-        android:id="@+id/text_resultWinOrLoss"
+        android:id="@+id/text_result_win_or_loss"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAlignment="center"
@@ -123,7 +123,7 @@
         app:layout_constraintGuide_percent=".85" />
 
     <TextView
-        android:id="@+id/text_userToChoose"
+        android:id="@+id/text_user_to_choose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
@@ -136,7 +136,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline13"
         app:layout_constraintEnd_toStartOf="@+id/rightCentringGuideline"
         app:layout_constraintStart_toStartOf="@+id/leftCentringGuideline"
-        app:layout_constraintTop_toBottomOf="@id/button_flipBtn" />
+        app:layout_constraintTop_toBottomOf="@id/button_flip" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline13"
@@ -156,7 +156,7 @@
         app:layout_constraintEnd_toStartOf="@+id/rightCentringGuideline"
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="@+id/leftCentringGuideline"
-        app:layout_constraintTop_toBottomOf="@+id/text_userToChoose"
+        app:layout_constraintTop_toBottomOf="@+id/text_user_to_choose"
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
@@ -171,7 +171,7 @@
         app:layout_constraintEnd_toStartOf="@+id/rightCentringGuideline"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="@+id/leftCentringGuideline"
-        app:layout_constraintTop_toBottomOf="@+id/text_userToChoose"
+        app:layout_constraintTop_toBottomOf="@+id/text_user_to_choose"
         app:layout_constraintVertical_bias="0.6"
      />
 

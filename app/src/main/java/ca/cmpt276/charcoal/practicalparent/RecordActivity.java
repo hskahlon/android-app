@@ -94,7 +94,7 @@ public class RecordActivity extends AppCompatActivity {
     private void setUpInitialButton() {
         currentRecords = findViewById(R.id.currentRecordBtn);
         currentRecords.setBackgroundColor(getColor(R.color.unSelectedRecord));
-        priorRecords = findViewById(R.id.button_priorRecords);
+        priorRecords = findViewById(R.id.button_prior_records);
         priorRecords.setBackgroundColor(getColor(R.color.selectedRecord));
     }
 
@@ -104,7 +104,7 @@ public class RecordActivity extends AppCompatActivity {
 
     private void setUpRecordSelectorButtons() {
         currentRecords = findViewById(R.id.currentRecordBtn);
-        priorRecords = findViewById(R.id.button_priorRecords);
+        priorRecords = findViewById(R.id.button_prior_records);
         currentRecords.setOnClickListener(v -> {
             currentRecords.setBackgroundColor(getColor(R.color.selectedRecord));
             showCurrentChildRecords();

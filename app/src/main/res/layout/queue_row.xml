@@ -9,7 +9,7 @@
     >
 
     <TextView
-        android:id="@+id/text_queuePosition"
+        android:id="@+id/text_queue_position"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:text="@string/queueNumber_String"
@@ -19,7 +19,7 @@
         android:textStyle="bold" />
 
     <ImageView
-        android:id="@+id/text_childPortrait"
+        android:id="@+id/text_child_portrait"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:src="@mipmap/ic_launcher"
@@ -32,7 +32,7 @@
         >
 
         <TextView
-            android:id="@+id/text_childNameQueue"
+            android:id="@+id/text_child_name_queue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"

@@ -53,7 +53,7 @@ public class ChooseChildActivity extends AppCompatActivity {
 
 
     private void setupChooseButton() {
-        saveChoice = findViewById(R.id.button_skipQueue);
+        saveChoice = findViewById(R.id.button_skip_queue);
         saveChoice.setOnClickListener(v -> {
 
             Intent returnIntent = CoinFlipActivity.makeLaunchIntent(this);
@@ -61,8 +61,7 @@ public class ChooseChildActivity extends AppCompatActivity {
 
             if (newIndex == currentIndex) {
                 setResult(Activity.RESULT_CANCELED,returnIntent);
-            }
-            else {
+            } else {
                 setResult(Activity.RESULT_OK,returnIntent);
             }
 
@@ -95,8 +94,7 @@ public class ChooseChildActivity extends AppCompatActivity {
             qPortraits.add(R.drawable.ic_won);
             childs.add(manager.getChild(currentIndex).getName());
 
-            if (currentIndex < range.length-1)
-            {
+            if (currentIndex < range.length-1) {
                 currentIndex++;
             } else {
                 currentIndex = 0;
@@ -106,7 +104,7 @@ public class ChooseChildActivity extends AppCompatActivity {
 
 
         if (children != null) {
-            listView = findViewById(R.id.listView_queue);
+            listView = findViewById(R.id.listview_queue);
             // create adapter class
             MyAdapter adapter = new MyAdapter(this, (ArrayList<String>) childs, (ArrayList<String>) Position, (ArrayList<Integer>) qPortraits);
 
@@ -146,7 +144,7 @@ public class ChooseChildActivity extends AppCompatActivity {
 
 
         MyAdapter (Context c, ArrayList<String> childName, ArrayList<String> qPosition, ArrayList<Integer> imgs) {
-            super(c, R.layout.queue_row, R.id.text_childNameQueue, childName);
+            super(c, R.layout.queue_row, R.id.text_child_name_queue, childName);
             this.context = c;
             this.rChildName = childName;
             this.rPosition = qPosition;
@@ -160,9 +158,9 @@ public class ChooseChildActivity extends AppCompatActivity {
            LayoutInflater layoutInflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
            View row = layoutInflater.inflate(R.layout.queue_row, parent, false);
-           ImageView portraits = row.findViewById(R.id.text_childPortrait);
-           TextView turnNumber = row.findViewById(R.id.text_queuePosition);
-           TextView childName = row.findViewById(R.id.text_childNameQueue);
+           ImageView portraits = row.findViewById(R.id.text_child_portrait);
+           TextView turnNumber = row.findViewById(R.id.text_queue_position);
+           TextView childName = row.findViewById(R.id.text_child_name_queue);
 
 
            // Now set our resources on views

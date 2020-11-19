@@ -28,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button_priorRecords"
+            android:id="@+id/button_prior_records"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:text="@string/prior_records_String"
