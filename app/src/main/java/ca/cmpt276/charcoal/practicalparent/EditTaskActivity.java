@@ -7,12 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -25,8 +21,6 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import ca.cmpt276.charcoal.practicalparent.model.Child;
-import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
 import ca.cmpt276.charcoal.practicalparent.model.Task;
 import ca.cmpt276.charcoal.practicalparent.model.TasksManager;
 
@@ -98,7 +92,7 @@ public class EditTaskActivity extends AppCompatActivity {
 
     private boolean nameIsValid(String taskName) {
         if (taskName.length() == 0) {
-            taskNameBox.setError(getString(R.string.editChildNameError));
+            taskNameBox.setError(getString(R.string.edit_child_error_name));
             return false;
         } else {
             for (Task task : taskManager.getTasks()) {

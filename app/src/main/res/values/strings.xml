@@ -54,10 +54,10 @@
 
     <!--        Strings for EditChildActivity       -->
     <string name="title_activity_edit_child">Edit Child</string>
-    <string name="editChildName_hint">Name</string>
-    <string name="editChildSaveBtn_txt">Save</string>
-    <string name="editChildNameLabel_txt">Name:</string>
-    <string name="editChildNameError">Name length must be greater than 0</string>
+    <string name="edit_child_name_hint">Name</string>
+    <string name="edit_child_msg_save">Save</string>
+    <string name="edit_child_label_name">Name:</string>
+    <string name="edit_child_error_name">Name length must be greater than 0</string>
 
     <!--        Strings for RecordActivity       -->
     <string name="current_record_String">Current Child Records</string>
@@ -85,7 +85,7 @@
     <string name="timer_wallpaper5_link">timer_wallpaper5 - http://wallpaperswide.com/seaside_4-wallpapers.html</string>
 
     <!--        Strings for EditTaskActivity       -->
-    <string name="msg_name_of_the_task">Name of the Task</string>
+    <string name="edit_task_name_hint">Name of the Task</string>
     <string name="title_activity_tasks">Tasks</string>
     <string name="title_activity_edit_task">Edit Task</string>
     <string name="msg_add_your_child">Add Your Child</string>
