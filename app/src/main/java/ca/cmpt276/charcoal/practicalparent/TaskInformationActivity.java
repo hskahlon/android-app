@@ -85,7 +85,7 @@ public class TaskInformationActivity extends AppCompatActivity {
             Task currentTask = taskManager.getTask(taskIndex);
             taskNameBox.setText(currentTask.getTaskName());
             if( childManager.getChildren().size() <= 0){
-                childNameBox.setText(R.string.add_your_child);
+                childNameBox.setText(R.string.msg_add_your_child);
             } else{
                 Child currentChild = childManager.getChild(currentTask.getChildIdx());
                 childNameBox.setText(String.format("%s", currentChild.getName()));
