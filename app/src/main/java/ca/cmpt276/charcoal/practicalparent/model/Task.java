@@ -11,11 +11,16 @@ import java.util.Random;
 public class Task {
     private String taskName;
     private int childIdx;
-    ChildManager childManager = ChildManager.getInstance();
+
 
     public Task(String taskName) {
         this.taskName = taskName;
-        this.childIdx = new Random().nextInt(childManager.getChildren().size());
+        ChildManager childManager = ChildManager.getInstance();
+        if(childManager.getChildren().size() <= 0){
+            this.childIdx = 0;
+        } else {
+            this.childIdx = new Random().nextInt(childManager.getChildren().size());
+        }
     }
 
     public String getTaskName() {
