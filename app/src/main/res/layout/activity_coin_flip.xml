@@ -11,7 +11,7 @@
         android:layout_width="236dp"
         android:layout_height="225dp"
         android:layout_marginTop="8dp"
-        android:contentDescription="@string/flipcoins"
+        android:contentDescription="@string/img_coin"
         android:src="@drawable/ic_tails"
         app:layout_constraintEnd_toStartOf="@+id/rightCentringGuideline"
         app:layout_constraintStart_toStartOf="@+id/leftCentringGuideline"
@@ -21,13 +21,13 @@
         android:id="@+id/flipBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/flipBtnText"
-        android:text="@string/flipBtnText"
+        android:contentDescription="@string/action_flip"
+        android:text="@string/action_flip"
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/rightCentringGuideline"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="@+id/leftCentringGuideline"
-        app:layout_constraintTop_toBottomOf="@+id/button_prior_record" />
+        app:layout_constraintTop_toBottomOf="@+id/button_select_tails" />
 
     <TextView
         android:id="@+id/coinFlipResultText"
@@ -55,23 +55,23 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/selectHeads"
+        android:id="@+id/button_select_heads"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginRight="1dp"
-        android:text="@string/headsText"
+        android:layout_marginEnd="1dp"
+        android:text="@string/label_heads"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/guidelineHeadsTails"
         app:layout_constraintTop_toBottomOf="@+id/coinImageView" />
 
     <Button
-        android:id="@+id/button_prior_record"
+        android:id="@+id/button_select_tails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginLeft="1dp"
-        android:text="@string/tailsText"
+        android:layout_marginStart="1dp"
+        android:text="@string/label_tails"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/guidelineHeadsTails"
         app:layout_constraintTop_toBottomOf="@+id/coinImageView" />
@@ -123,12 +123,12 @@
         app:layout_constraintGuide_percent=".85" />
 
     <TextView
-        android:id="@+id/userToChoose_TextView"
+        android:id="@+id/text_user_to_choose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:fontFamily="sans-serif-light"
-        android:text="@string/userToChoose_String"
+        android:text="@string/user_to_choose"
         android:textAlignment="center"
 
         android:textSize="20sp"

@@ -57,8 +57,8 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
         coin = findViewById(R.id.coinImageView);
 
-        heads = findViewById(R.id.selectHeads);
-        tails = findViewById(R.id.button_prior_record);
+        heads = findViewById(R.id.button_select_heads);
+        tails = findViewById(R.id.button_select_tails);
 
         // Start both buttons appearing "greyed" out:
         heads.setBackgroundColor(getColor(R.color.unselectedHeadTail));
@@ -118,8 +118,8 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     private void setUserText() {
         if (childrenExist()) {
             // Set the textview for current User
-            TextView current = findViewById(R.id.userToChoose_TextView);
-            current.setText(currentUser+getString(R.string.chooses));
+            TextView current = findViewById(R.id.text_user_to_choose);
+            current.setText(String.format("%s%s", currentUser, getString(R.string.msg_chooses)));
         }
     }
 
@@ -132,24 +132,24 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.selectHeads:
-                userDecision = getString(R.string.userChooseHeads);
+            case R.id.button_select_heads:
+                userDecision = getString(R.string.msg_user_choose_heads);
                 updateHeadTailSelectorButtons();
                 break;
-            case R.id.button_prior_record:
-                userDecision = getString(R.string.userChooseTails);
+            case R.id.button_select_tails:
+                userDecision = getString(R.string.msg_user_choose_tails);
                 updateHeadTailSelectorButtons();
                 break;
         }
     }
 
     private void updateHeadTailSelectorButtons() {
-        heads = findViewById(R.id.selectHeads);
-        tails = findViewById(R.id.button_prior_record);
-        if (userDecision.equals(getString(R.string.userChooseHeads))) {
+        heads = findViewById(R.id.button_select_heads);
+        tails = findViewById(R.id.button_select_tails);
+        if (userDecision.equals(getString(R.string.msg_user_choose_heads))) {
             heads.setBackgroundColor(getColor(R.color.selectedHeadTail));
             tails.setBackgroundColor(getColor(R.color.unselectedHeadTail));
-        } else if (userDecision.equals(getString(R.string.userChooseTails))) {
+        } else if (userDecision.equals(getString(R.string.msg_user_choose_tails))) {
             heads.setBackgroundColor(getColor(R.color.unselectedHeadTail));
             tails.setBackgroundColor(getColor(R.color.selectedHeadTail));
         }
@@ -208,19 +208,19 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
                 if (randomChoice == TAILS) {
                     if (userDecision == null) {
-                        setResultText(getString(R.string.tailsString), null);
-                    } else if (userDecision.equals(getString(R.string.userChooseTails))) {
-                        setResultText(getString(R.string.tailsString),getString(R.string.tailsString));
-                    } else if (userDecision.equals(getString(R.string.userChooseHeads))) {
-                        setResultText(getString(R.string.tailsString),getString(R.string.headsString));
+                        setResultText(getString(R.string.msg_tail_result), null);
+                    } else if (userDecision.equals(getString(R.string.msg_user_choose_tails))) {
+                        setResultText(getString(R.string.msg_tail_result),getString(R.string.msg_tail_result));
+                    } else if (userDecision.equals(getString(R.string.msg_user_choose_heads))) {
+                        setResultText(getString(R.string.msg_tail_result),getString(R.string.msg_head_result));
                     }
                 } else if (randomChoice == HEADS){
                     if (userDecision == null) {
-                        setResultText(getString(R.string.headsString), null);
-                    } else if (userDecision.equals(getString(R.string.userChooseHeads))) {
-                        setResultText(getString(R.string.headsString),getString(R.string.headsString));
-                    } else if (userDecision.equals(getString(R.string.userChooseTails))) {
-                        setResultText(getString(R.string.headsString),getString(R.string.tailsString));
+                        setResultText(getString(R.string.msg_head_result), null);
+                    } else if (userDecision.equals(getString(R.string.msg_user_choose_heads))) {
+                        setResultText(getString(R.string.msg_head_result),getString(R.string.msg_head_result));
+                    } else if (userDecision.equals(getString(R.string.msg_user_choose_tails))) {
+                        setResultText(getString(R.string.msg_head_result),getString(R.string.msg_tail_result));
                     }
                 }
                 userDecision = null;
@@ -236,22 +236,22 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
     private void setResultText(String outcome, String choice) {
         TextView result = findViewById(R.id.coinFlipResultText);
-        if (outcome.equals(getString(R.string.tailsString))) {
-            result.setText(getString(R.string.tailsString));
+        if (outcome.equals(getString(R.string.msg_tail_result))) {
+            result.setText(getString(R.string.msg_tail_result));
         } else {
-            result.setText(getString(R.string.headsString));
+            result.setText(getString(R.string.msg_head_result));
         }
 
         TextView showWinOrLoss = findViewById(R.id.resultWinOrLoss);
         if (choice == null) {
-            showWinOrLoss.setText(R.string.noResult);
+            showWinOrLoss.setText(R.string.msg_no_result);
         } else if (outcome.equals(choice)) {
             addRecord(true,choice);
-            showWinOrLoss.setText(getString(R.string.winnerResult));
+            showWinOrLoss.setText(getString(R.string.msg_winner_result));
             showWinOrLoss.setTextColor(getColor(R.color.correct_green));
         } else {
             addRecord(false,choice);
-            showWinOrLoss.setText(getString(R.string.loserResult));
+            showWinOrLoss.setText(getString(R.string.msg_loser_result));
             showWinOrLoss.setTextColor(getColor(R.color.incorrect_red));
         }
     }

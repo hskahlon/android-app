@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="@string/child_name_String"
+            android:text="@string/label_child_name"
             android:textSize="15sp"
             android:textStyle="bold"
             />
@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="@string/result_String"
+            android:text="@string/msg_result"
             android:textSize="15sp"
             android:textStyle="bold"
             />
@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="@string/Date_Result_String"
+            android:text="@string/msg_date_result"
             android:textSize="15sp"
             android:textStyle="bold"
             />

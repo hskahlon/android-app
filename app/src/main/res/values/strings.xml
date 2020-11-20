@@ -4,30 +4,36 @@
     <string name="label_name">Name:</string>
     <string name="action_edit">action_edit</string>
     <string name="action_delete">action_delete</string>
+    <string name="action_save">save</string>
 
     <!--        Strings for CoinFlipActivity        -->
     <string name="app_name">Practical Parent</string>
     <string name="main_label">Kiddie Carpe Diem</string>
-    <string name="coinFlip_label"> </string>
-    <string name="flipcoins">flipCoins</string>
-    <string name="flipBtnText">FLIP</string>
+    <string name="label_coin_flip"> </string>
+    <string name="img_coin">flipCoins</string>
+    <string name="action_flip">FLIP</string>
     <string name="title_activity_children">Your Children</string>
-    <string name="tailsString">The Result is Tails</string>
-    <string name="headsString">The Result is Heads</string>
-    <string name="winnerResult">You win!!</string>
-    <string name="loserResult">You lost :(</string>
-    <string name="noResult"> </string>
+    <string name="msg_tail_result">The Result is Tails</string>
+    <string name="msg_head_result">The Result is Heads</string>
+    <string name="msg_winner_result">You win!!</string>
+    <string name="msg_loser_result">You lost :(</string>
+    <string name="msg_no_result"> </string>
+    <string name="msg_user_choose_tails">User chose tails!</string>
+    <string name="msg_user_choose_heads">User chose heads!</string>
+    <string name="user_to_choose"> </string>
+
     <string name="storeHeads">Heads</string>
     <string name="storeTails">Tails</string>
+
 
     <!--        Strings for MainActivity            -->
     <string name="title_activity_help">Help</string>
     <string name="kiddie_carpe_diem">Kiddie Carpe Diem</string>
     <string name="your_daily_caretaker_managing_app_made_easy">Your daily caretaker managing app made easy</string>
-    <string name="timeout">Timeout</string>
-    <string name="records">Records</string>
-    <string name="children">Children</string>
-    <string name="help">Help</string>
+    <string name="button_label_timeout">Timeout</string>
+    <string name="button_label_records">Records</string>
+    <string name="button_label_children">Children</string>
+    <string name="button_label_help">Help</string>
     <string name="notification_channel">Timer Alert</string>
     <string name="channel_description">Sends a notification when the timeout timer has expired</string>
 
@@ -39,10 +45,10 @@
         <item>5</item>
         <item>10</item>
     </string-array>
-    <string name="timout_alarm_notification_ID">timoutAlarmNotification</string>
+    <string name="timeout_alarm_notification_ID">timoutAlarmNotification</string>
     <string name="timeout_notification_title">Timeout Over</string>
     <string name="timeout_notification_body">Your child\'s timeout is over</string>
-    <string name="NotificationID_intent_name_tag">NotificationId</string>
+    <string name="notificationID_intent_name_tag">NotificationId</string>
     <string name="action_pause">Pause</string>
     <string name="action_stop">STOP</string>
     <string name="action_resume">Resume</string>
@@ -55,24 +61,21 @@
     <!--        Strings for EditChildActivity       -->
     <string name="title_activity_edit_child">Edit Child</string>
     <string name="edit_child_name_hint">Name</string>
-    <string name="edit_child_action_save">Save</string>
-    <string name="edit_child_label_name">Name:</string>
     <string name="edit_child_error_name">Name length must be greater than 0</string>
 
     <!--        Strings for RecordActivity       -->
-    <string name="current_record_String">Current Child Records</string>
-    <string name="prior_records_String">Total Records History</string>
+    <string name="label_current_records">Current Child Records</string>
+    <string name="label_prior_records">Total Records History</string>
 
     <!--        Strings for CoinFlipActivity       -->
-    <string name="headsText">Heads</string>
-    <string name="tailsText">Tails</string>
-    <string name="child_name_String">Child Name</string>
-    <string name="result_String">Result:Heads</string>
-    <string name="Date_Result_String">Jan 8 1997 5:00pm</string>
-    <string name="userToChoose_String"> </string>
-    <string name="userChooseTails">User chose tails!</string>
-    <string name="userChooseHeads">User chose heads!</string>
-    <string name="chooses">\ Chooses\</string>
+    <string name="label_heads">Heads</string>
+    <string name="label_tails">Tails</string>
+    <string name="label_child_name">Child Name</string>
+    <string name="msg_result">Result:Heads</string>
+    <string name="msg_date_result">Jan 8 1997 5:00pm</string>
+
+
+    <string name="msg_chooses">\ Chooses\</string>
 
     <!--        Strings for HelpActivity       -->
     <string name="created_by_charcoal">Created By: Charcoal</string>
@@ -89,8 +92,7 @@
     <string name="title_activity_tasks">Tasks</string>
     <string name="title_activity_edit_task">Edit Task</string>
     <string name="msg_add_your_child">Add Your Child</string>
-    <string name="content_edit_task_action_save">save</string>
-    <string name="content_edit_task_action_confirm">Task Finished</string>
+    <string name="action_confirm">Task Finished</string>
     <string name="error_delete_task">You can only delete a task you are editing</string>
 
     <!--        Strings for TaskInformationActivity -->
