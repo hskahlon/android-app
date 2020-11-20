@@ -29,10 +29,10 @@
         app:layout_constraintTop_toBottomOf="@+id/appTitle" />
 
     <Button
-        android:id="@+id/coinflipActivity"
+        android:id="@+id/button_coin_flip_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/flipcoins"
+        android:text="@string/img_coin"
         android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline11"
         app:layout_constraintEnd_toStartOf="@+id/rightCentreGuideline"
@@ -40,10 +40,10 @@
         app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
     <Button
-        android:id="@+id/timeoutActivity"
+        android:id="@+id/button_timeout_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/timeout"
+        android:text="@string/button_label_timeout"
         android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline12"
         app:layout_constraintEnd_toStartOf="@+id/rightCentreGuideline"
@@ -51,10 +51,10 @@
         app:layout_constraintTop_toTopOf="@+id/guideline11" />
 
     <Button
-        android:id="@+id/recordsActivity"
+        android:id="@+id/button_record_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/records"
+        android:text="@string/button_label_records"
         android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline15"
         app:layout_constraintEnd_toStartOf="@+id/rightCentreGuideline"
@@ -62,10 +62,10 @@
         app:layout_constraintTop_toTopOf="@+id/guideline12" />
 
     <Button
-        android:id="@+id/childrenActivity"
+        android:id="@+id/button_child_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/children"
+        android:text="@string/button_label_children"
         android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline16"
         app:layout_constraintEnd_toStartOf="@+id/rightCentreGuideline"
@@ -122,11 +122,11 @@
         app:layout_constraintGuide_percent=".75" />
 
     <Button
-        android:id="@+id/helpActivity"
+        android:id="@+id/button_help_activity"
         android:layout_width="90dp"
         android:layout_height="43dp"
         android:layout_marginStart="4dp"
-        android:text="@string/help"
+        android:text="@string/button_label_help"
         app:layout_constraintStart_toStartOf="@+id/rightCentreGuideline"
         app:layout_constraintTop_toTopOf="@+id/guideline22" />
 
@@ -138,7 +138,7 @@
         app:layout_constraintGuide_percent="0.05" />
 
     <Button
-        android:id="@+id/taskActivity"
+        android:id="@+id/button_task_activity"
         android:layout_width="150dp"
         android:layout_height="65dp"
         android:text="TASK"

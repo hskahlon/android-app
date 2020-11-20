@@ -36,7 +36,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".CoinFlipActivity"
-            android:label="@string/coinFlip_label"
+            android:label="@string/label_coin_flip"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
         <activity
