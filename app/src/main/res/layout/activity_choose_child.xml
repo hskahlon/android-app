@@ -39,23 +39,12 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="1" />
 
-        <Button
-            android:id="@+id/button_skip_queue"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:text="@string/chooses_now_String"
-            android:textAllCaps="true"
-            android:backgroundTint="@color/selectedChild"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline18"
-            app:layout_constraintStart_toStartOf="@+id/guideline14"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/text_queue_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/bangers"
+            android:fontFamily="sans-serif-black"
             android:text="@string/up_next_String"
             android:textAlignment="textEnd"
             android:textColor="@color/black"

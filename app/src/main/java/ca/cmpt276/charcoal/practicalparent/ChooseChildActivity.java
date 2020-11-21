@@ -2,6 +2,7 @@ package ca.cmpt276.charcoal.practicalparent;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -46,27 +47,12 @@ public class ChooseChildActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_child);
 
+        // Enable "up" on toolbar
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+
         setUpListView();
 
-        setupChooseButton();
-    }
-
-
-    private void setupChooseButton() {
-        saveChoice = findViewById(R.id.button_skip_queue);
-        saveChoice.setOnClickListener(v -> {
-
-            Intent returnIntent = CoinFlipActivity.makeLaunchIntent(this);
-            returnIntent.putExtra("newIndex",newIndex);
-
-            if (newIndex == currentIndex) {
-                setResult(Activity.RESULT_CANCELED,returnIntent);
-            } else {
-                setResult(Activity.RESULT_OK,returnIntent);
-            }
-
-            finish();
-        });
     }
 
 
@@ -112,7 +98,10 @@ public class ChooseChildActivity extends AppCompatActivity {
             listView.setOnItemClickListener((parent, view, position, id) -> {
 
                 view.setSelected(true);
-                setNewIndex(children,childs.get(position));
+                skipQueue(children,childs.get(position));
+
+
+
 
             });
 
@@ -121,13 +110,25 @@ public class ChooseChildActivity extends AppCompatActivity {
 
     }
 
-    private void setNewIndex(List<Child> children, String s) {
+    private void skipQueue(List<Child> children, String s) {
 
         for (int i=0; i < children.size(); i++) {
             if (children.get(i).getName()==s) {
                 newIndex = i;
             }
         }
+
+        
+        Intent returnIntent = CoinFlipActivity.makeLaunchIntent(this);
+        returnIntent.putExtra("newIndex",newIndex);
+
+        if (newIndex == currentIndex) {
+            setResult(Activity.RESULT_CANCELED,returnIntent);
+        } else {
+            setResult(Activity.RESULT_OK,returnIntent);
+        }
+
+        finish();
 
 
     }

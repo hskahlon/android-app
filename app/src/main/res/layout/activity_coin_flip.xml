@@ -10,7 +10,6 @@
         android:id="@+id/image_coin"
         android:layout_width="236dp"
         android:layout_height="225dp"
-        android:layout_marginTop="32dp"
         android:contentDescription="@string/channel_description"
         android:src="@drawable/ic_tails"
         app:layout_constraintEnd_toStartOf="@+id/rightCentringGuideline"
@@ -127,14 +126,14 @@
         android:id="@+id/text_user_to_choose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="1dp"
         android:fontFamily="sans-serif-light"
         android:text="@string/user_to_choose"
         android:textAlignment="center"
-
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/guideline13"
+        app:layout_constraintBottom_toTopOf="@+id/button_nobody_picks"
         app:layout_constraintEnd_toStartOf="@+id/rightCentringGuideline"
         app:layout_constraintStart_toStartOf="@+id/leftCentringGuideline"
         app:layout_constraintTop_toBottomOf="@id/button_flip" />
@@ -148,31 +147,35 @@
 
     <Button
         android:id="@+id/button_change_child"
-        android:layout_width="140dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:backgroundTint="@android:color/holo_purple"
         android:text="@string/choose_who_picks_String"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guidelineHeadsTails"
-        app:layout_constraintTop_toBottomOf="@+id/text_user_to_choose" />
+        app:layout_constraintTop_toTopOf="@+id/button_nobody_picks"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/button_nobody_picks"
-        android:layout_width="141dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="2dp"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+
+        android:layout_marginEnd="4dp"
         android:layout_marginBottom="8dp"
-        android:backgroundTint="@color/selectedChild"
+        android:backgroundTint="@android:color/holo_purple"
         android:text="@string/nobody_picks_String"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guidelineHeadsTails"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_user_to_choose" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
