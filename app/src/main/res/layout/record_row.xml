@@ -8,7 +8,7 @@
     >
 
     <ImageView
-        android:id="@+id/resultImageView"
+        android:id="@+id/image_result"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:src="@drawable/ic_won"
@@ -21,31 +21,31 @@
         >
 
         <TextView
-            android:id="@+id/whoPicked_TextView"
+            android:id="@+id/text_who_picked"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="@string/child_name_String"
+            android:text="@string/label_child_name"
             android:textSize="15sp"
             android:textStyle="bold"
             />
 
         <TextView
-            android:id="@+id/flipResult_TextView"
+            android:id="@+id/text_flip_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="@string/result_String"
+            android:text="@string/msg_result"
             android:textSize="15sp"
             android:textStyle="bold"
             />
 
         <TextView
-            android:id="@+id/dateTimeFlip_TextView"
+            android:id="@+id/text_date_time_flip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="@string/Date_Result_String"
+            android:text="@string/msg_date_result"
             android:textSize="15sp"
             android:textStyle="bold"
             />

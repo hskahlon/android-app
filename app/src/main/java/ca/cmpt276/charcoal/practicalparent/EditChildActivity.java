@@ -93,7 +93,7 @@ public class EditChildActivity extends AppCompatActivity {
 
     private boolean nameIsValid(String childName) {
         if (childName.length() == 0) {
-            nameBox.setError(getString(R.string.editChildNameError));
+            nameBox.setError(getString(R.string.edit_child_error_name));
             return false;
         } else {
             for (Child child : childManager.getChildren()) {

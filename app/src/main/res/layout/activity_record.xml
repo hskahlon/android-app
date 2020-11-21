@@ -18,20 +18,20 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/currentRecordBtn"
+            android:id="@+id/button_current_record"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:text="@string/current_record_String"
+            android:text="@string/label_current_records"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline14"
             app:layout_constraintStart_toStartOf="@+id/guideline17"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button_prior_records"
+            android:id="@+id/button_prior_record"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:text="@string/prior_records_String"
+            android:text="@string/label_prior_records"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline18"
             app:layout_constraintStart_toStartOf="@+id/guideline14"
@@ -60,7 +60,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ListView
-        android:id="@+id/recordListView"
+        android:id="@+id/list_record"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
