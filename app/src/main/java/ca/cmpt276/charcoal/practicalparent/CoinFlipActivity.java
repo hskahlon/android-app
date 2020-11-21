@@ -270,19 +270,19 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
                 if (randomChoice == TAILS) {
                     if (userDecision == null) {
-                        setResultText(getString(R.string.msg_tail_result), null);
+                        setResultText(getString(R.string.label_tails), null);
                     } else if (userDecision.equals(getString(R.string.msg_user_choose_tails))) {
-                        setResultText(getString(R.string.msg_tail_result),getString(R.string.msg_tail_result));
+                        setResultText(getString(R.string.label_tails),getString(R.string.label_tails));
                     } else if (userDecision.equals(getString(R.string.msg_user_choose_heads))) {
-                        setResultText(getString(R.string.msg_tail_result),getString(R.string.msg_head_result));
+                        setResultText(getString(R.string.label_tails),getString(R.string.label_heads));
                     }
                 } else if (randomChoice == HEADS){
                     if (userDecision == null) {
-                        setResultText(getString(R.string.msg_head_result), null);
+                        setResultText(getString(R.string.label_heads), null);
                     } else if (userDecision.equals(getString(R.string.msg_user_choose_heads))) {
-                        setResultText(getString(R.string.msg_head_result),getString(R.string.msg_head_result));
+                        setResultText(getString(R.string.label_heads),getString(R.string.label_heads));
                     } else if (userDecision.equals(getString(R.string.msg_user_choose_tails))) {
-                        setResultText(getString(R.string.msg_head_result),getString(R.string.msg_tail_result));
+                        setResultText(getString(R.string.label_heads),getString(R.string.label_tails));
                     }
                 }
                 userDecision = null;
@@ -299,9 +299,9 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     private void setResultText(String outcome, String choice) {
         TextView result = findViewById(R.id.text_coinflip_result);
         if (outcome.equals(getString(R.string.label_tails))) {
-            result.setText(getString(R.string.label_tails));
+            result.setText(getString(R.string.msg_tail_result));
         } else {
-            result.setText(getString(R.string.label_heads));
+            result.setText(getString(R.string.msg_head_result));
         }
 
         TextView showWinOrLoss = findViewById(R.id.text_result_win_or_loss);
