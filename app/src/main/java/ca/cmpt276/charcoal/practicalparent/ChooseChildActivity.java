@@ -132,7 +132,6 @@ public class ChooseChildActivity extends AppCompatActivity {
 
     }
 
-
     class MyAdapter extends ArrayAdapter<String> {
         Context context;
         ArrayList<String> rChildName;
