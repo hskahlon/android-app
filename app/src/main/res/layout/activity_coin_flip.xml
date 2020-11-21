@@ -10,12 +10,13 @@
         android:id="@+id/image_coin"
         android:layout_width="236dp"
         android:layout_height="225dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:contentDescription="@string/channel_description"
         android:src="@drawable/ic_tails"
         app:layout_constraintEnd_toStartOf="@+id/rightCentringGuideline"
+        app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="@+id/leftCentringGuideline"
-        app:layout_constraintTop_toTopOf="@+id/guideline8" />
+        app:layout_constraintTop_toBottomOf="@+id/text_result_win_or_loss" />
 
     <Button
         android:id="@+id/button_flip"
@@ -149,22 +150,28 @@
         android:id="@+id/button_change_child"
         android:layout_width="140dp"
         android:layout_height="56dp"
-        android:layout_marginStart="1dp"
         android:layout_marginTop="2dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/choose_who_picks_String"
-        app:layout_constraintEnd_toStartOf="@+id/rightCentringGuideline"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/button_nobody_picks"
+        app:layout_constraintStart_toStartOf="@+id/guidelineHeadsTails"
         app:layout_constraintTop_toBottomOf="@+id/text_user_to_choose" />
 
     <Button
         android:id="@+id/button_nobody_picks"
         android:layout_width="141dp"
         android:layout_height="54dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="2dp"
+        android:layout_marginBottom="8dp"
         android:backgroundTint="@color/selectedChild"
         android:text="@string/nobody_picks_String"
-        app:layout_constraintStart_toStartOf="@+id/leftCentringGuideline"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineHeadsTails"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_user_to_choose" />
 
 
