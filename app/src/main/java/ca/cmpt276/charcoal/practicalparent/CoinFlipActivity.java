@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -39,6 +41,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     public static final int HEADS = 1;
     private Button changeChild;
     private Button flipBtn;
+    private Button selectNobody;
     private Button heads;
     private Button tails;
     private String userDecision;
@@ -50,6 +53,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     private final Record manager = Record.getInstance();
     private int currentIndex;
     private String currentUser = "";
+    private Boolean chooseNobody = false;
     int OVERRIDE_CHILD = 1;
 
     @Override
@@ -90,7 +94,23 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
         // Choose user if users are entered
         chooseUser();
+
+        setupChooseNobodyButton();
+
     }
+
+    private void setupChooseNobodyButton() {
+        selectNobody = findViewById(R.id.button_nobody_picks);
+        selectNobody.setOnClickListener(v -> {
+
+            TextView current = findViewById(R.id.text_user_to_choose);
+            current.setText("");
+            chooseNobody = true;
+            chooseUser();
+
+        });
+    }
+
 
     private void setupChangeChildButton() {
         changeChild = findViewById(R.id.button_change_child);
@@ -111,13 +131,29 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
             ChildManager manager = ChildManager.getInstance();
             List<Child> children = manager.getChildren();
 
-            currentUser = children.get(currentIndex).getName();
+            if (chooseNobody)
+            {
+                currentIndex--;
+                currentUser = "";
+                chooseNobody = false;
 
-            setUserText();
-        } else {
+            }
+            else
+            {
+                currentUser = children.get(currentIndex).getName();
+
+                setUserText();
+            }
+
+
+        }
+        else
+        {
             heads.setVisibility(View.INVISIBLE);
             tails.setVisibility(View.INVISIBLE);
         }
+
+
     }
 
     public static int getCurrentIndex(Context context) {
@@ -146,6 +182,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
             TextView current = findViewById(R.id.text_user_to_choose);
             current.setText(currentUser+getString(R.string.chooses));
         }
+
     }
 
     private boolean childrenExist() {

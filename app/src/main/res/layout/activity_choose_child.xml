@@ -9,7 +9,7 @@
     tools:context=".ChooseChildActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/recordBtnLayout"
+        android:id="@+id/layout_queue_button"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:orientation="horizontal"
@@ -52,7 +52,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/queueTitle_textView"
+            android:id="@+id/text_queue_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/bangers"
@@ -70,7 +70,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ListView
-        android:id="@+id/listview_queue"
+        android:id="@+id/list_queue"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

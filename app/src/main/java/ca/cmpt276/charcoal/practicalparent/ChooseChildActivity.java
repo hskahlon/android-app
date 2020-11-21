@@ -104,19 +104,16 @@ public class ChooseChildActivity extends AppCompatActivity {
 
 
         if (children != null) {
-            listView = findViewById(R.id.listview_queue);
+            listView = findViewById(R.id.list_queue);
             // create adapter class
             MyAdapter adapter = new MyAdapter(this, (ArrayList<String>) childs, (ArrayList<String>) Position, (ArrayList<Integer>) qPortraits);
 
             // set on click listener
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            listView.setOnItemClickListener((parent, view, position, id) -> {
 
-                    view.setSelected(true);
-                    setNewIndex(children,childs.get(position));
+                view.setSelected(true);
+                setNewIndex(children,childs.get(position));
 
-                }
             });
 
             listView.setAdapter(adapter);
