@@ -1,6 +1,5 @@
 <resources>
     <!--        Strings for CoinFlipActivity        -->
-    <string name="app_name">Practical Parent</string>
     <string name="main_label">Kiddie Carpe Diem</string>
     <string name="coinFlip_label"> </string>
     <string name="flipcoins">flipCoins</string>
@@ -11,8 +10,6 @@
     <string name="winnerResult">You win!!</string>
     <string name="loserResult">You lost :(</string>
     <string name="noResult"> </string>
-    <string name="storeHeads">Heads</string>
-    <string name="storeTails">Tails</string>
 
     <string-array name="preSetTimes">
         <item>1</item>
@@ -46,12 +43,8 @@
     <string name="editChildSaveBtn_txt">Save</string>
     <string name="editChildNameLabel_txt">Name:</string>
     <string name="editChildNameError">Name length must be greater than 0</string>
-    <string name="edit_image_txt">Image:</string>
-    <string name="button_editImageUpload">Upload</string>
+    <string name="action_upload_gallery_image">Upload</string>
     <string name="button_editImageCamera">Camera</string>
-
-    <!--        Strings for EditChildImageActivity       -->
-    <string name="editChildImage_button">Upload from Gallery</string>
 
     <!--        Strings for RecordActivity       -->
     <string name="current_record_String">Current Child Records</string>
@@ -70,7 +63,6 @@
 
     <!--        Strings for TimeOutActivity       -->
     <string name="Pause">Pause</string>
-    <string name="STOP">STOP</string>
     <string name="Resume">Resume</string>
     <string name="Start">Start</string>
     <string name="reset">Reset</string>
@@ -97,13 +89,4 @@
     <string name="content_edit_task_label_txt">Task:</string>
     <string name="content_edit_task_name_label_txt">Name:</string>
     <string name="content_edit_task_confirm_btn_txt">Task Finished</string>
-    <string name="title_activity_edit_child_image_upload">EditChildImageUploadActivity</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>

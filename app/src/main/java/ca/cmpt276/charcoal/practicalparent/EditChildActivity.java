@@ -78,7 +78,6 @@ public class EditChildActivity extends AppCompatActivity {
         extractIntentData();
         preFillNameBox();
         setupImportImageButton();
-//        setupEditImageCameraButton();
     }
 
     private void preFillNameBox() {
@@ -88,12 +87,13 @@ public class EditChildActivity extends AppCompatActivity {
         }
     }
 
-    // TODO: Finish this function and its Activity
     private void setupImportImageButton() {
         Button importImageButton = findViewById(R.id.editImageUpload_btn);
         importImageButton.setOnClickListener(v -> dispatchChooseImportIntent());
     }
 
+    //Reference:
+    //    https://www.youtube.com/watch?v=8nDKwtTcOUg
     private void dispatchChooseImportIntent() {
         Intent choosePictureIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(choosePictureIntent, RESULT_LOAD_IMAGE);
@@ -102,25 +102,12 @@ public class EditChildActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        imageToUpload = findViewById(R.id.childImage);
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null) {
             Uri selectedImage = data.getData();
             imageToUpload.setImageURI(selectedImage);
         }
     }
-
-    // TODO: Finish this function and its Activity
-//    private void setupEditImageCameraButton() {
-//        Button editImageCameraButton = findViewById(R.id.editImageCamera_btn);
-//        editImageCameraButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(EditChildActivity.this, "Take a photo", Toast.LENGTH_SHORT)
-//                        .show();
-//                Intent intent = new Intent(EditChildActivity.this, EditChildImageCameraActivity.class);
-////                startActivity(intent);
-//            }
-//        });
-//    }
 
     private void setupSaveButton() {
         Button saveBtn = findViewById(R.id.editChildSave_btn);
