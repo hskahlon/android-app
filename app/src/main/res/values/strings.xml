@@ -1,14 +1,16 @@
 <resources>
+    <string name="app_name">Kiddie Carpe Diem</string>
+
     <!-- General Use -->
     <string name="label_task">Task:</string>
     <string name="label_name">Name:</string>
     <string name="action_edit">action_edit</string>
     <string name="action_delete">action_delete</string>
-    <string name="action_save">save</string>
+    <string name="action_save">Save</string>
+    <string name="file_provider">ca.cmpt276.charcoal.practicalparent.fileProvider</string>
+
 
     <!--        Strings for CoinFlipActivity        -->
-    <string name="app_name">Practical Parent</string>
-    <string name="main_label">Kiddie Carpe Diem</string>
     <string name="label_coin_flip"> </string>
     <string name="img_coin">flipCoins</string>
     <string name="action_flip">FLIP</string>
@@ -24,13 +26,12 @@
 
 
     <!--        Strings for MainActivity            -->
-    <string name="title_activity_help">Help</string>
-    <string name="kiddie_carpe_diem">Kiddie Carpe Diem</string>
     <string name="your_daily_caretaker_managing_app_made_easy">Your daily caretaker managing app made easy</string>
     <string name="button_label_timeout">Timeout</string>
     <string name="button_label_records">Records</string>
     <string name="button_label_children">Children</string>
     <string name="button_label_help">Help</string>
+    <string name="button_label_tasks">Tasks</string>
     <string name="notification_channel">Timer Alert</string>
     <string name="channel_description">Sends a notification when the timeout timer has expired</string>
 
@@ -59,6 +60,10 @@
     <string name="title_activity_edit_child">Edit Child</string>
     <string name="edit_child_name_hint">Name</string>
     <string name="edit_child_error_name">Name length must be greater than 0</string>
+    <string name="edit_image_txt">Image:</string>
+    <string name="action_import">Import</string>
+    <string name="action_get_camera_image">Camera</string>
+    <string name="error_image_save_problem">Image could not be saved</string>
 
     <!--        Strings for RecordActivity       -->
     <string name="label_current_records">Current Child Records</string>
@@ -73,6 +78,7 @@
     <string name="msg_chooses">\ Chooses\</string>
 
     <!--        Strings for HelpActivity       -->
+    <string name="title_activity_help">Help</string>
     <string name="created_by_charcoal">Created By: Charcoal</string>
     <string name="developers_name">Developers: Bryan, Harjot, Hyeonyoung, Jason</string>
     <string name="copyrights">Copyrights:</string>

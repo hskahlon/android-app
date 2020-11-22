@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupRecordActivityBtn() {
-        Button btn = findViewById(R.id.button_record_activity);
+        Button btn = findViewById(R.id.button_records_activity);
         btn.setOnClickListener(v -> {
             Intent i = RecordActivity.makeLaunchIntent(MainActivity.this);
             startActivity(i);

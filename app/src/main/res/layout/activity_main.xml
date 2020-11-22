@@ -10,7 +10,7 @@
         android:id="@+id/appTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/kiddie_carpe_diem"
+        android:text="@string/app_name"
         android:textSize="38sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -51,7 +51,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline11" />
 
     <Button
-        android:id="@+id/button_record_activity"
+        android:id="@+id/button_records_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/button_label_records"
@@ -141,7 +141,7 @@
         android:id="@+id/button_task_activity"
         android:layout_width="150dp"
         android:layout_height="65dp"
-        android:text="TASK"
+        android:text="@string/button_label_tasks"
         android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline22"
         app:layout_constraintEnd_toEndOf="parent"
