@@ -28,6 +28,8 @@ public class ChildManager {
         return children.get(index);
     }
 
+
+
     public void remove(int index) {
         children.remove(index);
     }

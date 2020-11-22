@@ -22,9 +22,6 @@
     <string name="msg_user_choose_heads">User chose heads!</string>
     <string name="user_to_choose"> </string>
 
-    <string name="storeHeads">Heads</string>
-    <string name="storeTails">Tails</string>
-
 
     <!--        Strings for MainActivity            -->
     <string name="title_activity_help">Help</string>
@@ -73,8 +70,6 @@
     <string name="label_child_name">Child Name</string>
     <string name="msg_result">Result:Heads</string>
     <string name="msg_date_result">Jan 8 1997 5:00pm</string>
-
-
     <string name="msg_chooses">\ Chooses\</string>
 
     <!--        Strings for HelpActivity       -->
@@ -97,5 +92,12 @@
 
     <!--        Strings for TaskInformationActivity -->
     <string name="title_activity_task_information">Task Information</string>
+    <string name="nobody_picks_String">nobody Picks</string>
+    <string name="title_activity_choose_child">Skip The Queue</string>
+
+    <!-- Strings for Choose Child Activity -->
+    <string name="choose_who_picks_String">Choose who Picks</string>
+    <string name="up_next_String">Up Next....</string>
+    <string name="queueNumber_String">22</string>
 
 </resources>

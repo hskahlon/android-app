@@ -13,6 +13,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PracticalParent">
         <activity
+            android:name=".ChooseChildActivity"
+            android:parentActivityName=".CoinFlipActivity"
+            android:label="@string/title_activity_choose_child"
+            >
+
+        </activity>
+        <activity
             android:name=".TaskInformationActivity"
             android:label="@string/title_activity_task_information"
             android:theme="@style/Theme.PracticalParent.NoActionBar"
@@ -75,6 +82,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
