@@ -122,11 +122,9 @@ public class ChooseChildActivity extends AppCompatActivity {
         Intent returnIntent = CoinFlipActivity.makeLaunchIntent(this);
         returnIntent.putExtra("newIndex",newIndex);
 
-        if (newIndex == currentIndex) {
-            setResult(Activity.RESULT_CANCELED,returnIntent);
-        } else {
-            setResult(Activity.RESULT_OK,returnIntent);
-        }
+
+        setResult(Activity.RESULT_OK,returnIntent);
+
 
         finish();
 
