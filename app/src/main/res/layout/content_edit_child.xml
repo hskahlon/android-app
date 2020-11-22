@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:ems="10"
-        android:hint="@string/editChildName_hint"
         android:importantForAutofill="no"
         android:hint="@string/edit_child_name_hint"
         android:inputType="textPersonName"

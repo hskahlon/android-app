@@ -100,15 +100,10 @@ public class EditChildActivity extends AppCompatActivity {
     // TODO: Finish this function and its Activity
     private void setupImportImageButton() {
         Button importImageButton = findViewById(R.id.button_image_import);
-        importImageButton.setOnClickListener(v -> {
-            Toast.makeText(EditChildActivity.this, "Upload a photo", Toast.LENGTH_SHORT)
-                    .show();
-            Intent intent = new Intent(EditChildActivity.this, ImportImageActivity.class);
-//                startActivity(intent);
-        });
+        importImageButton.setOnClickListener(v -> Toast.makeText(EditChildActivity.this, "Upload a photo", Toast.LENGTH_SHORT)
+                .show());
     }
 
-    // TODO: Finish this function and its Activity
     private void setupCameraImageButton() {
         Button editImageCameraButton = findViewById(R.id.button_get_camera_image);
         editImageCameraButton.setOnClickListener(v -> dispatchTakePictureIntent());

@@ -23,12 +23,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PracticalParent">
         <activity
-            android:name=".ImportImageActivity"
-            android:label="@string/title_activity_image_import"
-            android:parentActivityName=".EditChildActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.PracticalParent.NoActionBar" />
-        <activity
             android:name=".ChooseChildActivity"
             android:parentActivityName=".CoinFlipActivity"
             android:label="@string/title_activity_choose_child"/>

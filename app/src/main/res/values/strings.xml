@@ -31,6 +31,7 @@
     <string name="button_label_records">Records</string>
     <string name="button_label_children">Children</string>
     <string name="button_label_help">Help</string>
+    <string name="button_label_tasks">Tasks</string>
     <string name="notification_channel">Timer Alert</string>
     <string name="channel_description">Sends a notification when the timeout timer has expired</string>
 
@@ -62,9 +63,7 @@
     <string name="edit_image_txt">Image:</string>
     <string name="action_import">Import</string>
     <string name="button_get_camera_image">Camera</string>
-
-    <!--        Strings for EditChildImageActivity       -->
-    <string name="editChildImage_button">Upload from Gallery</string>
+    <string name="error_image_save_problem">Image could not be saved</string>
 
     <!--        Strings for RecordActivity       -->
     <string name="label_current_records">Current Child Records</string>
@@ -106,10 +105,5 @@
     <string name="choose_who_picks_String">Choose who Picks</string>
     <string name="up_next_String">Up Next....</string>
     <string name="queueNumber_String">22</string>
-
-    <!--        Strings for ImageImportActivity     -->
-    <string name="title_activity_image_import"> </string>
-    <string name="action_tasks">TASKS</string>
-    <string name="error_image_save_problem">Image could not be saved</string>
 
 </resources>
