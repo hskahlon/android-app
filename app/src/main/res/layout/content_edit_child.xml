@@ -14,6 +14,7 @@
         android:ems="10"
         android:hint="@string/editChildName_hint"
         android:importantForAutofill="no"
+        android:hint="@string/edit_child_name_hint"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="@+id/guideline24"
         app:layout_constraintTop_toTopOf="@+id/guideline5" />

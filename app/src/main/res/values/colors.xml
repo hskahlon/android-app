@@ -13,10 +13,15 @@
     <color name="correct_green">#32CD32</color>
     <color name="incorrect_red">#DC143C</color>
 
-    <color name="selectedHeadTail">#1E90FF</color>
-    <color name="unselectedHeadTail">#A9A9A9</color>
+    <color name="selected_head_tail">#1E90FF</color>
+    <color name="unselected_head_tail">#A9A9A9</color>
 
     <color name="selectedRecord">#1E90FF</color>
     <color name="unSelectedRecord">#A9A9A9</color>
     <color name="blue">#0000FF</color>
+
+    <color name="selectedChild">#1E90FF</color>
+    <color name="unselectedChild">#FFFFFF</color>
+
+
 </resources>

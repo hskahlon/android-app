@@ -29,6 +29,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.PracticalParent.NoActionBar" />
         <activity
+            android:name=".ChooseChildActivity"
+            android:parentActivityName=".CoinFlipActivity"
+            android:label="@string/title_activity_choose_child"/>
+        <activity
             android:name=".TaskInformationActivity"
             android:label="@string/title_activity_task_information"
             android:parentActivityName=".TasksActivity"
@@ -52,7 +56,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".CoinFlipActivity"
-            android:label="@string/coinFlip_label"
+            android:label="@string/label_coin_flip"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -100,6 +104,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

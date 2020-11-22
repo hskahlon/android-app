@@ -12,7 +12,7 @@
         android:theme="@style/Theme.PracticalParent.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/taskToolbar"
+            android:id="@+id/toolbar_task"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -23,7 +23,7 @@
     <include layout="@layout/content_tasks" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addTask_fab"
+        android:id="@+id/fab_add_task"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

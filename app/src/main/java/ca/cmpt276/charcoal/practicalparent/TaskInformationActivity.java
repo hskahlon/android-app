@@ -4,9 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +11,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -89,7 +85,7 @@ public class TaskInformationActivity extends AppCompatActivity {
             Task currentTask = taskManager.getTask(taskIndex);
             taskNameBox.setText(currentTask.getTaskName());
             if( childManager.getChildren().size() <= 0){
-                childNameBox.setText(R.string.no_child_added);
+                childNameBox.setText(R.string.msg_add_your_child);
             } else{
                 Child currentChild = childManager.getChild(currentTask.getChildIdx());
                 childNameBox.setText(String.format("%s", currentChild.getName()));
@@ -103,8 +99,7 @@ public class TaskInformationActivity extends AppCompatActivity {
             if(childManager.getChildren().size() <= 0 ){
                 Toast.makeText(TaskInformationActivity.this,"No Child Added ",Toast.LENGTH_SHORT)
                         .show();
-            }
-            else{
+            } else{
                 taskManager.reassignChildIdx(taskIndex);
                 EditTaskActivity.saveTasksInSharedPrefs(this);
                 finish();
