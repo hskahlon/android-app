@@ -7,6 +7,8 @@
     <string name="action_edit">action_edit</string>
     <string name="action_delete">action_delete</string>
     <string name="action_save">Save</string>
+    <string name="file_provider">ca.cmpt276.charcoal.practicalparent.fileProvider</string>
+
 
     <!--        Strings for CoinFlipActivity        -->
     <string name="coinFlip_label"> </string>
@@ -102,5 +104,6 @@
     <!--        Strings for ImageImportActivity     -->
     <string name="title_activity_image_import"> </string>
     <string name="action_tasks">TASKS</string>
+    <string name="error_image_save_problem">Image could not be saved</string>
 
 </resources>
