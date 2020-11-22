@@ -49,6 +49,7 @@ public class EditChildActivity extends AppCompatActivity {
     private static final String PREFS_NAME = "SavedData";
     private static final String CHILDREN_PREFS = "My children";
     public static final String EXTRA_CHILD_INDEX = "ca.cmpt276.charcoal.practicalparent - childIndex";
+
     private String currentPhotoPath;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     public ImageView childPhoto;

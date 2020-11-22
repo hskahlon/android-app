@@ -62,7 +62,7 @@
     <string name="edit_child_error_name">Name length must be greater than 0</string>
     <string name="edit_image_txt">Image:</string>
     <string name="action_import">Import</string>
-    <string name="button_get_camera_image">Camera</string>
+    <string name="action_get_camera_image">Camera</string>
     <string name="error_image_save_problem">Image could not be saved</string>
 
     <!--        Strings for RecordActivity       -->
