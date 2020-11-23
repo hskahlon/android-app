@@ -95,7 +95,6 @@ public class TaskInformationActivity extends AppCompatActivity {
             } else{
                 Child currentChild = childManager.getChild(currentTask.getChildIdx());
                 childNameBox.setText(String.format("%s", currentChild.getName()));
-                Log.i(TAG, "bitmap: "+ currentChild.getChildImage(this));
                 childImage.setImageBitmap(currentChild.getChildImage(this));
             }
         }
