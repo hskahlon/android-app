@@ -167,8 +167,16 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public static int getCurrentIndex(Context context) {
+        ChildManager manager = ChildManager.getInstance();
+        int numChildren = manager.getChildren().size();
+
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        return prefs.getInt(USER_INDEX, 0);
+        int index = prefs.getInt(USER_INDEX, 0);
+
+        if (index > numChildren-1) {
+            index = 0;
+        }
+        return index;
     }
 
     private void setCurrentIndex(int i) {
