@@ -9,7 +9,6 @@
     <string name="action_save">Save</string>
     <string name="file_provider">ca.cmpt276.charcoal.practicalparent.fileProvider</string>
 
-
     <!--        Strings for CoinFlipActivity        -->
     <string name="label_coin_flip"> </string>
     <string name="img_coin">flipCoins</string>
@@ -61,7 +60,7 @@
     <string name="edit_child_name_hint">Name</string>
     <string name="edit_child_error_name">Name length must be greater than 0</string>
     <string name="edit_image_txt">Image:</string>
-    <string name="action_import">Import</string>
+    <string name="action_upload_gallery_image">Upload</string>
     <string name="action_get_camera_image">Camera</string>
     <string name="error_image_save_problem">Image could not be saved</string>
 
@@ -87,6 +86,7 @@
     <string name="timer_wallpaper3_link">timer_wallpaper3 - http://wallpaperswide.com/beach_drone_photography-wallpapers.html</string>
     <string name="timer_wallpaper4_link">timer_wallpaper4 -http://wallpaperswide.com/search.html?q=calm</string>
     <string name="timer_wallpaper5_link">timer_wallpaper5 - http://wallpaperswide.com/seaside_4-wallpapers.html</string>
+    <string name="edit_child_default_link">edit_child_default_image - https://material.io/resources/icons/?style=baseline</string>
 
     <!--        Strings for EditTaskActivity       -->
     <string name="edit_task_name_hint">Name of the Task</string>
