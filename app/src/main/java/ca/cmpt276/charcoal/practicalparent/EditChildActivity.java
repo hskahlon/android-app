@@ -1,18 +1,19 @@
 package ca.cmpt276.charcoal.practicalparent;
 
+import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.icu.text.SimpleDateFormat;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,8 +27,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -51,6 +55,8 @@ public class EditChildActivity extends AppCompatActivity {
     private static final String PREFS_NAME = "SavedData";
     private static final String CHILDREN_PREFS = "My children";
     public static final String EXTRA_CHILD_INDEX = "ca.cmpt276.charcoal.practicalparent - childIndex";
+    private final int STORAGE_REQUEST_CODE = 0;
+    private final String[] STORAGE_PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     private String currentPhotoPath;
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -133,7 +139,7 @@ public class EditChildActivity extends AppCompatActivity {
 
     private void setupCameraImageButton() {
         Button editImageCameraButton = findViewById(R.id.button_get_camera_image);
-        editImageCameraButton.setOnClickListener(v -> dispatchTakePictureIntent());
+        editImageCameraButton.setOnClickListener(v -> checkFileAccessPermission());
     }
 
     private void setupSaveButton() {
@@ -243,6 +249,26 @@ public class EditChildActivity extends AppCompatActivity {
         }
     }
 
+    private void checkFileAccessPermission() {
+        if (ContextCompat.checkSelfPermission(
+                EditChildActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) ==
+                PackageManager.PERMISSION_GRANTED) {
+            // You can use the API that requires the permission.
+            dispatchTakePictureIntent();
+        } else if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            // In an educational UI, explain to the user why your app requires this
+            // permission for a specific feature to behave as expected. In this UI,
+            // include a "cancel" or "no thanks" button that allows the user to
+            // continue using your app without granting the permission.
+            View myLayout = findViewById(R.id.coordinator_layout);
+            Snackbar.make(myLayout, "Storage permissions needed to save and import pictures", Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.action_save, v -> ActivityCompat.requestPermissions(EditChildActivity.this, STORAGE_PERMISSIONS, STORAGE_REQUEST_CODE))
+                    .show();
+        } else {
+            ActivityCompat.requestPermissions(EditChildActivity.this, STORAGE_PERMISSIONS, STORAGE_REQUEST_CODE);
+        }
+    }
+
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -265,5 +291,18 @@ public class EditChildActivity extends AppCompatActivity {
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(contentUri);
         this.sendBroadcast(mediaScanIntent);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        if (requestCode == STORAGE_REQUEST_CODE) {// If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0 &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                dispatchTakePictureIntent();
+            } else {
+                Toast.makeText(EditChildActivity.this, "Cannot take picture", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

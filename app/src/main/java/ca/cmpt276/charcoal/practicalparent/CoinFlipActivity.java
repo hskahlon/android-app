@@ -63,6 +63,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
             if (resultCode == Activity.RESULT_OK) {
                 currentIndex = data.getIntExtra("newIndex",currentIndex);
                 setCurrentIndex(currentIndex);
+                chooseNobody = false;
                 chooseUser();
             }
         }
