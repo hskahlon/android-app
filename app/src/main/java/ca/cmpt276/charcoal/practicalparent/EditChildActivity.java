@@ -235,7 +235,7 @@ public class EditChildActivity extends AppCompatActivity {
             // permission for a specific feature to behave as expected. In this UI,
             // include a "cancel" or "no thanks" button that allows the user to
             // continue using your app without granting the permission.
-            View myLayout = findViewById(R.id.coordinatorLayout);
+            View myLayout = findViewById(R.id.coordinator_layout);
             Snackbar.make(myLayout, "Storage permissions needed to save and import pictures", Snackbar.LENGTH_INDEFINITE)
                     .setAction(R.string.action_save, v -> ActivityCompat.requestPermissions(EditChildActivity.this, STORAGE_PERMISSIONS, STORAGE_REQUEST_CODE))
                     .show();
