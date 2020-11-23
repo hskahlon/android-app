@@ -57,16 +57,16 @@ public class EditChildActivity extends AppCompatActivity {
     public static final String EXTRA_CHILD_INDEX = "ca.cmpt276.charcoal.practicalparent - childIndex";
     private final int STORAGE_REQUEST_CODE = 0;
     private final String[] STORAGE_PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int RESULT_LOAD_IMAGE = 2;
 
     private String currentPhotoPath;
-    static final int REQUEST_IMAGE_CAPTURE = 1;
     public ImageView childPhoto;
     private int childIndex;
     private EditText nameBox;
     private final ChildManager childManager = ChildManager.getInstance();
     private final TasksManager tasksManager = TasksManager.getInstance();
     ImageView imageToUpload;
-    private static final int RESULT_LOAD_IMAGE = 1;
 
     public static Intent makeLaunchIntent(Context context, int childIndex) {
         Intent intent = new Intent(context, EditChildActivity.class);
@@ -123,17 +123,18 @@ public class EditChildActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null) {
-            Uri selectedImage = data.getData();
-            imageToUpload = findViewById(R.id.image_child);
-            imageToUpload.setImageURI(selectedImage);
-        } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             galleryAddPic();
             File img = new File(currentPhotoPath);
             if (img.exists()) {
                 Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath);
                 childPhoto.setImageBitmap(bitmap);
             }
+        } else if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null) {
+            Uri selectedImage = data.getData();
+            imageToUpload = findViewById(R.id.image_child);
+            imageToUpload.setImageURI(selectedImage);
         }
     }
 
