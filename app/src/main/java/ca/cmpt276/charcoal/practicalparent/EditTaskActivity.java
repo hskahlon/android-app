@@ -58,13 +58,14 @@ public class EditTaskActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
 
         setupSaveButton();
-        taskNameBox = findViewById(R.id.edit_task_name);
+
         extractIntentData();
         preFillNameBox();
 
     }
 
     private void preFillNameBox() {
+        taskNameBox = findViewById(R.id.edit_task_name);
         if (taskIndex >= 0) {
             Task currentTask = taskManager.getTask(taskIndex);
             taskNameBox.setText(currentTask.getTaskName());

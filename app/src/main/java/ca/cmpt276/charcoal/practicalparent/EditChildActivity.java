@@ -145,8 +145,11 @@ public class EditChildActivity extends AppCompatActivity {
             Uri selectedImage = data.getData();
             childPhoto.setImageURI(selectedImage);
             File file = new File(selectedImage.getPath());//create path from uri
+
             final String[] split = file.getPath().split(":");//split the path.
+
             currentPhotoPath = split[1];//assign it to a string(your choice).
+            Log.i(TAG,"CurrentPhoto Path: " + currentPhotoPath);
             Toast.makeText(this, currentPhotoPath, Toast.LENGTH_SHORT).show();
         }
     }
@@ -297,6 +300,7 @@ public class EditChildActivity extends AppCompatActivity {
 
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
+        Log.i(TAG,"CurrentPhoto Path: " + currentPhotoPath);
         return image;
     }
 
