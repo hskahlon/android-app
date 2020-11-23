@@ -61,13 +61,11 @@ public class EditChildActivity extends AppCompatActivity {
     private static final int RESULT_LOAD_IMAGE = 2;
 
     private String currentPhotoPath = null;
-    static final int REQUEST_IMAGE_CAPTURE = 1;
     public ImageView childPhoto;
     private int childIndex;
     private EditText nameBox;
     private final ChildManager childManager = ChildManager.getInstance();
     private final TasksManager tasksManager = TasksManager.getInstance();
-    ImageView imageToUpload;
 
     public static Intent makeLaunchIntent(Context context, int childIndex) {
         Intent intent = new Intent(context, EditChildActivity.class);
@@ -141,11 +139,15 @@ public class EditChildActivity extends AppCompatActivity {
             if (img.exists()) {
                 Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath);
                 childPhoto.setImageBitmap(bitmap);
+                Toast.makeText(this, currentPhotoPath, Toast.LENGTH_SHORT).show();
             }
         } else if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null) {
             Uri selectedImage = data.getData();
-            imageToUpload = findViewById(R.id.image_child);
-            imageToUpload.setImageURI(selectedImage);
+            childPhoto.setImageURI(selectedImage);
+            File file = new File(selectedImage.getPath());//create path from uri
+            final String[] split = file.getPath().split(":");//split the path.
+            currentPhotoPath = split[1];//assign it to a string(your choice).
+            Toast.makeText(this, currentPhotoPath, Toast.LENGTH_SHORT).show();
         }
     }
 
