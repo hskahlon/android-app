@@ -100,14 +100,14 @@ public class BackgroundService extends Service {
         PendingIntent pendingLaunchIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         Intent stopTimerIntent = new Intent(this, NotificationStopBroadcastReceiver.class);
-        stopTimerIntent.putExtra(getString(R.string.NotificationID_intentNametag), NOTIFICATION_ID);
+        stopTimerIntent.putExtra(getString(R.string.notificationID_intent_name_tag), NOTIFICATION_ID);
         PendingIntent pendingStopTimerIntent = PendingIntent.getBroadcast(this, 0, stopTimerIntent, 0);
 
         AlarmInfo alarmInfo = AlarmInfo.getInstance();
         alarmInfo.setRingtone(ringtone);
         alarmInfo.setVibrator(vibrator);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getString(R.string.timout_alarm_notification_ID))
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getString(R.string.timeout_alarm_notification_ID))
                 .setSmallIcon(R.drawable.ic_baseline_alarm_24)
                 .setContentTitle(getString(R.string.timeout_notification_title))
                 .setContentText(getString(R.string.timeout_notification_body))

@@ -7,11 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -24,8 +21,6 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import ca.cmpt276.charcoal.practicalparent.model.Child;
-import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
 import ca.cmpt276.charcoal.practicalparent.model.Task;
 import ca.cmpt276.charcoal.practicalparent.model.TasksManager;
 
@@ -38,14 +33,12 @@ public class EditTaskActivity extends AppCompatActivity {
     private static final String TASKS_PREF = "Tasks";
     public static final String EXTRA_TASK_INDEX = "ca.cmpt276.charcoal.practicalparent - taskIndex";
     private int taskIndex;
-    private TextView childNameBox;
     private EditText taskNameBox;
-    private final ChildManager childManager = ChildManager.getInstance();
     private final TasksManager taskManager = TasksManager.getInstance();
 
-    public static Intent makeLaunchIntent(Context context, int childIndex) {
+    public static Intent makeLaunchIntent(Context context, int taskIndex) {
         Intent intent = new Intent(context, EditTaskActivity.class);
-        intent.putExtra(EXTRA_TASK_INDEX, childIndex);
+        intent.putExtra(EXTRA_TASK_INDEX, taskIndex);
         return intent;
     }
 
@@ -65,58 +58,21 @@ public class EditTaskActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
 
         setupSaveButton();
-        taskNameBox = findViewById(R.id.taskNameTextBox);
-        childNameBox = findViewById(R.id.childNameText);
+        taskNameBox = findViewById(R.id.edit_task_name);
         extractIntentData();
         preFillNameBox();
 
-        setupConfirmButton();
-    }
-
-    private void setupConfirmButton() {
-        Button confirmButton = findViewById(R.id.taskFinishedButton);
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(taskIndex < 0){
-                    Toast.makeText(EditTaskActivity.this, "You can only confirm when editing Task",Toast.LENGTH_SHORT)
-                            .show();
-                    return;
-                }
-                if(childManager.getChildren().size() <= 0 ){
-                    Toast.makeText(EditTaskActivity.this,"No Child Added ",Toast.LENGTH_SHORT)
-                            .show();
-                }
-                else{
-                    taskManager.reassignChildIdx(taskIndex);
-                    Task currentTask = taskManager.getTask(taskIndex);
-                    int nextChildIdx = currentTask.getChildIdx();
-                    Child nextChild = childManager.getChild(nextChildIdx);
-                    childNameBox.setText(String.format("%s", nextChild.getName()));
-
-                    saveTasksInSharedPrefs();
-                    finish();
-                }
-            }
-        });
     }
 
     private void preFillNameBox() {
         if (taskIndex >= 0) {
             Task currentTask = taskManager.getTask(taskIndex);
             taskNameBox.setText(currentTask.getTaskName());
-            if( childManager.getChildren().size() <= 0){
-                childNameBox.setText(R.string.no_child_added);
-            }
-            else{
-                Child currentChild = childManager.getChild(currentTask.getChildIdx());
-                childNameBox.setText(String.format("%s", currentChild.getName()));
-            }
         }
     }
 
     private void setupSaveButton() {
-        Button saveBtn = findViewById(R.id.editTaskSave_btn);
+        Button saveBtn = findViewById(R.id.button_save_task);
         saveBtn.setOnClickListener(v -> saveTaskInManager());
     }
 
@@ -129,14 +85,14 @@ public class EditTaskActivity extends AppCompatActivity {
             } else {
                 taskManager.add(new Task(taskName));
             }
-            saveTasksInSharedPrefs();
+            saveTasksInSharedPrefs(this);
             finish();
         }
     }
 
     private boolean nameIsValid(String taskName) {
         if (taskName.length() == 0) {
-            taskNameBox.setError(getString(R.string.editChildNameError));
+            taskNameBox.setError(getString(R.string.edit_child_error_name));
             return false;
         } else {
             for (Task task : taskManager.getTasks()) {
@@ -152,6 +108,9 @@ public class EditTaskActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_edit_task, menu);
+        if (taskIndex == -1) {
+            menu.findItem(R.id.action_delete).setVisible(false);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -160,21 +119,18 @@ public class EditTaskActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.action_delete) {
             if (taskIndex >= 0) {
                 taskManager.remove(taskIndex);
-                saveTasksInSharedPrefs();
+                saveTasksInSharedPrefs(this);
                 finish();
-            } else {
-                Toast.makeText(this, "You can only delete a child you are editing", Toast.LENGTH_SHORT)
-                        .show();
             }
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void saveTasksInSharedPrefs() {
-        SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+    public static void saveTasksInSharedPrefs(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
-        List<Task> tasks = taskManager.getTasks();
+        List<Task> tasks = TasksManager.getInstance().getTasks();
         Gson gson = new Gson();
         String json = gson.toJson(tasks);
         Log.i(TAG, json + "" );
@@ -189,7 +145,7 @@ public class EditTaskActivity extends AppCompatActivity {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         List<Task> tasks;
         String serializedTasks = prefs.getString(TASKS_PREF, null);
-        Log.i(TAG , "seriallizedTasks: " + serializedTasks);
+        Log.i(TAG , "serializedTasks: " + serializedTasks);
         if (serializedTasks != null) {
             Gson gson = new Gson();
             Type type = new TypeToken<List<Task>>(){}.getType();

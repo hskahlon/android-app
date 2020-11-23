@@ -47,7 +47,7 @@ public class RecordActivity extends AppCompatActivity {
 
         ListView listView;
         if (childList != null && choices != null && dateTimes != null && resultImages != null ) {
-            listView = findViewById(R.id.recordListView);
+            listView = findViewById(R.id.list_record);
             // Create adapter class
             MyAdapter adapter = new MyAdapter(this, (ArrayList<String>) childList,
                     (ArrayList<String>) choices,(ArrayList<Integer>) resultImages, (ArrayList<String>) dateTimes);
@@ -63,7 +63,7 @@ public class RecordActivity extends AppCompatActivity {
         ArrayList<Integer> rImgs;
 
         MyAdapter (Context c, ArrayList<String> childName, ArrayList<String> results, ArrayList<Integer> imgs, ArrayList<String> rDateTime) {
-            super(c, R.layout.record_row, R.id.childNameTextBox, childName);
+            super(c, R.layout.record_row, R.id.edit_child_name, childName);
             this.context = c;
             this.rName = childName;
             this.rResults = results;
@@ -76,10 +76,10 @@ public class RecordActivity extends AppCompatActivity {
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             LayoutInflater layoutInflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View row = layoutInflater.inflate(R.layout.record_row, parent, false);
-            ImageView images = row.findViewById(R.id.resultImageView);
-            TextView whoPicked = row.findViewById(R.id.whoPicked_TextView);
-            TextView flipResult = row.findViewById(R.id.flipResult_TextView);
-            TextView date = row.findViewById(R.id.dateTimeFlip_TextView);
+            ImageView images = row.findViewById(R.id.image_result);
+            TextView whoPicked = row.findViewById(R.id.text_who_picked);
+            TextView flipResult = row.findViewById(R.id.text_flip_result);
+            TextView date = row.findViewById(R.id.text_date_time_flip);
 
             // Now set our resources on views
             images.setImageResource(rImgs.get(position));
@@ -92,9 +92,9 @@ public class RecordActivity extends AppCompatActivity {
     }
 
     private void setUpInitialButton() {
-        currentRecords = findViewById(R.id.currentRecordBtn);
+        currentRecords = findViewById(R.id.button_current_record);
         currentRecords.setBackgroundColor(getColor(R.color.unSelectedRecord));
-        priorRecords = findViewById(R.id.priorRecordsBtn);
+        priorRecords = findViewById(R.id.button_prior_record);
         priorRecords.setBackgroundColor(getColor(R.color.selectedRecord));
     }
 
@@ -103,8 +103,8 @@ public class RecordActivity extends AppCompatActivity {
     }
 
     private void setUpRecordSelectorButtons() {
-        currentRecords = findViewById(R.id.currentRecordBtn);
-        priorRecords = findViewById(R.id.priorRecordsBtn);
+        currentRecords = findViewById(R.id.button_current_record);
+        priorRecords = findViewById(R.id.button_prior_record);
         currentRecords.setOnClickListener(v -> {
             currentRecords.setBackgroundColor(getColor(R.color.selectedRecord));
             showCurrentChildRecords();
@@ -145,7 +145,7 @@ public class RecordActivity extends AppCompatActivity {
                     }
                 }
 
-                ListView listView = findViewById(R.id.recordListView);
+                ListView listView = findViewById(R.id.list_record);
                 MyAdapter adapter = new MyAdapter(this, filteredChildNames, filteredChoices, filteredResultImages, filteredDateTimes);
                 listView.setAdapter(adapter);
             }

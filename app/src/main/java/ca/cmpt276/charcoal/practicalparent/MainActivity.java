@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupTaskActivityBtn() {
-        Button btn = findViewById(R.id.taskActivity);
+        Button btn = findViewById(R.id.button_task_activity);
         btn.setOnClickListener(v -> {
             Intent i = TasksActivity.makeLaunchIntent(MainActivity.this);
             startActivity(i);
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupHelpActivityBtn() {
-        Button btn = findViewById(R.id.helpActivity);
+        Button btn = findViewById(R.id.button_help_activity);
         btn.setOnClickListener(v -> {
             Intent i = HelpActivity.makeLaunchIntent(MainActivity.this);
             startActivity(i);
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupCoinActivityBtn() {
-        Button btn = findViewById(R.id.coinflipActivity);
+        Button btn = findViewById(R.id.button_coin_flip_activity);
         btn.setOnClickListener(v -> {
             Intent i = CoinFlipActivity.makeLaunchIntent(MainActivity.this);
             startActivity(i);
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupTimeOutActivityBtn() {
-        Button btn = findViewById(R.id.timeoutActivity);
+        Button btn = findViewById(R.id.button_timeout_activity);
         btn.setOnClickListener(v -> {
             Intent i = TimeOutActivity.makeLaunchIntent(MainActivity.this);
             startActivity(i);
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupRecordActivityBtn() {
-        Button btn = findViewById(R.id.recordsActivity);
+        Button btn = findViewById(R.id.button_records_activity);
         btn.setOnClickListener(v -> {
             Intent i = RecordActivity.makeLaunchIntent(MainActivity.this);
             startActivity(i);
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupChildrenActivityBtn() {
-        Button btn =  findViewById(R.id.childrenActivity);
+        Button btn =  findViewById(R.id.button_child_activity);
         btn.setOnClickListener(v -> {
             Intent i = ChildrenActivity.makeLaunchIntent(MainActivity.this);
             startActivity(i);
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
             CharSequence name = getString(R.string.notification_channel);
             String description = getString(R.string.channel_description);
             int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel = new NotificationChannel(getString(R.string.timout_alarm_notification_ID), name, importance);
+            NotificationChannel channel = new NotificationChannel(getString(R.string.timeout_alarm_notification_ID), name, importance);
             channel.setDescription(description);
 
             // Register the channel with the system; you can't change the importance

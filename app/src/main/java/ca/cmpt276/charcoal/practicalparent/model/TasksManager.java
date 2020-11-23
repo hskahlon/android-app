@@ -25,12 +25,28 @@ public class TasksManager {
     public void reassignChildIdx(int taskIdx) {
         Task task = tasks.get(taskIdx);
         if(childManager.getChildren().size() <= 0){
-            task.setChildIdx(-1);
-        }
-        else{
+            task.setChildIdx(0);
+        } else {
             int currentChildIdx = task.getChildIdx();
             int newChildIdx = (currentChildIdx+1) % (childManager.getChildren().size());
             task.setChildIdx(newChildIdx);
+        }
+    }
+
+    public void reassignTaskForDeletedChild(int deletedChildIndex) {
+        for (Task task : tasks) {
+            if (task.getChildIdx() > deletedChildIndex) {
+                int currentChildIdx = task.getChildIdx();
+                int newChildIdx = currentChildIdx - 1;
+                task.setChildIdx(newChildIdx);
+            }
+            if (childManager.getChildren().size() <= 0){
+                task.setChildIdx(0);
+            } else if (task.getChildIdx() == childManager.getChildren().size()){
+                int currentChildIdx = task.getChildIdx();
+                int newChildIdx = (currentChildIdx) % (childManager.getChildren().size());
+                task.setChildIdx(newChildIdx);
+            }
         }
     }
 

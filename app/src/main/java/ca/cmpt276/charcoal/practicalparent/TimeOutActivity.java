@@ -67,8 +67,8 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void setLoadingScreen() {
-        countDownText = (TextView) findViewById(R.id.countDownText);
-        loadingView = (ProgressBar) findViewById(R.id.loading_spinner);
+        countDownText = (TextView) findViewById(R.id.text_count_down);
+        loadingView = (ProgressBar) findViewById(R.id.spinner_loading);
         loadingView.animate()
                 .alpha(0f)
                 .setDuration(1000)
@@ -101,7 +101,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void setRandomBackgroundImage() {
-        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.timeoutLayout);
+        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout_timeout);
         layout.setBackground(ContextCompat.getDrawable(this, GetRandomBackgroundImage.getId()));
     }
 
@@ -110,9 +110,9 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void setupSpinner() {
-        preSetTimeSpinner = (PresetTimeCustomSpinner) findViewById(R.id.preSetTimeSpinner);
+        preSetTimeSpinner = (PresetTimeCustomSpinner) findViewById(R.id.spinner_preset_time);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.preSetTimes, android.R.layout.simple_spinner_item);
+                R.array.msg_preset_times, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         preSetTimeSpinner.setAdapter(adapter);
         preSetTimeSpinner.setOnItemSelectedListener(this);
@@ -134,7 +134,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         if (isTimerRunning) {
             resetButton.setVisibility(View.VISIBLE);
             pauseButton.setVisibility(View.VISIBLE);
-            pauseButton.setText(R.string.Pause);
+            pauseButton.setText(R.string.action_pause);
             startButton.setVisibility(View.INVISIBLE);
             preSetTimeSpinner.setVisibility(View.INVISIBLE);
             setButton.setVisibility(View.INVISIBLE);
@@ -144,7 +144,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
             if (timeLeftInMillis < 1000) {
                 resetButton.setVisibility(View.INVISIBLE);
                 pauseButton.setVisibility(View.INVISIBLE);
-                pauseButton.setText(R.string.Pause);
+                pauseButton.setText(R.string.action_pause);
                 startButton.setVisibility(View.VISIBLE);
                 preSetTimeSpinner.setVisibility(View.VISIBLE);
                 setButton.setVisibility(View.VISIBLE);
@@ -161,14 +161,14 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
                 // If the timer is paused:
                 resetButton.setVisibility(View.VISIBLE);
                 pauseButton.setVisibility(View.VISIBLE);
-                pauseButton.setText(R.string.Resume);
+                pauseButton.setText(R.string.action_resume);
                 startButton.setVisibility(View.INVISIBLE);
             }
         }
     }
 
     private void setupPauseButton() {
-        pauseButton = (Button) findViewById(R.id.pauseBtn);
+        pauseButton = (Button) findViewById(R.id.button_pause);
         pauseButton.setOnClickListener(v -> {
             if (isTimerRunning) {
                 pauseTimer();
@@ -179,12 +179,12 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void setupResetButton() {
-        resetButton = (Button) findViewById(R.id.resetBtn);
+        resetButton = (Button) findViewById(R.id.button_reset);
         resetButton.setOnClickListener(v -> resetTimer());
     }
 
     private void setupStartButton() {
-        startButton = (Button) findViewById(R.id.startBtn);
+        startButton = (Button) findViewById(R.id.button_start);
         startButton.setOnClickListener(v -> {
             if (timeLeftInMillis < 1000) {
                 Toast.makeText(TimeOutActivity.this, "No Timer Made", Toast.LENGTH_SHORT).show();
@@ -196,8 +196,8 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void setupSetButton() {
-        setButton = (Button) findViewById(R.id.setBtn);
-        setTimeText = (EditText) findViewById(R.id.setTimeText);
+        setButton = (Button) findViewById(R.id.button_set);
+        setTimeText = (EditText) findViewById(R.id.text_set_time);
         setButton.setOnClickListener(v -> {
             String input = setTimeText.getText().toString();
 
