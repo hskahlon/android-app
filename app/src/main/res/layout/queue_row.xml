@@ -12,7 +12,7 @@
         android:id="@+id/text_queue_position"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:text="@string/queueNumber_String"
+        android:text="@string/label_queue_number"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textSize="36sp"

@@ -91,6 +91,10 @@
     <string name="timer_wallpaper4_link">timer_wallpaper4 -http://wallpaperswide.com/search.html?q=calm</string>
     <string name="timer_wallpaper5_link">timer_wallpaper5 - http://wallpaperswide.com/seaside_4-wallpapers.html</string>
     <string name="edit_child_default_link">edit_child_default_image - https://material.io/resources/icons/?style=baseline</string>
+    <string name="flip_coin_tails_link">tails_coin - https://pixabay.com/vectors/phoenix-bird-legend-coin-fire-1292958/</string>
+    <string name="flip_coin_heads_link">heads_coin - https://pixabay.com/illustrations/bitcoin-blockchain-currency-coin-3125488/</string>
+    <string name="flip_coin_sound_link">coin_sound https://freesound.org/people/Lynx_5969/sounds/422670/</string>
+    <string name="app_icon_link">app_icon https://pixabay.com/vectors/baby-child-toddler-tiny-1724295/</string>
 
     <!--        Strings for EditTaskActivity       -->
     <string name="edit_task_name_hint">Name of the Task</string>
@@ -102,12 +106,13 @@
 
     <!--        Strings for TaskInformationActivity -->
     <string name="title_activity_task_information">Task Information</string>
-    <string name="nobody_picks_String">nobody Picks</string>
+    <string name="action_nobody_picks">nobody Picks</string>
     <string name="title_activity_choose_child">Skip The Queue</string>
 
     <!-- Strings for Choose Child Activity -->
-    <string name="choose_who_picks_String">Choose who Picks</string>
-    <string name="up_next_String">Up Next....</string>
-    <string name="queueNumber_String">22</string>
+    <string name="choose_who_picks">Choose who Picks</string>
+    <string name="up_next">Up Next....</string>
+    <string name="label_queue_number">22</string>
+
 
 </resources>

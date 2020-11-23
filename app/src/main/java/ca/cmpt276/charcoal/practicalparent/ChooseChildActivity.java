@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +33,7 @@ import static ca.cmpt276.charcoal.practicalparent.CoinFlipActivity.getCurrentInd
  */
 
 public class ChooseChildActivity extends AppCompatActivity {
-    Button saveChoice;
+
     int currentIndex;
     int newIndex;
     ListView listView;
@@ -63,9 +64,9 @@ public class ChooseChildActivity extends AppCompatActivity {
 
         // Lists to be populated for queue
         List<Child> children = manager.getChildren();
-        List<String> childs = new ArrayList<>();
-        List<String> Position = new ArrayList<>();
-        List<Integer> qPortraits = new ArrayList<>();
+        ArrayList<String> childrenNames = new ArrayList<>();
+        ArrayList<String> Position = new ArrayList<>();
+        ArrayList<Bitmap> qPortraits = new ArrayList<>();
 
         currentIndex  = getCurrentIndex(this);
 
@@ -76,9 +77,8 @@ public class ChooseChildActivity extends AppCompatActivity {
         for (int i: range) {
             Position.add(""+(i+1));
 
-            // TEMP ADD CHECKMARK TO PHOTOS
-            qPortraits.add(R.drawable.ic_won);
-            childs.add(manager.getChild(currentIndex).getName());
+            qPortraits.add(manager.getChild(currentIndex).getChildImage(this));
+            childrenNames.add(manager.getChild(currentIndex).getName());
 
             if (currentIndex < range.length-1) {
                 currentIndex++;
@@ -92,13 +92,13 @@ public class ChooseChildActivity extends AppCompatActivity {
         if (children != null) {
             listView = findViewById(R.id.list_queue);
             // create adapter class
-            MyAdapter adapter = new MyAdapter(this, (ArrayList<String>) childs, (ArrayList<String>) Position, (ArrayList<Integer>) qPortraits);
+            MyAdapter adapter = new MyAdapter(this, childrenNames, Position, qPortraits);
 
             // set on click listener
             listView.setOnItemClickListener((parent, view, position, id) -> {
 
                 view.setSelected(true);
-                skipQueue(children,childs.get(position));
+                skipQueue(children,childrenNames.get(position));
 
 
 
@@ -135,10 +135,10 @@ public class ChooseChildActivity extends AppCompatActivity {
         Context context;
         ArrayList<String> rChildName;
         ArrayList<String> rPosition;
-        ArrayList<Integer> rPortrait;
+        ArrayList<Bitmap> rPortrait;
 
 
-        MyAdapter (Context c, ArrayList<String> childName, ArrayList<String> qPosition, ArrayList<Integer> imgs) {
+        MyAdapter (Context c, ArrayList<String> childName, ArrayList<String> qPosition, ArrayList<Bitmap> imgs) {
             super(c, R.layout.queue_row, R.id.text_child_name_queue, childName);
             this.context = c;
             this.rChildName = childName;
@@ -159,7 +159,7 @@ public class ChooseChildActivity extends AppCompatActivity {
 
 
            // Now set our resources on views
-           portraits.setImageResource(rPortrait.get(position));
+           portraits.setImageBitmap(rPortrait.get(position));
            childName.setText(rChildName.get(position));
            turnNumber.setText(rPosition.get(position));
 

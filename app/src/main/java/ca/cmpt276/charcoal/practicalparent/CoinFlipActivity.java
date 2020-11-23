@@ -65,6 +65,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
                 setCurrentIndex(currentIndex);
                 chooseNobody = false;
                 chooseUser();
+                setProfilePicture(currentIndex,false);
             }
         }
     }
@@ -132,26 +133,33 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
             ChildManager manager = ChildManager.getInstance();
             List<Child> children = manager.getChildren();
 
-            if (chooseNobody)
-            {
+            if (chooseNobody) {
                 currentIndex--;
                 currentUser = "";
+                setProfilePicture(currentIndex, true);
                 chooseNobody = false;
-
-            }
-            else
-            {
+            } else {
                 currentUser = children.get(currentIndex).getName();
-
+                setProfilePicture(currentIndex,false);
                 setUserText();
             }
 
-
-        }
-        else
-        {
+        } else {
             heads.setVisibility(View.INVISIBLE);
             tails.setVisibility(View.INVISIBLE);
+        }
+
+
+    }
+
+    private void setProfilePicture(int currentIndex, boolean chooseNobody) {
+        ImageView portait = findViewById(R.id.image_portrait_coinflip);
+        if (!chooseNobody) {
+            ChildManager manager = ChildManager.getInstance();
+            portait.setImageBitmap(manager.getChild(currentIndex).getChildImage(this));
+            portait.setVisibility(View.VISIBLE);
+        } else {
+            portait.setVisibility(View.INVISIBLE);
         }
 
 
