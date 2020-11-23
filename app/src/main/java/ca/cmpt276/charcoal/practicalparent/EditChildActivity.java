@@ -57,7 +57,7 @@ public class EditChildActivity extends AppCompatActivity {
     private final int STORAGE_REQUEST_CODE = 0;
     private final String[] STORAGE_PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
-    private String currentPhotoPath;
+    private String currentPhotoPath = null;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     public ImageView childPhoto;
     private int childIndex;
@@ -90,10 +90,10 @@ public class EditChildActivity extends AppCompatActivity {
         nameBox = findViewById(R.id.edit_child_name);
 
         childPhoto = findViewById(R.id.image_child);
-        childPhoto.setImageResource(R.drawable.editchild_default_image);
 
         extractIntentData();
         preFillNameBox();
+        preLoadChildImage();
         setupImportImageButton();
         setupCameraImageButton();
     }
@@ -102,6 +102,15 @@ public class EditChildActivity extends AppCompatActivity {
         if (childIndex >= 0) {
             Child currentChild = childManager.getChild(childIndex);
             nameBox.setText(currentChild.getName());
+        }
+    }
+
+    private void preLoadChildImage() {
+        if (childIndex >= 0) {
+            Child currentChild = childManager.getChild(childIndex);
+            childPhoto.setImageBitmap(currentChild.getChildImage(this));
+        } else {
+            childPhoto.setImageResource(R.drawable.editchild_default_image);
         }
     }
 
@@ -128,8 +137,9 @@ public class EditChildActivity extends AppCompatActivity {
             if (childIndex >= 0) {
                 Child currentChild = childManager.getChild(childIndex);
                 currentChild.setName(childName);
+                currentChild.setImageAddress(currentPhotoPath);
             } else {
-                childManager.add(new Child(childName));
+                childManager.add(new Child(childName, currentPhotoPath));
             }
             saveChildren();
             finish();
