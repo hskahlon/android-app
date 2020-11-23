@@ -33,7 +33,7 @@ import static ca.cmpt276.charcoal.practicalparent.CoinFlipActivity.getCurrentInd
  */
 
 public class ChooseChildActivity extends AppCompatActivity {
-    Button saveChoice;
+
     int currentIndex;
     int newIndex;
     ListView listView;
