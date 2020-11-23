@@ -152,7 +152,7 @@
         android:layout_marginStart="4dp"
         android:layout_marginEnd="4dp"
         android:backgroundTint="@android:color/holo_purple"
-        android:text="@string/choose_who_picks_String"
+        android:text="@string/choose_who_picks"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -169,13 +169,20 @@
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="8dp"
         android:backgroundTint="@android:color/holo_purple"
-        android:text="@string/nobody_picks_String"
+        android:text="@string/title_nobody_picks"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guidelineHeadsTails"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_user_to_choose" />
 
-
+    <ImageView
+        android:id="@+id/image_portrait_coinflip"
+        android:layout_width="51dp"
+        android:layout_height="55dp"
+        app:layout_constraintBottom_toBottomOf="@+id/text_user_to_choose"
+        app:layout_constraintStart_toStartOf="@+id/leftCentringGuideline"
+        app:layout_constraintTop_toTopOf="@+id/text_user_to_choose"
+        app:srcCompat="@drawable/editchild_default_image" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
