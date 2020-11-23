@@ -36,13 +36,11 @@ public class Child {
     }
 
     public Bitmap getChildImage(Context context) {
-        File img = new File(imageAddress);
         Bitmap bitmap;
-        if (img.exists()) {
-            bitmap = BitmapFactory.decodeFile(imageAddress);
-        } else {
+        if(imageAddress == null){
             bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.editchild_default_image);
-            Toast.makeText(context, "Image was deleted", Toast.LENGTH_SHORT).show();
+        } else {
+            bitmap = BitmapFactory.decodeFile(imageAddress);
         }
         return bitmap;
     }

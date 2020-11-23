@@ -182,7 +182,9 @@ public class EditChildActivity extends AppCompatActivity {
             if (childIndex >= 0) {
                 Child currentChild = childManager.getChild(childIndex);
                 currentChild.setName(childName);
-                currentChild.setImageAddress(currentPhotoPath);
+                if(currentPhotoPath!=null){
+                    currentChild.setImageAddress(currentPhotoPath);
+                }
             } else {
                 childManager.add(new Child(childName, currentPhotoPath));
             }
@@ -196,9 +198,9 @@ public class EditChildActivity extends AppCompatActivity {
             nameBox.setError(getString(R.string.edit_child_error_name));
             return false;
         } else {
-            for (Child child : childManager.getChildren()) {
-                if (childName.equals(child.getName())) {
-                    nameBox.setError(getString(R.string.error_unique_child_name));
+            for(int i = 0; i < childManager.getChildren().size(); i++){
+                if(childName.equals(childManager.getChild(i).getName()) && i != childIndex){
+                    nameBox.setError("Children names must be unique");
                     return false;
                 }
             }
