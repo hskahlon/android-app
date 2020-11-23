@@ -46,6 +46,8 @@ import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
 import ca.cmpt276.charcoal.practicalparent.model.TasksManager;
 
 import static android.os.Environment.getExternalStoragePublicDirectory;
+import static ca.cmpt276.charcoal.practicalparent.CoinFlipActivity.getCurrentIndex;
+
 
 /**
  *  Sets up Edit Child Activity, Allows for Editing children, and saving data
@@ -227,6 +229,7 @@ public class EditChildActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     private void reassignTaskForDeletedChild(int deletedChildIndex) {
         tasksManager.reassignTaskForDeletedChild(deletedChildIndex);

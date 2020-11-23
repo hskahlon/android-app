@@ -144,8 +144,10 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
             }
 
         } else {
+
             heads.setVisibility(View.INVISIBLE);
             tails.setVisibility(View.INVISIBLE);
+            setProfilePicture(0, true);
         }
 
 
@@ -297,6 +299,13 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
                 setCurrentIndex(currentIndex+1);
                 chooseUser();
             }, DURATION*2);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        chooseUser();
+
     }
 
     private void resetButtons() {
