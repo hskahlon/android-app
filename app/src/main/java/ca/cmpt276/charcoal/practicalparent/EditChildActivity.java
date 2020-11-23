@@ -1,7 +1,6 @@
 package ca.cmpt276.charcoal.practicalparent;
 
 import android.Manifest;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,9 +10,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
-import android.util.Log;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +22,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -36,7 +34,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.List;
@@ -60,13 +60,12 @@ public class EditChildActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int RESULT_LOAD_IMAGE = 2;
 
-    private String currentPhotoPath;
+    private String currentPhotoPath = null;
     public ImageView childPhoto;
     private int childIndex;
     private EditText nameBox;
     private final ChildManager childManager = ChildManager.getInstance();
     private final TasksManager tasksManager = TasksManager.getInstance();
-    ImageView imageToUpload;
 
     public static Intent makeLaunchIntent(Context context, int childIndex) {
         Intent intent = new Intent(context, EditChildActivity.class);
@@ -93,10 +92,10 @@ public class EditChildActivity extends AppCompatActivity {
         nameBox = findViewById(R.id.edit_child_name);
 
         childPhoto = findViewById(R.id.image_child);
-        childPhoto.setImageResource(R.drawable.editchild_default_image);
 
         extractIntentData();
         preFillNameBox();
+        preLoadChildImage();
         setupImportImageButton();
         setupCameraImageButton();
     }
@@ -108,6 +107,16 @@ public class EditChildActivity extends AppCompatActivity {
         }
     }
 
+    private void preLoadChildImage() {
+        if (childIndex >= 0) {
+            Child currentChild = childManager.getChild(childIndex);
+            childPhoto.setImageBitmap(currentChild.getChildImage(this));
+        } else {
+            childPhoto.setImageResource(R.drawable.editchild_default_image);
+        }
+    }
+
+    // TODO: Finish this function and its Activity
     private void setupImportImageButton() {
         Button importImageButton = findViewById(R.id.button_image_import);
         importImageButton.setOnClickListener(v -> dispatchChooseImportIntent());
@@ -130,11 +139,30 @@ public class EditChildActivity extends AppCompatActivity {
             if (img.exists()) {
                 Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath);
                 childPhoto.setImageBitmap(bitmap);
+                copyPictureToPrivate(bitmap);
             }
         } else if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null) {
             Uri selectedImage = data.getData();
-            imageToUpload = findViewById(R.id.image_child);
-            imageToUpload.setImageURI(selectedImage);
+            childPhoto.setImageURI(selectedImage);
+
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                copyPictureToPrivate(bitmap);
+            } catch (IOException e) {
+                Toast.makeText(this, R.string.error_could_not_save_file, Toast.LENGTH_SHORT).show();
+            }
+
+        }
+    }
+
+    void copyPictureToPrivate(Bitmap image) {
+        try {
+            File privateFile = createPrivateImageFile();
+            OutputStream out = new FileOutputStream(privateFile);
+            image.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            currentPhotoPath = privateFile.getAbsolutePath();
+        } catch (IOException e) {
+            Toast.makeText(this, R.string.error_could_not_save_file, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -154,8 +182,9 @@ public class EditChildActivity extends AppCompatActivity {
             if (childIndex >= 0) {
                 Child currentChild = childManager.getChild(childIndex);
                 currentChild.setName(childName);
+                currentChild.setImageAddress(currentPhotoPath);
             } else {
-                childManager.add(new Child(childName));
+                childManager.add(new Child(childName, currentPhotoPath));
             }
             saveChildren();
             finish();
@@ -169,7 +198,7 @@ public class EditChildActivity extends AppCompatActivity {
         } else {
             for (Child child : childManager.getChildren()) {
                 if (childName.equals(child.getName())) {
-                    nameBox.setError("Children names must be unique");
+                    nameBox.setError(getString(R.string.error_unique_child_name));
                     return false;
                 }
             }
@@ -235,7 +264,7 @@ public class EditChildActivity extends AppCompatActivity {
         // Create the File where the photo should go
         File photoFile = null;
         try {
-            photoFile = createImageFile();
+            photoFile = createPublicImageFile();
         } catch (IOException ex) {
             // Error occurred while creating the File
             Toast.makeText(this, R.string.error_image_save_problem, Toast.LENGTH_SHORT).show();
@@ -262,7 +291,7 @@ public class EditChildActivity extends AppCompatActivity {
             // include a "cancel" or "no thanks" button that allows the user to
             // continue using your app without granting the permission.
             View myLayout = findViewById(R.id.coordinator_layout);
-            Snackbar.make(myLayout, "Storage permissions needed to save and import pictures", Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(myLayout, R.string.msg_storage_permission_explanation, Snackbar.LENGTH_INDEFINITE)
                     .setAction(R.string.action_save, v -> ActivityCompat.requestPermissions(EditChildActivity.this, STORAGE_PERMISSIONS, STORAGE_REQUEST_CODE))
                     .show();
         } else {
@@ -270,11 +299,26 @@ public class EditChildActivity extends AppCompatActivity {
         }
     }
 
-    private File createImageFile() throws IOException {
+    private File createPublicImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
+    private File createPrivateImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(null);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
@@ -302,7 +346,7 @@ public class EditChildActivity extends AppCompatActivity {
                     grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 dispatchTakePictureIntent();
             } else {
-                Toast.makeText(EditChildActivity.this, "Cannot take picture", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditChildActivity.this, R.string.error_cannot_take_picture, Toast.LENGTH_SHORT).show();
             }
         }
     }

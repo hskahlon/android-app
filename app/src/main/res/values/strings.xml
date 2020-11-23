@@ -62,7 +62,11 @@
     <string name="edit_image_txt">Image:</string>
     <string name="action_upload_gallery_image">Upload</string>
     <string name="action_get_camera_image">Camera</string>
-    <string name="error_image_save_problem">Image could not be saved</string>
+    <string name="error_image_save_problem">Error: Image could not be saved</string>
+    <string name="error_could_not_save_file">Error: Could not save file</string>
+    <string name="error_unique_child_name">Children names must be unique</string>
+    <string name="msg_storage_permission_explanation">Storage permissions needed to save and import pictures</string>
+    <string name="error_cannot_take_picture">Cannot take picture</string>
 
     <!--        Strings for RecordActivity       -->
     <string name="label_current_records">Current Child Records</string>
