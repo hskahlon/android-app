@@ -36,6 +36,13 @@ public class ChildrenActivity extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
+
+        setupFab();
+        populateListView();
+        registerClickCallback();
+    }
+
+    private void setupFab() {
         FloatingActionButton fab = findViewById(R.id.addChild_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,9 +51,6 @@ public class ChildrenActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        populateListView();
-        registerClickCallback();
     }
 
     public static Intent makeLaunchIntent(Context context) {

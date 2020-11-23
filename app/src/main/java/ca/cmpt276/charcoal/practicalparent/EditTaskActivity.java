@@ -58,7 +58,6 @@ public class EditTaskActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
 
         setupSaveButton();
-
         extractIntentData();
         preFillNameBox();
 

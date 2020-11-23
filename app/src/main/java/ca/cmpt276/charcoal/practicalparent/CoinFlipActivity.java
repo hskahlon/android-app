@@ -79,7 +79,6 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
         setupCoinButton();
 
         coin = findViewById(R.id.image_coin);
-
         heads = findViewById(R.id.button_select_heads);
         tails = findViewById(R.id.button_prior_records);
 

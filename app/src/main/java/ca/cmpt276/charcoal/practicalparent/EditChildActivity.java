@@ -89,9 +89,6 @@ public class EditChildActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
 
         setupSaveButton();
-        nameBox = findViewById(R.id.edit_child_name);
-
-        childPhoto = findViewById(R.id.image_child);
 
         extractIntentData();
         preFillNameBox();
@@ -101,6 +98,7 @@ public class EditChildActivity extends AppCompatActivity {
     }
 
     private void preFillNameBox() {
+        nameBox = findViewById(R.id.edit_child_name);
         if (childIndex >= 0) {
             Child currentChild = childManager.getChild(childIndex);
             nameBox.setText(currentChild.getName());
@@ -108,6 +106,7 @@ public class EditChildActivity extends AppCompatActivity {
     }
 
     private void preLoadChildImage() {
+        childPhoto = findViewById(R.id.image_child);
         if (childIndex >= 0) {
             Child currentChild = childManager.getChild(childIndex);
             childPhoto.setImageBitmap(currentChild.getChildImage(this));

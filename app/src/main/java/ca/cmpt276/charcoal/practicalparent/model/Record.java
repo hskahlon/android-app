@@ -30,13 +30,9 @@ public class Record {
     public void addChoice(String choice) { choices.add(0, choice);}
 
     public void addResult(Boolean result) {
-        if (result)
-        {
+        if (result) {
             images.add(0, R.drawable.ic_won);
-
-        }
-        else
-        {
+        } else {
             images.add(0, R.drawable.ic_lost);
         }
     }

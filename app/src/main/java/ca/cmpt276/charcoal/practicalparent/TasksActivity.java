@@ -36,6 +36,12 @@ public class TasksActivity extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
+        setupFab();
+        populateListView();
+        registerClickCallback();
+    }
+
+    private void setupFab() {
         FloatingActionButton fab = findViewById(R.id.fab_add_task);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,9 +50,6 @@ public class TasksActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        populateListView();
-        registerClickCallback();
     }
 
     public static Intent makeLaunchIntent(Context context) {
