@@ -115,7 +115,7 @@
                 android:fontFamily="sans-serif"
                 android:paddingStart="10dp"
                 android:paddingEnd="0dp"
-                android:text="@string/tails_coin_link"
+                android:text="@string/flip_coin_tails_link"
                 android:textColor="@color/black"
                 android:textColorLink="@color/blue"
                 android:textSize="18sp" />
@@ -126,7 +126,7 @@
                 android:fontFamily="sans-serif"
                 android:paddingStart="10dp"
                 android:paddingEnd="0dp"
-                android:text="@string/heads_coin_link"
+                android:text="@string/flip_coin_heads_link"
                 android:textColor="@color/black"
                 android:textColorLink="@color/blue"
                 android:textSize="18sp" />
@@ -137,7 +137,7 @@
                 android:fontFamily="sans-serif"
                 android:paddingStart="10dp"
                 android:paddingEnd="0dp"
-                android:text="@string/coin_sound_link"
+                android:text="@string/flip_coin_sound_link"
                 android:textColor="@color/black"
                 android:textColorLink="@color/blue"
                 android:textSize="18sp" />

@@ -169,7 +169,7 @@
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="8dp"
         android:backgroundTint="@android:color/holo_purple"
-        android:text="@string/title_nobody_picks"
+        android:text="@string/action_nobody_picks"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guidelineHeadsTails"
         app:layout_constraintStart_toStartOf="parent"

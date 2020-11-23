@@ -64,7 +64,7 @@ public class ChooseChildActivity extends AppCompatActivity {
 
         // Lists to be populated for queue
         List<Child> children = manager.getChildren();
-        ArrayList<String> childs = new ArrayList<>();
+        ArrayList<String> childrenNames = new ArrayList<>();
         ArrayList<String> Position = new ArrayList<>();
         ArrayList<Bitmap> qPortraits = new ArrayList<>();
 
@@ -78,7 +78,7 @@ public class ChooseChildActivity extends AppCompatActivity {
             Position.add(""+(i+1));
 
             qPortraits.add(manager.getChild(currentIndex).getChildImage(this));
-            childs.add(manager.getChild(currentIndex).getName());
+            childrenNames.add(manager.getChild(currentIndex).getName());
 
             if (currentIndex < range.length-1) {
                 currentIndex++;
@@ -92,13 +92,13 @@ public class ChooseChildActivity extends AppCompatActivity {
         if (children != null) {
             listView = findViewById(R.id.list_queue);
             // create adapter class
-            MyAdapter adapter = new MyAdapter(this, childs, Position, qPortraits);
+            MyAdapter adapter = new MyAdapter(this, childrenNames, Position, qPortraits);
 
             // set on click listener
             listView.setOnItemClickListener((parent, view, position, id) -> {
 
                 view.setSelected(true);
-                skipQueue(children,childs.get(position));
+                skipQueue(children,childrenNames.get(position));
 
 
 
