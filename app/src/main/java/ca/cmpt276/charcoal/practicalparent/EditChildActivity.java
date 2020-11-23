@@ -5,12 +5,13 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.icu.text.SimpleDateFormat;
-import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.Menu;
@@ -56,6 +57,8 @@ public class EditChildActivity extends AppCompatActivity {
     public static final String EXTRA_CHILD_INDEX = "ca.cmpt276.charcoal.practicalparent - childIndex";
     private final int STORAGE_REQUEST_CODE = 0;
     private final String[] STORAGE_PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int RESULT_LOAD_IMAGE = 2;
 
     private String currentPhotoPath = null;
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -64,6 +67,7 @@ public class EditChildActivity extends AppCompatActivity {
     private EditText nameBox;
     private final ChildManager childManager = ChildManager.getInstance();
     private final TasksManager tasksManager = TasksManager.getInstance();
+    ImageView imageToUpload;
 
     public static Intent makeLaunchIntent(Context context, int childIndex) {
         Intent intent = new Intent(context, EditChildActivity.class);
@@ -117,8 +121,32 @@ public class EditChildActivity extends AppCompatActivity {
     // TODO: Finish this function and its Activity
     private void setupImportImageButton() {
         Button importImageButton = findViewById(R.id.button_image_import);
-        importImageButton.setOnClickListener(v -> Toast.makeText(EditChildActivity.this, "Upload a photo", Toast.LENGTH_SHORT)
-                .show());
+        importImageButton.setOnClickListener(v -> dispatchChooseImportIntent());
+    }
+
+    //Reference:
+    //    https://www.youtube.com/watch?v=8nDKwtTcOUg
+    private void dispatchChooseImportIntent() {
+        Intent choosePictureIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(choosePictureIntent, RESULT_LOAD_IMAGE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            galleryAddPic();
+            File img = new File(currentPhotoPath);
+            if (img.exists()) {
+                Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath);
+                childPhoto.setImageBitmap(bitmap);
+            }
+        } else if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null) {
+            Uri selectedImage = data.getData();
+            imageToUpload = findViewById(R.id.image_child);
+            imageToUpload.setImageURI(selectedImage);
+        }
     }
 
     private void setupCameraImageButton() {
@@ -252,7 +280,6 @@ public class EditChildActivity extends AppCompatActivity {
         } else {
             ActivityCompat.requestPermissions(EditChildActivity.this, STORAGE_PERMISSIONS, STORAGE_REQUEST_CODE);
         }
-
     }
 
     private File createImageFile() throws IOException {
@@ -277,19 +304,6 @@ public class EditChildActivity extends AppCompatActivity {
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(contentUri);
         this.sendBroadcast(mediaScanIntent);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            galleryAddPic();
-            File img = new File(currentPhotoPath);
-            if (img.exists()) {
-                Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath);
-                childPhoto.setImageBitmap(bitmap);
-            }
-        }
     }
 
     @Override
