@@ -103,7 +103,7 @@ public class EditChildActivity extends AppCompatActivity {
     }
 
     private void setupImportImageButton() {
-        Button importImageButton = findViewById(R.id.editImageUpload_btn);
+        Button importImageButton = findViewById(R.id.button_image_import);
         importImageButton.setOnClickListener(v -> dispatchChooseImportIntent());
     }
 
@@ -119,7 +119,7 @@ public class EditChildActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null) {
             Uri selectedImage = data.getData();
-            imageToUpload = findViewById(R.id.childImage);
+            imageToUpload = findViewById(R.id.image_child);
             imageToUpload.setImageURI(selectedImage);
         } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             galleryAddPic();
