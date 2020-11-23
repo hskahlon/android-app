@@ -108,8 +108,51 @@
                 android:textColor="@color/black"
                 android:textColorLink="@color/blue"
                 android:textSize="18sp" />
-
             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autoLink="web"
+                android:fontFamily="sans-serif"
+                android:paddingStart="10dp"
+                android:paddingEnd="0dp"
+                android:text="@string/tails_coin_link"
+                android:textColor="@color/black"
+                android:textColorLink="@color/blue"
+                android:textSize="18sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autoLink="web"
+                android:fontFamily="sans-serif"
+                android:paddingStart="10dp"
+                android:paddingEnd="0dp"
+                android:text="@string/heads_coin_link"
+                android:textColor="@color/black"
+                android:textColorLink="@color/blue"
+                android:textSize="18sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autoLink="web"
+                android:fontFamily="sans-serif"
+                android:paddingStart="10dp"
+                android:paddingEnd="0dp"
+                android:text="@string/coin_sound_link"
+                android:textColor="@color/black"
+                android:textColorLink="@color/blue"
+                android:textSize="18sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autoLink="web"
+                android:fontFamily="sans-serif"
+                android:paddingStart="10dp"
+                android:paddingEnd="0dp"
+                android:text="@string/app_icon_link"
+                android:textColor="@color/black"
+                android:textColorLink="@color/blue"
+                android:textSize="18sp" />
+             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingStart="10dp"
@@ -120,6 +163,8 @@
                 android:text=""
                 android:autoLink="web"
                 android:textSize="18sp" />
+
+
         </LinearLayout>
     </ScrollView>
 
