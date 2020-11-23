@@ -9,6 +9,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -27,6 +28,7 @@ import ca.cmpt276.charcoal.practicalparent.model.TasksManager;
  */
 public class TaskInformationActivity extends AppCompatActivity {
     public static final String EXTRA_TASK_INDEX = "ca.cmpt276.charcoal.practicalparent - taskIndex";
+    private static final String TAG = "TaskInformationActivity";
     private int taskIndex;
 
     private final ChildManager childManager = ChildManager.getInstance();
