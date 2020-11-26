@@ -113,6 +113,10 @@
     <string name="choose_who_picks">Choose who Picks</string>
     <string name="up_next">Up Next....</string>
     <string name="label_queue_number">22</string>
+    <string name="title_take_breath">Take Breath</string>
+    <string name="button_label_take_breath">Take Breath</string>
+    <string name="action_begin">Begin</string>
+    <string name="msg_header">Let\'s take N breaths together</string>
 
 
 </resources>

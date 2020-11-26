@@ -4,11 +4,12 @@
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <uses-feature android:name="android.hardware.camera"
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="false" />
 
     <queries>
@@ -25,13 +26,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PracticalParent">
         <activity
+            android:name=".TakeBreathActivity"
+            android:label="@string/title_take_breath"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.PracticalParent.NoActionBar" />
+        <activity
             android:name=".ChooseChildActivity"
+            android:label="@string/title_activity_choose_child"
             android:parentActivityName=".CoinFlipActivity"
-            android:label="@string/title_activity_choose_child"/>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".TaskInformationActivity"
             android:label="@string/title_activity_task_information"
             android:parentActivityName=".TasksActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.PracticalParent.NoActionBar" />
         <activity
             android:name=".TasksActivity"
@@ -61,6 +70,7 @@
             android:parentActivityName=".ChildrenActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.PracticalParent.NoActionBar" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="@string/file_provider"
@@ -68,8 +78,9 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"/>
+                android:resource="@xml/file_paths" />
         </provider>
+
         <activity
             android:name=".RecordActivity"
             android:parentActivityName=".MainActivity"
@@ -96,11 +107,14 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
+
 </manifest>
