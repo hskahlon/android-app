@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupRecords() {
-        List<String> user = RecordsConfig.readNameFromPref(this);
+        List<Child> user = RecordsConfig.readChildFromPref(this);
         List<String> choice = RecordsConfig.readChoiceFromPref(this);
         List<String> date = RecordsConfig.readDateFromPref(this);
         List<Integer> img = RecordsConfig.readImageFromPref(this);

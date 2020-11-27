@@ -11,7 +11,7 @@ import ca.cmpt276.charcoal.practicalparent.R;
  */
 public class Record {
 
-    private List<String> users= new ArrayList<>();
+    private List<Child> children= new ArrayList<>();
     private List<String> dateTimes = new ArrayList<>();
     private List<String> choices = new ArrayList<>();
     private List<Integer> images = new ArrayList<>();
@@ -23,7 +23,7 @@ public class Record {
     }
 
 
-    public void addUser(String User) { users.add(0, User);}
+    public void addChild(Child child) { children.add(0, child);}
 
     public void addDateTime(String dateTime) { dateTimes.add(0, dateTime);}
 
@@ -37,7 +37,7 @@ public class Record {
         }
     }
 
-    public List<String> getUsers() { return users;}
+    public List<Child> getChildren() { return children;}
 
     public List<String> getDateTimes() { return dateTimes;}
 
@@ -53,8 +53,8 @@ public class Record {
         return images;
     }
 
-    public void setUsers(List<String> users) {
-        this.users = users;
+    public void setUsers(List<Child> children) {
+        this.children = children;
     }
 
     public void setDateTimes(List<String> users) {
