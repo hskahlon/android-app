@@ -124,6 +124,10 @@
     <string name="button_label_take_breath">Take Breath</string>
     <string name="action_begin">Begin</string>
     <string name="msg_header">Let\'s take N breaths together</string>
+    <string name="msg_inhale">Hold button and breath in</string>
+    <string name="msg_release_button_for_inhale">Release button and breath out</string>
+    <string name="msg_exhale">Now breathe out</string>
+    <string name="msg_release_button_for_exhale">Done breathing out. Release the button</string>
 
 
 </resources>

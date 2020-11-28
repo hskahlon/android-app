@@ -13,12 +13,13 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.TextView;
 
 public class TakeBreathActivity extends AppCompatActivity {
     String TAG = "TakeBreathAcitivty";
     private Button beginBtn;
     private Button inhaleExhaleBtn;
+    private TextView headingText,helpText;
     private boolean isThreeSecondRunCallBackPresent = false;
     private boolean isInhaling = true;
     private int numBreathLeft = 0;
@@ -43,8 +44,10 @@ public class TakeBreathActivity extends AppCompatActivity {
 
     }
 
+
     //Code Reference: https://stackoverflow.com/questions/22606977/how-can-i-get-button-pressed-time-when-i-holding-button-on
     //TODO: make a custom button for blind people -->this is the reason why it's in yellow
+    @SuppressLint("ClickableViewAccessibility")
     private void setupInhaleExhaleBtn() {
         inhaleExhaleBtn.setOnTouchListener(new View.OnTouchListener(){
             Handler handler = new Handler();
@@ -70,7 +73,6 @@ public class TakeBreathActivity extends AppCompatActivity {
                     isThreeSecondRunCallBackPresent=true;
                     if(isInhaling){
                         inhaleExhaleBtn.setText("Out!");
-                        isInhaling=false;
                     }else{
                         //TODO: Update Remaining breath to take
                         if(numBreathLeft>0){
@@ -78,7 +80,6 @@ public class TakeBreathActivity extends AppCompatActivity {
                         } else{
                             inhaleExhaleBtn.setText("Good Job");
                         }
-                        isInhaling=true;
                     }
 
 
@@ -91,9 +92,9 @@ public class TakeBreathActivity extends AppCompatActivity {
                     //TODO: when the user holds for 10 seconds --> stop animation and sound
                     Log.i(TAG, "user holds it for 10 seconds..");;
                     if (isInhaling) {
-
+                        helpText.setText(R.string.msg_release_button_for_inhale);
                     }else{
-
+                        helpText.setText(R.string.msg_release_button_for_exhale);
                     }
                 }
             };
@@ -113,10 +114,23 @@ public class TakeBreathActivity extends AppCompatActivity {
                         if (!isThreeSecondRunCallBackPresent){
                             //TODO: reset animation and sound
                             Log.i(TAG,"Hold less than 3 seconds!");
+                            if(isInhaling){
+
+                            }else{
+
+                            }
                         } else {
                             //TODO: stop animation and sound, move to exhale
                             Log.i(TAG,"Hold more than 3 seconds!");
                             isThreeSecondRunCallBackPresent=false;
+                            if(isInhaling){
+                                helpText.setText(R.string.msg_exhale);
+                                isInhaling=false;
+                            }else{
+                                helpText.setText("Done Breathing out. Good job!");
+                                isInhaling=true;
+                            }
+
                         }
                         handler.removeCallbacks(startRun);
                         handler.removeCallbacks(threeSecondRun);
@@ -134,6 +148,8 @@ public class TakeBreathActivity extends AppCompatActivity {
     private void setupBeginBtn() {
         beginBtn = findViewById(R.id.button_begin);
         inhaleExhaleBtn = findViewById(R.id.button_inhale_exhale);
+        helpText = findViewById(R.id.text_help);
+        headingText = findViewById(R.id.text_heading);
         beginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,6 +157,7 @@ public class TakeBreathActivity extends AppCompatActivity {
 
                 beginBtn.setVisibility(View.INVISIBLE);
                 inhaleExhaleBtn.setVisibility(View.VISIBLE);
+                helpText.setText(R.string.msg_inhale);
             }
         });
     }
