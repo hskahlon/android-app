@@ -17,8 +17,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -50,9 +48,9 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     private static final int DURATION = 300;
     private static final float SCALEX = 0.5f;
     private static final float SCALEY = 0.5f;
-    private final Record manager = Record.getInstance();
+    private final Record recordManager = Record.getInstance();
     private int currentIndex;
-    private String currentUser = "";
+    private Child currentChild = null;
     private Boolean chooseNobody = false;
     int OVERRIDE_CHILD = 1;
 
@@ -91,7 +89,9 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
         // Enable "up" on toolbar
         ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
 
         // Choose user if users are entered
         chooseUser();
@@ -134,11 +134,11 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
 
             if (chooseNobody) {
                 currentIndex--;
-                currentUser = "";
+                currentChild = null;
                 setProfilePicture(currentIndex, true);
                 chooseNobody = false;
             } else {
-                currentUser = children.get(currentIndex).getName();
+                currentChild = children.get(currentIndex);
                 setProfilePicture(currentIndex,false);
                 setUserText();
             }
@@ -154,21 +154,21 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void setProfilePicture(int currentIndex, boolean chooseNobody) {
-        ImageView portait = findViewById(R.id.image_portrait_coinflip);
+        ImageView portrait = findViewById(R.id.image_portrait_coinflip);
         if (!chooseNobody) {
             ChildManager manager = ChildManager.getInstance();
-            portait.setImageBitmap(manager.getChild(currentIndex).getChildImage(this));
-            portait.setVisibility(View.VISIBLE);
+            portrait.setImageBitmap(manager.getChild(currentIndex).getChildImage(this));
+            portrait.setVisibility(View.VISIBLE);
         } else {
-            portait.setVisibility(View.INVISIBLE);
+            portrait.setVisibility(View.INVISIBLE);
         }
 
 
     }
 
     public static int getCurrentIndex(Context context) {
-        ChildManager manager = ChildManager.getInstance();
-        int numChildren = manager.getChildren().size();
+        ChildManager childManager = ChildManager.getInstance();
+        int numChildren = childManager.getChildren().size();
 
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         int index = prefs.getInt(USER_INDEX, 0);
@@ -198,14 +198,14 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
         if (childrenExist()) {
             // Set the textview for current User
             TextView current = findViewById(R.id.text_user_to_choose);
-            current.setText(currentUser+getString(R.string.msg_chooses));
+            current.setText(currentChild.getName()+getString(R.string.msg_chooses));
         }
 
     }
 
     private boolean childrenExist() {
-        ChildManager manager = ChildManager.getInstance();
-        List<Child> children = manager.getChildren();
+        ChildManager childManager = ChildManager.getInstance();
+        List<Child> children = childManager.getChildren();
         return children.size() != 0;
     }
 
@@ -349,27 +349,27 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void addRecord(boolean b, String Choice) {
-        if (!currentUser.equals("")) {
-            manager.addChoice(Choice);
-            manager.addUser(currentUser);
+        if (currentChild != null) {
+            recordManager.addChoice(Choice);
+            recordManager.addChild(currentChild);
             Date currentTime = Calendar.getInstance().getTime();
             DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
             String convertedTime = dateFormat.format(currentTime);
-            manager.addDateTime(convertedTime);
-            manager.addResult(b);
+            recordManager.addDateTime(convertedTime);
+            recordManager.addResult(b);
             saveRecord();
         }
     }
 
     private void saveRecord() {
-        List<String> users = manager.getUsers();
-        List<String> choices = manager.getChoices();
-        List<String> dateTimes = manager.getDateTimes();
-        List<Integer> img = manager.getImages();
+        List<Child> users = recordManager.getChildren();
+        List<String> choices = recordManager.getChoices();
+        List<String> dateTimes = recordManager.getDateTimes();
+        List<Integer> img = recordManager.getImages();
 
-        RecordsConfig.writeDateInPref(getApplicationContext(),dateTimes);
+        RecordsConfig.writeDateInPref(getApplicationContext(), dateTimes);
         RecordsConfig.writeImageInPref(getApplicationContext(), img);
-        RecordsConfig.writeNameInPref(getApplicationContext(),users);
-        RecordsConfig.writeChoiceInPref(getApplicationContext(),choices);
+        RecordsConfig.writeChildInPref(getApplicationContext(), users);
+        RecordsConfig.writeChoiceInPref(getApplicationContext(), choices);
     }
 }

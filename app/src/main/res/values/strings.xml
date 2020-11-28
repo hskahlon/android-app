@@ -8,6 +8,7 @@
     <string name="action_delete">action_delete</string>
     <string name="action_save">Save</string>
     <string name="file_provider">ca.cmpt276.charcoal.practicalparent.fileProvider</string>
+    <string name="content_description_child_portrait">Portrait image of a child</string>
 
     <!--        Strings for CoinFlipActivity        -->
     <string name="label_coin_flip"> </string>
@@ -104,15 +105,21 @@
     <string name="action_confirm">Task Finished</string>
     <string name="error_delete_task">You can only delete a task you are editing</string>
 
+    <!--        Strings for TasksActivity           -->
+    <string name="label_name_placeholder">Name: %s</string>
+    <string name="label_task_placeholder">Task: %s</string>
+
     <!--        Strings for TaskInformationActivity -->
     <string name="title_activity_task_information">Task Information</string>
-    <string name="action_nobody_picks">nobody Picks</string>
-    <string name="title_activity_choose_child">Skip The Queue</string>
 
     <!-- Strings for Choose Child Activity -->
     <string name="choose_who_picks">Choose who Picks</string>
     <string name="up_next">Up Next....</string>
     <string name="label_queue_number">22</string>
+    <string name="action_nobody_picks">nobody Picks</string>
+    <string name="title_activity_choose_child">Skip The Queue</string>
+
+    <!-- Strings for Take Breath Activity -->
     <string name="title_take_breath">Take Breath</string>
     <string name="button_label_take_breath">Take Breath</string>
     <string name="action_begin">Begin</string>

@@ -14,6 +14,13 @@
         android:src="@drawable/ic_won"
         />
 
+    <ImageView
+        android:id="@+id/image_record_child_portrait"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:src="@drawable/editchild_default_image"
+        android:contentDescription="@string/content_description_child_portrait"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
