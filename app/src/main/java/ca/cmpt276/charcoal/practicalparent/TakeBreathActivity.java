@@ -16,7 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class TakeBreathActivity extends AppCompatActivity {
-    String TAG = "TakeBreathAcitivty";
+    String TAG = "TakeBreathActivity";
     private Button beginBtn;
     private Button inhaleExhaleBtn;
     private TextView headingText,helpText;
@@ -150,15 +150,12 @@ public class TakeBreathActivity extends AppCompatActivity {
         inhaleExhaleBtn = findViewById(R.id.button_inhale_exhale);
         helpText = findViewById(R.id.text_help);
         headingText = findViewById(R.id.text_heading);
-        beginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO: save the number of breath user wants to breathe
+        beginBtn.setOnClickListener(v -> {
+            //TODO: save the number of breath user wants to breathe
 
-                beginBtn.setVisibility(View.INVISIBLE);
-                inhaleExhaleBtn.setVisibility(View.VISIBLE);
-                helpText.setText(R.string.msg_inhale);
-            }
+            beginBtn.setVisibility(View.INVISIBLE);
+            inhaleExhaleBtn.setVisibility(View.VISIBLE);
+            helpText.setText(R.string.msg_inhale);
         });
     }
 
