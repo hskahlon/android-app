@@ -127,7 +127,7 @@ public class TakeBreathActivity extends AppCompatActivity {
                                 helpText.setText(R.string.msg_exhale);
                                 isInhaling=false;
                             }else{
-                                helpText.setText("Done Breathing out. Good job!");
+                                helpText.setText(R.string.msg_done_exhaling);
                                 isInhaling=true;
                             }
 
