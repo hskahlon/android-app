@@ -38,6 +38,28 @@ public class TakeBreathActivity extends AppCompatActivity {
     ImageView image_Breathe;
 
 
+    private abstract class State {
+        // Empty implementations, so derived classses don't need to
+        // overide methods they don't care about
+        void handleClickOn() {}
+        void handleClickOff() {}
+        void handleExit() {}
+        void handleEnter() {}
+    }
+    private final State onState = new OnState();
+    private final State offState = new OffState();
+
+    private State currentState = new IdleState();
+
+    private void setState(State newState) {
+
+        currentState.handleExit();
+        currentState = newState;
+        currentState.handleEnter();
+    }
+
+
+
     public static Intent makeLaunchIntent(Context context) {
         return new Intent(context, TakeBreathActivity.class);
     }
@@ -52,6 +74,8 @@ public class TakeBreathActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
         setupBeginBtn();
         setupInhaleExhaleBtn();
+
+        setState(offState);
     }
 
 
@@ -60,6 +84,9 @@ public class TakeBreathActivity extends AppCompatActivity {
     //TODO: make a custom button for blind people -->this is the reason why it's in yellow
     @SuppressLint("ClickableViewAccessibility")
     private void setupInhaleExhaleBtn() {
+        inhaleExhaleBtn.setOnClickListener((view) -> currentState.handleClickOff());
+
+
         inhaleExhaleBtn.setOnTouchListener(new View.OnTouchListener(){
             Handler handler = new Handler();
 
@@ -304,4 +331,76 @@ public class TakeBreathActivity extends AppCompatActivity {
     }
 
 
+    private class OnState extends State {
+        Handler timerHandler = new Handler();
+        Runnable timerRunnable = () -> {
+            // When timer expires transition state
+            setState(offState);
+
+        };
+        @Override
+        void handleClickOff() {
+            super.handleClickOff();
+            Toast.makeText(TakeBreathActivity.this, "From On state, going to Off", Toast.LENGTH_SHORT).show();
+            setState(offState);
+        }
+
+        @Override
+        void handleEnter() {
+            super.handleEnter();
+            TextView tv =  findViewById(R.id.text_heading);
+            tv.setText("In On State");
+
+
+            timerHandler.postDelayed(timerRunnable,2000);
+
+
+        }
+        // Cleanup timers upon exit
+        @Override
+        void handleExit() {
+            super.handleExit();
+            timerHandler.removeCallbacks(timerRunnable);
+        }
+
+        @Override
+        void handleClickOn() {
+            super.handleClickOn();
+            timerHandler.removeCallbacks(timerRunnable);
+            timerHandler.postDelayed(timerRunnable,2000);
+        }
+    }
+
+    private class OffState extends State {
+        int count = 0;
+        @Override
+        void handleClickOn() {
+            super.handleClickOn();
+            Toast.makeText(TakeBreathActivity.this, "From off state, clicked On", Toast.LENGTH_SHORT).show();
+            setState(onState);
+        }
+
+        @Override
+        void handleClickOff() {
+            super.handleClickOff();
+            Toast.makeText(TakeBreathActivity.this, "From off state, clicked off", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        void handleEnter() {
+            super.handleEnter();
+            TextView tv =  findViewById(R.id.text_heading);
+            tv.setText("In OFF STATE");
+        }
+
+        @Override
+        void handleExit() {
+            super.handleExit();
+            Log.i("OffState","Just exited off state");
+        }
+    }
+    // Does nothing, Avoids null checks with Null Object Pattern
+    private class IdleState extends State {
+
+    }
 }
