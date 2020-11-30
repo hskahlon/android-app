@@ -23,5 +23,7 @@
     <color name="selectedChild">#1E90FF</color>
     <color name="unselectedChild">#FFFFFF</color>
 
+    <color name="breathe_green">#76C82F</color>
+    <color name="exhale_blue">#13C7DA</color>
 
 </resources>

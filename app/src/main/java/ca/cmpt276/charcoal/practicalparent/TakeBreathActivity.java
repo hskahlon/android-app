@@ -3,6 +3,7 @@ package ca.cmpt276.charcoal.practicalparent;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -44,20 +45,13 @@ public class TakeBreathActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_breath);
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
-
         setupBeginBtn();
         setupInhaleExhaleBtn();
-
-
     }
-
-
 
 
     //Code Reference: https://stackoverflow.com/questions/10511423/android-repeat-action-on-pressing-and-holding-a-button
@@ -67,7 +61,6 @@ public class TakeBreathActivity extends AppCompatActivity {
     private void setupInhaleExhaleBtn() {
         inhaleExhaleBtn.setOnTouchListener(new View.OnTouchListener(){
             Handler handler = new Handler();
-
 
             Runnable startRun = () -> {
                 //TODO: when the user starts holding --> start animation and sound
@@ -88,13 +81,15 @@ public class TakeBreathActivity extends AppCompatActivity {
                     isThreeSecondRunCallBackPresent=true;
                     if(isInhaling){
                         inhaleExhaleBtn.setText("Out!");
-
+                        inhaleExhaleBtn.setBackgroundColor(getColor(R.color.exhale_blue));
+                        isInhaling = false;
 
                     }else{
                         //TODO: Update Remaining breath to take
 
                         if(numBreathLeft>0){
                             inhaleExhaleBtn.setText("In");
+                            inhaleExhaleBtn.setBackgroundColor(getColor(R.color.breathe_green));
                         } else{
                             inhaleExhaleBtn.setText("Good Job");
                         }
@@ -111,8 +106,10 @@ public class TakeBreathActivity extends AppCompatActivity {
                     Log.i(TAG, "user holds it for 10 seconds..");;
                     if (isInhaling) {
                         helpText.setText(R.string.msg_release_button_for_inhale);
+                        resetBreathImage();
                     }else{
                         helpText.setText(R.string.msg_release_button_for_exhale);
+                        isInhaling = false;
                     }
                 }
             };
@@ -123,7 +120,16 @@ public class TakeBreathActivity extends AppCompatActivity {
 
                 @Override
                 public void run() {
-                    startBreatheAnim();
+                    if (isInhaling)
+                    {
+                        Toast.makeText(TakeBreathActivity.this, "Hey",Toast.LENGTH_SHORT).show();
+                        startBreatheAnim();
+                    }
+                    else
+                    {
+                        Toast.makeText(TakeBreathActivity.this, "breathe out",Toast.LENGTH_SHORT).show();
+                        breatheOutAnim();
+                    }
                     myHandler.postDelayed(this,5);
                 }
             };
@@ -148,11 +154,11 @@ public class TakeBreathActivity extends AppCompatActivity {
                     }
                     case MotionEvent.ACTION_MOVE: {
 
-                        hideBreathe();
+                        //hideBreathe();
                         break;
                     }
                     case MotionEvent.ACTION_UP:
-                        hideBreathe();
+                        //hideBreathe();
 
                         if (myHandler == null)
                         {
@@ -178,6 +184,7 @@ public class TakeBreathActivity extends AppCompatActivity {
                             }
                         } else {
                             //TODO: stop animation and sound, move to exhale
+
                             Log.i(TAG,"Hold more than 3 seconds!");
                             isThreeSecondRunCallBackPresent=false;
                             if(isInhaling){
@@ -223,7 +230,11 @@ public class TakeBreathActivity extends AppCompatActivity {
 
 
         anim.start();
-        resetBreathImage();
+
+
+
+
+
     }
 
     private void resetBreathImage() {
@@ -237,14 +248,26 @@ public class TakeBreathActivity extends AppCompatActivity {
     private void startBreatheAnim() {
 
         image_Breathe = findViewById(R.id.image_breathe);
+
+        image_Breathe.setColorFilter(ContextCompat.getColor(this, R.color.breathe_green));
         image_Breathe.setVisibility(View.VISIBLE);
+
+
         ViewGroup.LayoutParams params =  image_Breathe.getLayoutParams();
         params.height+=20;
         params.width+=20;
         image_Breathe.setLayoutParams(params);
 
     }
-
+    private void breatheOutAnim() {
+        image_Breathe = findViewById(R.id.image_breathe);
+        image_Breathe.setVisibility(View.VISIBLE);
+        image_Breathe.setColorFilter(ContextCompat.getColor(this, R.color.exhale_blue));
+        ViewGroup.LayoutParams params =  image_Breathe.getLayoutParams();
+        params.height-=20;
+        params.width-=20;
+        image_Breathe.setLayoutParams(params);
+    }
 
     private void setupBeginBtn() {
         beginBtn = findViewById(R.id.button_begin);
