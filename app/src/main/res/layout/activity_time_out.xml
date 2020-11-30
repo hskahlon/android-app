@@ -7,6 +7,17 @@
     android:layout_height="match_parent"
     tools:context=".TimeOutActivity">
 
+    <ProgressBar
+        android:id="@+id/timer_progress"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:indeterminateOnly="false"
+        android:progressDrawable="@drawable/timer_pie_chart"
+        tools:progress="75"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ProgressBar
         android:id="@+id/spinner_loading"
@@ -157,5 +168,4 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent=".85" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
