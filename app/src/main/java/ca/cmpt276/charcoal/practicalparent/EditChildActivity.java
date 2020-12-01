@@ -88,7 +88,9 @@ public class EditChildActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
 
         setupSaveButton();
 
@@ -160,7 +162,7 @@ public class EditChildActivity extends AppCompatActivity {
         try {
             File privateFile = createPrivateImageFile();
             OutputStream out = new FileOutputStream(privateFile);
-            image.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            image.compress(Bitmap.CompressFormat.WEBP, 10, out);
             currentPhotoPath = privateFile.getAbsolutePath();
         } catch (IOException e) {
             Toast.makeText(this, R.string.error_could_not_save_file, Toast.LENGTH_SHORT).show();
@@ -183,8 +185,8 @@ public class EditChildActivity extends AppCompatActivity {
             if (childIndex >= 0) {
                 Child currentChild = childManager.getChild(childIndex);
                 currentChild.setName(childName);
-                if(currentPhotoPath!=null){
-                    currentChild.setImageAddress(currentPhotoPath);
+                if(currentPhotoPath != null){
+                    currentChild.updateChildImage(currentPhotoPath);
                 }
             } else {
                 childManager.add(new Child(childName, currentPhotoPath));
