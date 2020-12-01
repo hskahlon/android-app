@@ -129,6 +129,7 @@
     <string name="msg_exhale">Now breathe out</string>
     <string name="msg_release_button_for_exhale">Done breathing out. Release the button</string>
     <string name="msg_done_exhaling">Done Breathing out. Good job!</string>
+    <string name="stopwatch">Stopwatch</string>
 
 
 </resources>
