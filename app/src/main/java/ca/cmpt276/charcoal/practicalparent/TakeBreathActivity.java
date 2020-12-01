@@ -39,32 +39,27 @@ public class TakeBreathActivity extends AppCompatActivity {
     private final State doneExhaleState = new DoneExhaleState();
     private final State moreBreatheState = new MoreBreatheState();
 
-
     private State currentState = new IdleState();
-
 
     private abstract class State {
         // Empty implementations, so derived classses don't need to
         // overide methods they don't care about
-        void handleClickOn() {}
-        void handleClickOff() {}
         void handleClickBegin() {}
         void handleExit() {}
         void handleEnter() {}
         void handleHoldingDownButton() {}
         void handleReleaseButton() {}
     }
+
     private void setState(State newState) {
         currentState.handleExit();
         currentState = newState;
         currentState.handleEnter();
     }
 
-
     public static Intent makeLaunchIntent(Context context) {
         return new Intent(context, TakeBreathActivity.class);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +71,7 @@ public class TakeBreathActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
 
         setupTexts();
-        setupBtns();
+        setupButtons();
 
         setState(beginState);
     }
@@ -87,22 +82,17 @@ public class TakeBreathActivity extends AppCompatActivity {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private void setupBtns() {
+    private void setupButtons() {
         beginBtn = findViewById(R.id.button_begin);
         beginBtn.setOnClickListener((view) -> currentState.handleClickBegin());
         inhaleExhaleBtn = findViewById(R.id.button_inhale_exhale);
         inhaleExhaleBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN: {
-                        currentState.handleHoldingDownButton();
-                        break;
-                    }
-                    default: {
-                        currentState.handleReleaseButton();
-                        break;
-                    }
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    currentState.handleHoldingDownButton();
+                } else {
+                    currentState.handleReleaseButton();
                 }
                 return true;
             }
@@ -139,8 +129,8 @@ public class TakeBreathActivity extends AppCompatActivity {
     private class WaitForInhaleState extends State {
         @Override
         void handleEnter() {
-            inhaleExhaleBtn.setText("In");
-            helpText.setText("Hold Button and Breathe In");
+            inhaleExhaleBtn.setText(R.string.msg_in);
+            helpText.setText(R.string.msg_inhale);
         }
         @Override
         void handleHoldingDownButton() { setState(inhalingState); }
@@ -165,7 +155,7 @@ public class TakeBreathActivity extends AppCompatActivity {
         @Override
         void handleEnter() {
             Log.i(TAG,"Entering Inhaling State");
-            helpText.setText("In inhale State");
+            helpText.setText(R.string.msg_inhaling_state);
             Log.i(TAG, "holding button ...");
             timerHandler.postDelayed(threeSecondRun, 3000);
             //TODO: START ANIMATION AND SOUND
@@ -186,9 +176,9 @@ public class TakeBreathActivity extends AppCompatActivity {
         @Override
         void handleEnter() {
             Log.i(TAG,"Entering inhaled For Three Second State");
-            helpText.setText("Breathed in for 3 seconds! Feel free to release Button and breathe out");
+            helpText.setText(R.string.msg_inhaled_for_three_seconds);
             timerHandler.postDelayed(tenSecondRun, 7000);
-            inhaleExhaleBtn.setText("Out!");
+            inhaleExhaleBtn.setText(R.string.msg_out);
         }
         @Override
         void handleReleaseButton() {
@@ -236,7 +226,7 @@ public class TakeBreathActivity extends AppCompatActivity {
         @Override
         void handleEnter() {
             Log.i(TAG,"Entering Exhaling State");
-            helpText.setText("Now Breathe Out");
+            helpText.setText(R.string.msg_exhale);
             //TODO :START EXHALING ANIMATION AND SOUND
             timerHandler.postDelayed(threeSecondRun,3000);
         }
@@ -256,9 +246,9 @@ public class TakeBreathActivity extends AppCompatActivity {
         void handleEnter() {
             //TODO: Update Count of remaining breaths
             if(numBreathLeft>0){
-                inhaleExhaleBtn.setText("In");
+                inhaleExhaleBtn.setText(R.string.msg_in);
             }else{
-                inhaleExhaleBtn.setText("Good Job");
+                inhaleExhaleBtn.setText(R.string.msg_good_job);
             }
             timerHandler.postDelayed(tenSecondRun,7000);
         }

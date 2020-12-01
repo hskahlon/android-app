@@ -127,8 +127,11 @@
     <string name="msg_inhale">Hold button and breath in</string>
     <string name="msg_release_button_for_inhale">Release button and breath out</string>
     <string name="msg_exhale">Now breathe out</string>
-    <string name="msg_release_button_for_exhale">Done breathing out. Release the button</string>
-    <string name="msg_done_exhaling">Done Breathing out. Good job!</string>
+    <string name="msg_inhaling_state">Inhaling</string>
+    <string name="msg_inhaled_for_three_seconds">Breathed in for 3 seconds! Feel free to release Button and breathe out</string>
+    <string name="msg_in">In</string>
+    <string name="msg_out">Out!</string>
+    <string name="msg_good_job">Good Job</string>
 
 
 </resources>
