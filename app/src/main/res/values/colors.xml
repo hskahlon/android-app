@@ -23,5 +23,6 @@
     <color name="selectedChild">#1E90FF</color>
     <color name="unselectedChild">#FFFFFF</color>
 
-
+    <color name="pieTimerProgress">#DC143C</color>
+    <color name="pieTimerBackground">#DDDDDD</color>
 </resources>

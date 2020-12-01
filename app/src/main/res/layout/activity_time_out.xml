@@ -7,13 +7,25 @@
     android:layout_height="match_parent"
     tools:context=".TimeOutActivity">
 
+    <ImageView
+
+        android:id="@+id/timer_clockface"
+        android:layout_width="340dp"
+        android:layout_height="340dp"
+        android:src="@drawable/timer_clockface"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ProgressBar
         android:id="@+id/timer_progress"
-        android:layout_width="400dp"
-        android:layout_height="400dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:indeterminateOnly="false"
         android:progressDrawable="@drawable/timer_pie_chart"
-        tools:progress="75"
+        tools:progress="0"
+        style="@android:style/Widget.ProgressBar.Horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
