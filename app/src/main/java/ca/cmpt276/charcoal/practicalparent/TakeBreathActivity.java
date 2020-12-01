@@ -142,8 +142,6 @@ public class TakeBreathActivity extends AppCompatActivity {
     private class WaitForInhaleState extends State {
         @Override
         void handleEnter() {
-            inhaleExhaleBtn.setText("In");
-            helpText.setText("Hold Button and Breathe In");
             stopAnimation();
             inhaleExhaleBtn.setText(R.string.msg_in);
             helpText.setText(R.string.msg_inhale);
@@ -187,7 +185,6 @@ public class TakeBreathActivity extends AppCompatActivity {
 
         @Override
         void handleEnter() {
-            helpText.setText("In inhale State");
             Log.i(TAG,"Entering Inhaling State");
             helpText.setText(R.string.msg_inhaling_state);
             Log.i(TAG, "holding button ...");
@@ -232,10 +229,7 @@ public class TakeBreathActivity extends AppCompatActivity {
             Log.i(TAG,"Entering inhaled For Three Second State");
             helpText.setText(R.string.msg_inhaled_for_three_seconds);
             timerHandler.postDelayed(tenSecondRun, 7000);
-            inhaleExhaleBtn.setText("Out!");
             inflateCircle.postDelayed(myAction,5);
-
-
             inhaleExhaleBtn.setText(R.string.msg_out);
         }
         @Override
