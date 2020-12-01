@@ -23,6 +23,7 @@ import ca.cmpt276.charcoal.practicalparent.R;
 public class Child {
     private String name;
     private String imageAddress;
+    private transient Bitmap childImage;
 
     public Child(String name, String imageAddress) {
         this.name = name;
@@ -37,23 +38,26 @@ public class Child {
         this.name = name;
     }
 
-    public void setImageAddress(String imageAddress) {
+    public void updateChildImage(String imageAddress) {
         this.imageAddress = imageAddress;
+        this.childImage = BitmapFactory.decodeFile(imageAddress);
     }
 
     public Bitmap getChildImage(Context context) {
-        Bitmap bitmap;
-        if(imageAddress == null){
-            Drawable d = ContextCompat.getDrawable(context,R.drawable.editchild_default_image);
-            bitmap = drawableToBitmap(d);
-        } else {
-            bitmap = BitmapFactory.decodeFile(imageAddress);
+        if (childImage == null) {
+            if(imageAddress == null){
+                Drawable d = ContextCompat.getDrawable(context,R.drawable.editchild_default_image);
+                childImage = drawableToBitmap(d);
+            } else {
+                childImage = BitmapFactory.decodeFile(imageAddress);
+            }
         }
-        return bitmap;
+        return childImage;
     }
 
     //Code from : https://stackoverflow.com/questions/24389043/bitmapfactory-decoderesource-returns-null-for-shape-defined-in-xml-drawable
-    public Bitmap drawableToBitmap (Drawable drawable) {
+
+    private Bitmap drawableToBitmap (Drawable drawable) {
 
         if (drawable instanceof BitmapDrawable) {
             return ((BitmapDrawable)drawable).getBitmap();
@@ -66,7 +70,6 @@ public class Child {
 
         return bitmap;
     }
-
     @NonNull
     @Override
     public String toString() {
