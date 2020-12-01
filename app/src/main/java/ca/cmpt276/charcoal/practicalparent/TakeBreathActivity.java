@@ -4,21 +4,16 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.ContextCompat;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,16 +21,15 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 
-import android.view.ViewAnimationUtils;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 
 
 public class TakeBreathActivity extends AppCompatActivity {
+    public static final int EXHALE_DURATION = 3000;
+    public static final int INTIAL_HEIGHT = 4;
+    public static final int INTIAL_WIDTH = 17;
     String TAG = "TakeBreathActivity";
     private Button beginBtn;
     private Button inhaleExhaleBtn;
@@ -56,8 +50,8 @@ public class TakeBreathActivity extends AppCompatActivity {
     private final State doneExhaleState = new DoneExhaleState();
     private final State moreBreatheState = new MoreBreatheState();
     private ImageView image_Breathe;
-
-
+    MediaPlayer inhale;
+    MediaPlayer exhale;
     private State currentState = new IdleState();
 
     private abstract class State {
@@ -130,6 +124,7 @@ public class TakeBreathActivity extends AppCompatActivity {
             beginBtn.setVisibility(View.INVISIBLE);
             inhaleExhaleBtn.setVisibility(View.VISIBLE);
             setState(waitForInhaleState);
+
         }
         @Override
         void handleExit() {
@@ -187,22 +182,20 @@ public class TakeBreathActivity extends AppCompatActivity {
         @Override
         void handleReleaseButton() {
             Log.i(TAG, "Release button!");
-
-            //TODO: STOP ANIMATION
             setState(waitForInhaleState);
             Log.i(TAG, "Going from inhaling state to waitForInhaling State");
             failedInhale();
+            stopInhaleSound();
         }
 
         @Override
         void handleEnter() {
-            Log.i(TAG,"66666666 Entering Inhaling State");
             helpText.setText("In inhale State");
             Log.i(TAG,"Entering Inhaling State");
             helpText.setText(R.string.msg_inhaling_state);
             Log.i(TAG, "holding button ...");
             timerHandler.postDelayed(threeSecondRun, 3000);
-
+            startInhaleSound();
 
             if (inflateCircle==null)
             {
@@ -215,10 +208,8 @@ public class TakeBreathActivity extends AppCompatActivity {
         @Override
         void handleExit() {
             timerHandler.removeCallbacks(threeSecondRun);
-
             inflateCircle.removeCallbacks(myAction);
             inflateCircle = null;
-            Log.i(TAG,"OUTCHA");
         }
     }
 
@@ -270,6 +261,7 @@ public class TakeBreathActivity extends AppCompatActivity {
         void handleEnter() {
             Log.i(TAG,"Entering Inhaled For Ten Second State");
             helpText.setText(R.string.msg_release_button_for_inhale);
+            stopInhaleSound();
 
         }
         @Override
@@ -305,16 +297,21 @@ public class TakeBreathActivity extends AppCompatActivity {
         void handleEnter() {
             Log.i(TAG,"Entering Exhaling State");
             helpText.setText(R.string.msg_exhale);
-            //TODO :START EXHALING ANIMATION AND SOUND
+            stopInhaleSound();
             timerHandler.postDelayed(threeSecondRun,3000);
-            autoAnimateExhale(3000);
+            //TODO: Tomas Could you Create a State for Exhaling after inhaling for 10 seconds
+            //TODO: Then Simply Call these function with the duration
+            autoAnimateExhale(EXHALE_DURATION);
+            playExhaleSound(EXHALE_DURATION);
 
         }
         @Override
         void handleExit() {
             timerHandler.removeCallbacks(threeSecondRun);
+
         }
     }
+
 
     private class ExhaledForThreeSecondState extends State {
         Handler timerHandler = new Handler();
@@ -389,22 +386,6 @@ public class TakeBreathActivity extends AppCompatActivity {
         anim.start();
     }
 
-    private void autoAnimateInhale(int duration) {
-        View view = findViewById(R.id.image_breathe);
-
-        int cx = view.getWidth() /2;
-        int cy = view.getHeight() / 2;
-
-        float finalRadius = (float) Math.hypot(cx,cy);
-
-        Animator anim = ViewAnimationUtils.createCircularReveal(view,cx,cy,0,finalRadius);
-        view.setVisibility(View.VISIBLE);
-        anim.setDuration(duration);
-
-        anim.start();
-    }
-
-
     private void autoAnimateExhale(int duration) {
         image_Breathe.setColorFilter(ContextCompat.getColor(this, R.color.exhale_blue));
         View view = findViewById(R.id.image_breathe);
@@ -429,17 +410,15 @@ public class TakeBreathActivity extends AppCompatActivity {
     }
 
     private void resetAnimation() {
-
         image_Breathe = findViewById(R.id.image_breathe);
         ViewGroup.LayoutParams params =  image_Breathe.getLayoutParams();
-        params.height=4;
-        params.width=17;
+        params.height= INTIAL_HEIGHT;
+        params.width= INTIAL_WIDTH;
         image_Breathe.setLayoutParams(params);
         image_Breathe.setVisibility(View.INVISIBLE);
     }
 
     private void incrementCircle() {
-
         image_Breathe = findViewById(R.id.image_breathe);
         image_Breathe.setColorFilter(ContextCompat.getColor(this, R.color.breathe_green));
         image_Breathe.setVisibility(View.VISIBLE);
@@ -449,40 +428,37 @@ public class TakeBreathActivity extends AppCompatActivity {
         image_Breathe.setLayoutParams(params);
 
     }
-    private void decrementCircle() {
-        image_Breathe = findViewById(R.id.image_breathe);
-        image_Breathe.setVisibility(View.VISIBLE);
-        image_Breathe.setColorFilter(ContextCompat.getColor(this, R.color.exhale_blue));
-        ViewGroup.LayoutParams params =  image_Breathe.getLayoutParams();
-        params.height-=20;
-        params.width-=20;
-        image_Breathe.setLayoutParams(params);
+
+    private void startInhaleSound() {
+        if(inhale==null){
+            inhale = MediaPlayer.create(this, R.raw.inhale);
+            inhale.start();
+        }
+    }
+    private void stopInhaleSound() {
+        if (inhale!=null) {
+            inhale.stop();
+            inhale.release();
+            inhale = null;
+        }
     }
 
-    // TODO: Select Real Sound, Currently Plays CoinFlip Sound
-    private void inhaleSound(int duration) {
-        final MediaPlayer inhale = MediaPlayer.create(this, R.raw.coinflip);
-        inhale.start();
+    private void playExhaleSound(int duration) {
+        if (exhale==null){
+            exhale = MediaPlayer.create(this, R.raw.exhale);
+            exhale.start();
 
-        Handler stopSound = new Handler();
-        stopSound.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                inhale.stop();
-            }
-        }, duration);
+            Handler stopSound = new Handler();
+            stopSound.postDelayed(() -> stopExhaleSound(), duration);
+        }
+
+    }
+    private void stopExhaleSound() {
+        if (exhale!=null) {
+            exhale.stop();
+            exhale.release();
+            exhale = null;
+        }
     }
 
-    private void exhaleSound(int duration) {
-        final MediaPlayer exhale = MediaPlayer.create(this, R.raw.coinflip);
-        exhale.start();
-
-        Handler stopSound = new Handler();
-        stopSound.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                exhale.stop();
-            }
-        }, duration);
-    }
 }
