@@ -27,9 +27,10 @@ import android.widget.TextView;
 
 
 public class TakeBreathActivity extends AppCompatActivity {
-    public static final int EXHALE_DURATION = 3000;
+    public static final int EXHALE_DURATION = 10000;
     public static final int INTIAL_HEIGHT = 4;
     public static final int INTIAL_WIDTH = 17;
+    public static final int INCREMENT_FACTOR = 3;
     String TAG = "TakeBreathActivity";
     private Button beginBtn;
     private Button inhaleExhaleBtn;
@@ -143,7 +144,7 @@ public class TakeBreathActivity extends AppCompatActivity {
         void handleEnter() {
             inhaleExhaleBtn.setText("In");
             helpText.setText("Hold Button and Breathe In");
-            resetAnimation();
+            stopAnimation();
             inhaleExhaleBtn.setText(R.string.msg_in);
             helpText.setText(R.string.msg_inhale);
         }
@@ -168,11 +169,9 @@ public class TakeBreathActivity extends AppCompatActivity {
 
             @Override
             public void run() {
-                if (isInhaling) {
-                    incrementCircle();
-                }
-                else {
-                }
+
+                incrementCircle();
+
                 inflateCircle.postDelayed(this,5);
             }
         };
@@ -195,8 +194,7 @@ public class TakeBreathActivity extends AppCompatActivity {
             timerHandler.postDelayed(threeSecondRun, 3000);
             startInhaleSound();
 
-            if (inflateCircle==null)
-            {
+            if (inflateCircle==null) {
                 inflateCircle = new Handler();
             }
             inflateCircle.postDelayed(myAction,5);
@@ -219,15 +217,12 @@ public class TakeBreathActivity extends AppCompatActivity {
         };
 
         Handler inflateCircle = new Handler();
+
         Runnable myAction = new Runnable(){
 
             @Override
             public void run() {
-                if (isInhaling) {
-                    incrementCircle();
-                }
-                else {
-                }
+                incrementCircle();
                 inflateCircle.postDelayed(this,5);
             }
         };
@@ -259,7 +254,7 @@ public class TakeBreathActivity extends AppCompatActivity {
         void handleEnter() {
             Log.i(TAG,"Entering Inhaled For Ten Second State");
             helpText.setText(R.string.msg_release_button_for_inhale);
-            stopInhaleSound();
+
 
         }
         @Override
@@ -279,6 +274,7 @@ public class TakeBreathActivity extends AppCompatActivity {
             //TODO: STOP ANIMATION AND SOUND
             Log.i(TAG,"Entering Done Inhaling State");
             setState(exhalingState);
+            stopInhaleSound();
         }
         @Override
         void handleExit() {
@@ -297,10 +293,9 @@ public class TakeBreathActivity extends AppCompatActivity {
             helpText.setText(R.string.msg_exhale);
             stopInhaleSound();
             timerHandler.postDelayed(threeSecondRun,3000);
-            //TODO: Tomas Could you Create a State for Exhaling after inhaling for 10 seconds
-            //TODO: Then Simply Call these function with the duration
+
             autoAnimateExhale(EXHALE_DURATION);
-            playExhaleSound(EXHALE_DURATION);
+            playExhaleSound();
 
         }
         @Override
@@ -340,8 +335,11 @@ public class TakeBreathActivity extends AppCompatActivity {
     private class DoneExhaleState extends State {
         @Override
         void handleEnter() {
-            //TODO: stop animation and sound
+
             setState(moreBreatheState);
+            stopExhaleSound();
+            stopAnimation();
+
         }
         @Override
         void handleExit() {
@@ -373,7 +371,7 @@ public class TakeBreathActivity extends AppCompatActivity {
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 view.setVisibility(View.INVISIBLE);
-                resetAnimation();
+                stopAnimation();
             }
         });
 
@@ -395,7 +393,7 @@ public class TakeBreathActivity extends AppCompatActivity {
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 view.setVisibility(View.INVISIBLE);
-                resetAnimation();
+                stopAnimation();
             }
         });
         anim.setDuration(duration);
@@ -403,7 +401,7 @@ public class TakeBreathActivity extends AppCompatActivity {
 
     }
 
-    private void resetAnimation() {
+    private void stopAnimation() {
         image_Breathe = findViewById(R.id.image_breathe);
         ViewGroup.LayoutParams params =  image_Breathe.getLayoutParams();
         params.height= INTIAL_HEIGHT;
@@ -417,8 +415,8 @@ public class TakeBreathActivity extends AppCompatActivity {
         image_Breathe.setColorFilter(ContextCompat.getColor(this, R.color.breathe_green));
         image_Breathe.setVisibility(View.VISIBLE);
         ViewGroup.LayoutParams params =  image_Breathe.getLayoutParams();
-        params.height+=5;
-        params.width+=5;
+        params.height += INCREMENT_FACTOR;
+        params.width += INCREMENT_FACTOR;
         image_Breathe.setLayoutParams(params);
 
     }
@@ -437,13 +435,10 @@ public class TakeBreathActivity extends AppCompatActivity {
         }
     }
 
-    private void playExhaleSound(int duration) {
+    private void playExhaleSound() {
         if (exhale==null){
             exhale = MediaPlayer.create(this, R.raw.exhale);
             exhale.start();
-
-            Handler stopSound = new Handler();
-            stopSound.postDelayed(() -> stopExhaleSound(), duration);
         }
 
     }
@@ -455,4 +450,11 @@ public class TakeBreathActivity extends AppCompatActivity {
         }
     }
 
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopExhaleSound();
+        stopInhaleSound();
+    }
 }
