@@ -82,10 +82,8 @@ public class TakeBreathActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
-
         setupTexts();
         setupButtons();
-
         setState(beginState);
     }
 
