@@ -364,14 +364,10 @@ public class TakeBreathActivity extends AppCompatActivity {
         }
     }
     private void failedInhale() {
-
         View view = findViewById(R.id.image_breathe);
-
         int cx = view.getWidth() /2;
         int cy = view.getHeight() / 2;
-
         float intialRadius = (float) Math.hypot(cx,cy);
-
         Animator anim = ViewAnimationUtils.createCircularReveal(view,cx,cy,intialRadius,0);
 
         anim.addListener(new AnimatorListenerAdapter() {
