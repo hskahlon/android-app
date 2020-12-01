@@ -7,7 +7,7 @@ import java.util.List;
  *  Child manager activity stores information required for child
  */
 public class ChildManager {
-    List<Child> children = new ArrayList<>();
+    private List<Child> children = new ArrayList<>();
 
     private static ChildManager instance;
     private ChildManager() {
@@ -27,8 +27,6 @@ public class ChildManager {
     public Child getChild(int index) {
         return children.get(index);
     }
-
-
 
     public void remove(int index) {
         children.remove(index);
