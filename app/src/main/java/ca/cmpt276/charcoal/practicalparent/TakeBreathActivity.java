@@ -18,6 +18,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -54,7 +55,7 @@ public class TakeBreathActivity extends AppCompatActivity {
     private final State exhaledForThreeSecondState = new ExhaledForThreeSecondState();
     private final State doneExhaleState = new DoneExhaleState();
     private final State moreBreatheState = new MoreBreatheState();
-
+    private ImageView image_Breathe;
 
     private State currentState = new IdleState();
 
@@ -69,6 +70,8 @@ public class TakeBreathActivity extends AppCompatActivity {
         void handleEnter() {}
         void handleHoldingDownButton() {}
         void handleReleaseButton() {}
+
+
     }
     private void setState(State newState) {
         currentState.handleExit();
@@ -157,9 +160,13 @@ public class TakeBreathActivity extends AppCompatActivity {
         void handleEnter() {
             inhaleExhaleBtn.setText("In");
             helpText.setText("Hold Button and Breathe In");
+            resetAnimation();
         }
         @Override
-        void handleHoldingDownButton() { setState(inhalingState); }
+        void handleHoldingDownButton() {
+            setState(inhalingState);
+
+        }
     }
 
     private class InhalingState extends State {
@@ -169,6 +176,22 @@ public class TakeBreathActivity extends AppCompatActivity {
             setState(inhaledForThreeSecondState);
         };
 
+        Handler inflateCircle = new Handler();
+
+
+        Runnable myAction = new Runnable(){
+
+            @Override
+            public void run() {
+                if (isInhaling) {
+                    incrementCircle();
+                }
+                else {
+                }
+                inflateCircle.postDelayed(this,5);
+            }
+        };
+
         @Override
         void handleReleaseButton() {
             Log.i(TAG, "Release button!");
@@ -176,20 +199,32 @@ public class TakeBreathActivity extends AppCompatActivity {
             //TODO: STOP ANIMATION
             setState(waitForInhaleState);
             Log.i(TAG, "Going from inhaling state to waitForInhaling State");
+            failedInhale();
         }
 
         @Override
         void handleEnter() {
-            Log.i(TAG,"Entering Inhaling State");
+            Log.i(TAG,"66666666 Entering Inhaling State");
             helpText.setText("In inhale State");
             Log.i(TAG, "holding button ...");
             timerHandler.postDelayed(threeSecondRun, 3000);
-            //TODO: START ANIMATION AND SOUND
+
+
+            if (inflateCircle==null)
+            {
+                inflateCircle = new Handler();
+            }
+            inflateCircle.postDelayed(myAction,5);
+
         }
 
         @Override
         void handleExit() {
             timerHandler.removeCallbacks(threeSecondRun);
+
+            inflateCircle.removeCallbacks(myAction);
+            inflateCircle = null;
+            Log.i(TAG,"OUTCHA");
         }
     }
 
@@ -199,12 +234,30 @@ public class TakeBreathActivity extends AppCompatActivity {
             Log.i(TAG, "user holds it for 10 seconds..");
             setState(inhaledForTenSecondState);
         };
+
+        Handler inflateCircle = new Handler();
+        Runnable myAction = new Runnable(){
+
+            @Override
+            public void run() {
+                if (isInhaling) {
+                    incrementCircle();
+                }
+                else {
+                }
+                inflateCircle.postDelayed(this,5);
+            }
+        };
+
         @Override
         void handleEnter() {
             Log.i(TAG,"Entering inhaled For Three Second State");
             helpText.setText("Breathed in for 3 seconds! Feel free to release Button and breathe out");
             timerHandler.postDelayed(tenSecondRun, 7000);
             inhaleExhaleBtn.setText("Out!");
+            inflateCircle.postDelayed(myAction,5);
+
+
         }
         @Override
         void handleReleaseButton() {
@@ -213,14 +266,18 @@ public class TakeBreathActivity extends AppCompatActivity {
         @Override
         void handleExit() {
             timerHandler.removeCallbacks(tenSecondRun);
+            inflateCircle.removeCallbacks(myAction);
         }
     }
 
     private class InhaledForTenSecondsState extends State {
+
+
         @Override
         void handleEnter() {
             Log.i(TAG,"Entering Inhaled For Ten Second State");
             helpText.setText(R.string.msg_release_button_for_inhale);
+
         }
         @Override
         void handleReleaseButton() {
@@ -228,6 +285,8 @@ public class TakeBreathActivity extends AppCompatActivity {
         }
         @Override
         void handleExit() {
+
+
         }
     }
 
@@ -255,6 +314,8 @@ public class TakeBreathActivity extends AppCompatActivity {
             helpText.setText("Now Breathe Out");
             //TODO :START EXHALING ANIMATION AND SOUND
             timerHandler.postDelayed(threeSecondRun,3000);
+            autoAnimateExhale(3000);
+
         }
         @Override
         void handleExit() {
@@ -313,6 +374,7 @@ public class TakeBreathActivity extends AppCompatActivity {
         }
     }
     private void failedInhale() {
+
         View view = findViewById(R.id.image_breathe);
 
         int cx = view.getWidth() /2;
@@ -321,6 +383,7 @@ public class TakeBreathActivity extends AppCompatActivity {
         float intialRadius = (float) Math.hypot(cx,cy);
 
         Animator anim = ViewAnimationUtils.createCircularReveal(view,cx,cy,intialRadius,0);
+
         anim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -333,7 +396,23 @@ public class TakeBreathActivity extends AppCompatActivity {
         anim.start();
     }
 
-    private void animateExhale(int duration) {
+    private void autoAnimateInhale(int duration) {
+        View view = findViewById(R.id.image_breathe);
+
+        int cx = view.getWidth() /2;
+        int cy = view.getHeight() / 2;
+
+        float finalRadius = (float) Math.hypot(cx,cy);
+
+        Animator anim = ViewAnimationUtils.createCircularReveal(view,cx,cy,0,finalRadius);
+        view.setVisibility(View.VISIBLE);
+        anim.setDuration(duration);
+
+        anim.start();
+    }
+
+
+    private void autoAnimateExhale(int duration) {
         image_Breathe.setColorFilter(ContextCompat.getColor(this, R.color.exhale_blue));
         View view = findViewById(R.id.image_breathe);
 
@@ -363,6 +442,7 @@ public class TakeBreathActivity extends AppCompatActivity {
         params.height=4;
         params.width=17;
         image_Breathe.setLayoutParams(params);
+        image_Breathe.setVisibility(View.INVISIBLE);
     }
 
     private void incrementCircle() {
@@ -387,13 +467,29 @@ public class TakeBreathActivity extends AppCompatActivity {
     }
 
     // TODO: Select Real Sound, Currently Plays CoinFlip Sound
-    private void inhaleSound() {
+    private void inhaleSound(int duration) {
         final MediaPlayer inhale = MediaPlayer.create(this, R.raw.coinflip);
         inhale.start();
+
+        Handler stopSound = new Handler();
+        stopSound.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                inhale.stop();
+            }
+        }, duration);
     }
 
-    private void exhaleSound() {
+    private void exhaleSound(int duration) {
         final MediaPlayer exhale = MediaPlayer.create(this, R.raw.coinflip);
         exhale.start();
+
+        Handler stopSound = new Handler();
+        stopSound.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                exhale.stop();
+            }
+        }, duration);
     }
 }
