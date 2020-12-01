@@ -140,8 +140,8 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
             setButton.setVisibility(View.INVISIBLE);
             setTimeText.setVisibility(View.INVISIBLE);
         } else {
-            // If the timer is done:
             if (timeLeftInMillis < 1000) {
+                // If the timer is done:
                 resetButton.setVisibility(View.INVISIBLE);
                 pauseButton.setVisibility(View.INVISIBLE);
                 pauseButton.setText(R.string.action_pause);
@@ -240,6 +240,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         timeLeftInMillis = startTimeInMillis;
         updateCountDownText();
         updateUI();
+        updatePieTimer(timeLeftInMillis, true);
     }
 
     private void updateCountDownText() {
@@ -275,17 +276,18 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         @Override
         public void onReceive(Context context, Intent intent) {
             // Update timeLeftinmillis
-            if(intent.getExtras() != null) {
+            if (intent.getExtras() != null) {
                 timeLeftInMillis = intent.getLongExtra("countDown", 1000);
                 isTimerRunning = intent.getBooleanExtra("isTimerRunning", false);
                 Log.i(TAG, "timeleftinMillis passed from service: " + timeLeftInMillis / 1000);
                 Log.i(TAG, "isTimerRunning passed from service: " + isTimerRunning);
             }
-            if(isTimerReset){
+            if (isTimerReset){
                 timeLeftInMillis = startTimeInMillis;
             }
             updateCountDownText();
             updateUI();
+            updatePieTimer(timeLeftInMillis, false);
         }
     };
 
@@ -300,5 +302,24 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(broadcastReceiver);
+    }
+
+    private void updatePieTimer(long timeLeftInMillis, boolean reset){
+        ProgressBar pieTimer = (ProgressBar) findViewById(R.id.timer_progress);
+        float pieProgressFloat;
+        int pieProgressInt;
+        if (reset) {
+            pieTimer.setProgress(0);
+            return;
+        }
+        if (startTimeInMillis  - 500 > startTimeInMillis - timeLeftInMillis) {
+            pieProgressFloat = (int) ((startTimeInMillis - timeLeftInMillis));
+            pieProgressFloat = ((float)pieProgressFloat/(startTimeInMillis)) * 100;
+            pieProgressInt = (int) pieProgressFloat;
+        } else {
+            pieProgressInt = 100;
+        }
+
+        pieTimer.setProgress(pieProgressInt);
     }
 }
