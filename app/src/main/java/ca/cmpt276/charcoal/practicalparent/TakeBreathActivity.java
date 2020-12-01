@@ -9,155 +9,291 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+
 import android.widget.Button;
 import android.widget.TextView;
+
 
 public class TakeBreathActivity extends AppCompatActivity {
     String TAG = "TakeBreathActivity";
     private Button beginBtn;
     private Button inhaleExhaleBtn;
-    private TextView headingText,helpText;
+    private TextView headingText, helpText;
     private boolean isThreeSecondRunCallBackPresent = false;
     private boolean isInhaling = true;
+    private boolean completeExhale = false;
     private int numBreathLeft = 0;
+
+    private final State beginState = new BeginState();
+    private final State waitForInhaleState = new WaitForInhaleState();
+    private final State inhalingState = new InhalingState();
+    private final State inhaledForThreeSecondState = new InhaledForThreeSecondsState();
+    private final State inhaledForTenSecondState = new InhaledForTenSecondsState();
+    private final State doneInhaleState = new DoneInhaleState();
+    private final State exhalingState = new ExhalingState();
+    private final State exhaledForThreeSecondState = new ExhaledForThreeSecondState();
+    private final State doneExhaleState = new DoneExhaleState();
+    private final State moreBreatheState = new MoreBreatheState();
+
+
+    private State currentState = new IdleState();
+
+
+    private abstract class State {
+        // Empty implementations, so derived classses don't need to
+        // overide methods they don't care about
+        void handleClickOn() {}
+        void handleClickOff() {}
+        void handleClickBegin() {}
+        void handleExit() {}
+        void handleEnter() {}
+        void handleHoldingDownButton() {}
+        void handleReleaseButton() {}
+    }
+    private void setState(State newState) {
+        currentState.handleExit();
+        currentState = newState;
+        currentState.handleEnter();
+    }
+
 
     public static Intent makeLaunchIntent(Context context) {
         return new Intent(context, TakeBreathActivity.class);
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_breath);
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
-        setupBeginBtn();
-        setupInhaleExhaleBtn();
+        setupTexts();
+        setupBtns();
 
+        setState(beginState);
     }
 
+    private void setupTexts() {
+        helpText = findViewById(R.id.text_help);
+        headingText = findViewById(R.id.text_heading);
+    }
 
-    //Code Reference: https://stackoverflow.com/questions/22606977/how-can-i-get-button-pressed-time-when-i-holding-button-on
-    //TODO: make a custom button for blind people -->this is the reason why it's in yellow
     @SuppressLint("ClickableViewAccessibility")
-    private void setupInhaleExhaleBtn() {
-        inhaleExhaleBtn.setOnTouchListener(new View.OnTouchListener(){
-            Handler handler = new Handler();
-
-            Runnable startRun = new Runnable() {
-                @Override
-                public void run() {
-                    //TODO: when the user starts holding --> start animation and sound
-                    Log.i(TAG, "user starts holding..");
-                    if(isInhaling){
-
-                    }else{
-
-                    }
-                }
-            };
-
-            Runnable threeSecondRun = new Runnable() {
-                @Override
-                public void run() {
-                    //TODO: when the user holds for 3 seconds --> change button to exhale
-                    Log.i(TAG, "user holds it for 3 seconds..");
-                    isThreeSecondRunCallBackPresent=true;
-                    if(isInhaling){
-                        inhaleExhaleBtn.setText("Out!");
-                    }else{
-                        //TODO: Update Remaining breath to take
-                        if(numBreathLeft>0){
-                            inhaleExhaleBtn.setText("In");
-                        } else{
-                            inhaleExhaleBtn.setText("Good Job");
-                        }
-                    }
-
-
-                }
-            };
-
-            Runnable tenSecondRun = new Runnable() {
-                @Override
-                public void run() {
-                    //TODO: when the user holds for 10 seconds --> stop animation and sound
-                    Log.i(TAG, "user holds it for 10 seconds..");;
-                    if (isInhaling) {
-                        helpText.setText(R.string.msg_release_button_for_inhale);
-                    }else{
-                        helpText.setText(R.string.msg_release_button_for_exhale);
-                    }
-                }
-            };
-
-
+    private void setupBtns() {
+        beginBtn = findViewById(R.id.button_begin);
+        beginBtn.setOnClickListener((view) -> currentState.handleClickBegin());
+        inhaleExhaleBtn = findViewById(R.id.button_inhale_exhale);
+        inhaleExhaleBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
-                        handler.post(startRun);
-                        handler.postDelayed(threeSecondRun, 3000);
-                        handler.postDelayed(tenSecondRun, 10000);
+                        currentState.handleHoldingDownButton();
                         break;
                     }
-
                     default: {
-                        if (!isThreeSecondRunCallBackPresent){
-                            //TODO: reset animation and sound
-                            Log.i(TAG,"Hold less than 3 seconds!");
-                            if(isInhaling){
-
-                            }else{
-
-                            }
-                        } else {
-                            //TODO: stop animation and sound, move to exhale
-                            Log.i(TAG,"Hold more than 3 seconds!");
-                            isThreeSecondRunCallBackPresent=false;
-                            if(isInhaling){
-                                helpText.setText(R.string.msg_exhale);
-                                isInhaling=false;
-                            }else{
-                                helpText.setText(R.string.msg_done_exhaling);
-                                isInhaling=true;
-                            }
-
-                        }
-                        handler.removeCallbacks(startRun);
-                        handler.removeCallbacks(threeSecondRun);
-                        handler.removeCallbacks(tenSecondRun);
+                        currentState.handleReleaseButton();
                         break;
                     }
-
                 }
                 return true;
             }
         });
+    }
+
+    // Does nothing, Avoids null checks with Null Object Pattern
+    private class IdleState extends State {
 
     }
 
-    private void setupBeginBtn() {
-        beginBtn = findViewById(R.id.button_begin);
-        inhaleExhaleBtn = findViewById(R.id.button_inhale_exhale);
-        helpText = findViewById(R.id.text_help);
-        headingText = findViewById(R.id.text_heading);
-        beginBtn.setOnClickListener(v -> {
-            //TODO: save the number of breath user wants to breathe
-
+    private class BeginState extends State{
+        @Override
+        void handleClickBegin() {
+            //TODO: save data
             beginBtn.setVisibility(View.INVISIBLE);
             inhaleExhaleBtn.setVisibility(View.VISIBLE);
-            helpText.setText(R.string.msg_inhale);
-        });
+            setState(waitForInhaleState);
+        }
+        @Override
+        void handleExit() {
+            Log.i(TAG, "Exiting Begin State");
+        }
+
+        @Override
+        void handleEnter() {
+            Log.i(TAG, "Entering Begin State");
+            beginBtn.setVisibility(View.VISIBLE);
+            inhaleExhaleBtn.setVisibility(View.INVISIBLE);
+            helpText.setText("");
+        }
     }
 
+    private class WaitForInhaleState extends State {
+        @Override
+        void handleEnter() {
+            inhaleExhaleBtn.setText("In");
+            helpText.setText("Hold Button and Breathe In");
+        }
+        @Override
+        void handleHoldingDownButton() { setState(inhalingState); }
+    }
 
+    private class InhalingState extends State {
+        Handler timerHandler = new Handler();
+        Runnable threeSecondRun = () -> {
+            Log.i(TAG, "user holds it for 3 seconds..");
+            setState(inhaledForThreeSecondState);
+        };
+
+        @Override
+        void handleReleaseButton() {
+            Log.i(TAG, "Release button!");
+
+            //TODO: STOP ANIMATION
+            setState(waitForInhaleState);
+            Log.i(TAG, "Going from inhaling state to waitForInhaling State");
+        }
+
+        @Override
+        void handleEnter() {
+            Log.i(TAG,"Entering Inhaling State");
+            helpText.setText("In inhale State");
+            Log.i(TAG, "holding button ...");
+            timerHandler.postDelayed(threeSecondRun, 3000);
+            //TODO: START ANIMATION AND SOUND
+        }
+
+        @Override
+        void handleExit() {
+            timerHandler.removeCallbacks(threeSecondRun);
+        }
+    }
+
+    private class InhaledForThreeSecondsState extends State {
+        Handler timerHandler = new Handler();
+        Runnable tenSecondRun = () -> {
+            Log.i(TAG, "user holds it for 10 seconds..");
+            setState(inhaledForTenSecondState);
+        };
+        @Override
+        void handleEnter() {
+            Log.i(TAG,"Entering inhaled For Three Second State");
+            helpText.setText("Breathed in for 3 seconds! Feel free to release Button and breathe out");
+            timerHandler.postDelayed(tenSecondRun, 7000);
+            inhaleExhaleBtn.setText("Out!");
+        }
+        @Override
+        void handleReleaseButton() {
+            setState(doneInhaleState);
+        }
+        @Override
+        void handleExit() {
+            timerHandler.removeCallbacks(tenSecondRun);
+        }
+    }
+
+    private class InhaledForTenSecondsState extends State {
+        @Override
+        void handleEnter() {
+            Log.i(TAG,"Entering Inhaled For Ten Second State");
+            helpText.setText(R.string.msg_release_button_for_inhale);
+        }
+        @Override
+        void handleReleaseButton() {
+            setState(doneInhaleState);
+        }
+        @Override
+        void handleExit() {
+        }
+    }
+
+    private class DoneInhaleState extends State {
+        @Override
+        void handleEnter() {
+            //TODO: STOP ANIMATION AND SOUND
+            Log.i(TAG,"Entering Done Inhaling State");
+            setState(exhalingState);
+        }
+        @Override
+        void handleExit() {
+        }
+    }
+
+    private class ExhalingState extends State {
+        Handler timerHandler = new Handler();
+        Runnable threeSecondRun = () -> {
+            Log.i(TAG, "3 seconds are up");
+            setState(exhaledForThreeSecondState);
+        };
+        @Override
+        void handleEnter() {
+            Log.i(TAG,"Entering Exhaling State");
+            helpText.setText("Now Breathe Out");
+            //TODO :START EXHALING ANIMATION AND SOUND
+            timerHandler.postDelayed(threeSecondRun,3000);
+        }
+        @Override
+        void handleExit() {
+            timerHandler.removeCallbacks(threeSecondRun);
+        }
+    }
+
+    private class ExhaledForThreeSecondState extends State {
+        Handler timerHandler = new Handler();
+        Runnable tenSecondRun = () -> {
+            Log.i(TAG, "10 seconds are up");
+            setState(doneExhaleState);
+        };
+        @Override
+        void handleEnter() {
+            //TODO: Update Count of remaining breaths
+            if(numBreathLeft>0){
+                inhaleExhaleBtn.setText("In");
+            }else{
+                inhaleExhaleBtn.setText("Good Job");
+            }
+            timerHandler.postDelayed(tenSecondRun,7000);
+        }
+        @Override
+        void handleHoldingDownButton() {
+            setState(doneExhaleState);
+        }
+        @Override
+        void handleExit() {
+            timerHandler.removeCallbacks(tenSecondRun);
+        }
+    }
+
+    private class DoneExhaleState extends State {
+        @Override
+        void handleEnter() {
+            //TODO: stop animation and sound
+            setState(moreBreatheState);
+        }
+        @Override
+        void handleExit() {
+        }
+    }
+
+    private class MoreBreatheState extends State {
+        @Override
+        void handleEnter() {
+            if(numBreathLeft>0){
+                setState(waitForInhaleState);
+            }else{
+                setState(beginState);
+            }
+        }
+        @Override
+        void handleExit() {
+        }
+    }
 }
