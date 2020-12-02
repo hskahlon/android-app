@@ -23,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.util.Locale;
 
 import ca.cmpt276.charcoal.practicalparent.model.BackgroundService;
@@ -248,6 +249,9 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         int minutes = (int) ((timeLeftInMillis / 1000) % 3600) / 60;
         int seconds = (int) (timeLeftInMillis / 1000) % 60;
 
+        long formattedMillis = (hours * 1000 * 3600) + (minutes * 60 * 1000) + (seconds * 1000);
+        updatePieTimer(formattedMillis, false);
+
         Log.i(TAG, "Countdown seconds remaining:" + timeLeftInMillis/1000);
         String timeLeftFormatted;
         if (hours > 0) {
@@ -287,7 +291,6 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
             }
             updateCountDownText();
             updateUI();
-            updatePieTimer(timeLeftInMillis, false);
         }
     };
 
@@ -305,7 +308,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void updatePieTimer(long timeLeftInMillis, boolean reset){
-        ProgressBar pieTimer = (ProgressBar) findViewById(R.id.timer_progress);
+        ProgressBar pieTimer = findViewById(R.id.timer_progress);
         float pieProgressFloat;
         int pieProgressInt;
         if (reset) {
@@ -313,9 +316,10 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
             return;
         }
         if (startTimeInMillis  - 500 > startTimeInMillis - timeLeftInMillis) {
-            pieProgressFloat = (int) ((startTimeInMillis - timeLeftInMillis));
-            pieProgressFloat = ((float)pieProgressFloat/(startTimeInMillis)) * 100;
-            pieProgressInt = (int) pieProgressFloat;
+            pieProgressFloat = startTimeInMillis - timeLeftInMillis;
+            pieProgressFloat = (pieProgressFloat/(startTimeInMillis)) * 100;
+            pieProgressFloat = Math.round(pieProgressFloat);
+            pieProgressInt = ((int) pieProgressFloat);
         } else {
             pieProgressInt = 100;
         }

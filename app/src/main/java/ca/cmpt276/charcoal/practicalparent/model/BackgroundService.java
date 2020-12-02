@@ -49,7 +49,7 @@ public class BackgroundService extends Service {
     private void startTimer() {
         Log.i(TAG, "timeLeftinMillis" + timeLeftInMillis);
 
-        countDownTimer = new CountDownTimer(timeLeftInMillis, 350) {
+        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 isTimerRunning = true;
