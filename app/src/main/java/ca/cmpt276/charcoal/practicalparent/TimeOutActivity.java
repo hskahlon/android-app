@@ -307,6 +307,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         unregisterReceiver(broadcastReceiver);
     }
 
+    //Code Reference: https://www.youtube.com/watch?v=YsHHXg1vbcc&ab_channel=CodinginFlow
     private void updatePieTimer(long timeLeftInMillis, boolean reset){
         ProgressBar pieTimer = findViewById(R.id.timer_progress);
         float pieProgressFloat;
