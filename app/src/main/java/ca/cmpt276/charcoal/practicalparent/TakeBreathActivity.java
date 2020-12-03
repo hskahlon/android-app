@@ -21,12 +21,14 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 
-public class TakeBreathActivity extends AppCompatActivity {
+public class TakeBreathActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     public static final int EXHALE_DURATION = 10000;
     public static final int INTIAL_HEIGHT = 4;
     public static final int INTIAL_WIDTH = 17;
@@ -83,14 +85,36 @@ public class TakeBreathActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
+
         setupTexts();
         setupButtons();
+        setupSpinner();
         setState(beginState);
     }
 
+    private void setupSpinner() {
+        CustomSpinner setNumBreathSpinner = findViewById(R.id.spinner_set_number_of_breath);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.msg_num_breath, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        setNumBreathSpinner.setAdapter(adapter);
+        setNumBreathSpinner.setOnItemSelectedListener(this);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String numBreathTake = parent.getItemAtPosition(position).toString();
+        Log.i(TAG,"Selected drop down numBreathTake : " + numBreathTake);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+    }
+
+
     private void setupTexts() {
         helpText = findViewById(R.id.text_help);
-        headingText = findViewById(R.id.text_heading);
+        headingText = findViewById(R.id.text_header_first_part);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -143,7 +167,7 @@ public class TakeBreathActivity extends AppCompatActivity {
         @Override
         void handleEnter() {
             stopAnimation();
-            inhaleExhaleBtn.setText(R.string.msg_in);
+            inhaleExhaleBtn.setText(R.string.action_in);
             helpText.setText(R.string.msg_inhale);
         }
         @Override
@@ -230,7 +254,7 @@ public class TakeBreathActivity extends AppCompatActivity {
             helpText.setText(R.string.msg_inhaled_for_three_seconds);
             timerHandler.postDelayed(tenSecondRun, 7000);
             inflateCircle.postDelayed(myAction,5);
-            inhaleExhaleBtn.setText(R.string.msg_out);
+            inhaleExhaleBtn.setText(R.string.action_out);
         }
         @Override
         void handleReleaseButton() {
@@ -310,7 +334,7 @@ public class TakeBreathActivity extends AppCompatActivity {
         void handleEnter() {
             //TODO: Update Count of remaining breaths
             if(numBreathLeft>0){
-                inhaleExhaleBtn.setText(R.string.msg_in);
+                inhaleExhaleBtn.setText(R.string.action_in);
             }else{
                 inhaleExhaleBtn.setText(R.string.msg_good_job);
             }

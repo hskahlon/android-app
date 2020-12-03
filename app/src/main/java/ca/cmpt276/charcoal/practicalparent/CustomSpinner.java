@@ -9,15 +9,15 @@ import android.widget.Spinner;
  * Spinner extension that calls onItemSelected even when the selection is the same as its previous value
  * COPIED FROM: https://stackoverflow.com/questions/5335306/how-can-i-get-an-event-in-android-spinner-when-the-current-selected-item-is-sele/11323043#11323043
  */
-public class PresetTimeCustomSpinner extends androidx.appcompat.widget.AppCompatSpinner {
+public class CustomSpinner extends androidx.appcompat.widget.AppCompatSpinner {
 
-    public PresetTimeCustomSpinner(Context context)
+    public CustomSpinner(Context context)
     { super(context); }
 
-    public PresetTimeCustomSpinner(Context context, AttributeSet attrs)
+    public CustomSpinner(Context context, AttributeSet attrs)
     { super(context, attrs); }
 
-    public PresetTimeCustomSpinner(Context context, AttributeSet attrs, int defStyle)
+    public CustomSpinner(Context context, AttributeSet attrs, int defStyle)
     { super(context, attrs, defStyle); }
 
     @Override public void
