@@ -100,12 +100,10 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
-
         setupTexts();
         setupButtons();
         setupSpinner();
         setState(beginState);
-
     }
 
     private void setupSpinner() {
@@ -123,13 +121,12 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
         String chosenNumber = parent.getItemAtPosition(position).toString();
         startNumBreathToTake = Integer.parseInt(chosenNumber);
         numBreathLeft = startNumBreathToTake;
-        Log.i(TAG,"Selected drop down numBreathTake : " + numBreathLeft);
+        Log.i(TAG, "Selected drop down numBreathTake: " + numBreathLeft);
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
     }
-
 
     private void setupTexts() {
         helpText = findViewById(R.id.text_help);
@@ -165,13 +162,12 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
     private int getSavedNumBreathToTake() {
         SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         String serializedNumBreath = prefs.getString(NUM_BREATHS_TO_TAKE_PREFS, "3");
-        Log.i(TAG,"serializedNumb: " +serializedNumBreath);
+        Log.i(TAG, "serializedNumb: " + serializedNumBreath);
         return Integer.parseInt(serializedNumBreath)-1;
     }
 
     // Does nothing, Avoids null checks with Null Object Pattern
     private class IdleState extends State {
-
     }
 
     private class BeginState extends State{
@@ -262,7 +258,6 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
                 inflateCircle = new Handler();
             }
             inflateCircle.postDelayed(myAction,5);
-
         }
 
         @Override
@@ -281,9 +276,7 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
         };
 
         Handler inflateCircle = new Handler();
-
         Runnable myAction = new Runnable(){
-
             @Override
             public void run() {
                 incrementCircle();
@@ -315,17 +308,10 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
         void handleEnter() {
             Log.i(TAG,"Entering Inhaled For Ten Second State");
             helpText.setText(R.string.msg_release_button_for_inhale);
-
-
         }
         @Override
         void handleReleaseButton() {
             setState(doneInhaleState);
-        }
-        @Override
-        void handleExit() {
-
-
         }
     }
 
@@ -336,9 +322,6 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
             Log.i(TAG,"Entering Done Inhaling State");
             setState(exhalingState);
             stopInhaleSound();
-        }
-        @Override
-        void handleExit() {
         }
     }
 
@@ -357,12 +340,10 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
 
             autoAnimateExhale(EXHALE_DURATION);
             playExhaleSound();
-
         }
         @Override
         void handleExit() {
             timerHandler.removeCallbacks(threeSecondRun);
-
         }
     }
 
@@ -402,9 +383,6 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
             stopExhaleSound();
             stopAnimation();
         }
-        @Override
-        void handleExit() {
-        }
     }
 
     private class MoreBreatheState extends State {
@@ -415,9 +393,6 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
             }else{
                 setState(beginState);
             }
-        }
-        @Override
-        void handleExit() {
         }
     }
     private void failedInhale() {
@@ -435,7 +410,6 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
                 stopAnimation();
             }
         });
-
         anim.start();
     }
 
@@ -459,7 +433,6 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
         });
         anim.setDuration(duration);
         anim.start();
-
     }
 
     private void stopAnimation() {
@@ -479,7 +452,6 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
         params.height += INCREMENT_FACTOR;
         params.width += INCREMENT_FACTOR;
         image_Breathe.setLayoutParams(params);
-
     }
 
     private void startInhaleSound() {
@@ -502,7 +474,6 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
             exhale = MediaPlayer.create(this, R.raw.exhale);
             exhale.start();
         }
-
     }
     private void stopExhaleSound() {
         if (exhale!=null) {
@@ -511,7 +482,6 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
             exhale = null;
         }
     }
-
 
     @Override
     protected void onStop() {
