@@ -178,6 +178,7 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
             setState(waitForInhaleState);
             saveNumBreathToTakeInSharedPrefs();
         }
+
         @Override
         void handleExit() {
             Log.i(TAG, "Exiting Begin State");
@@ -226,10 +227,7 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
         };
 
         Handler inflateCircle = new Handler();
-
-
         Runnable myAction = new Runnable(){
-
             @Override
             public void run() {
                 incrementCircle();
