@@ -124,7 +124,7 @@
     <string name="title_take_breath">Take Breath</string>
     <string name="button_label_take_breath">Take Breath</string>
     <string name="action_begin">Begin</string>
-    <string name="msg_header_first_part">Let\'s take</string>
+    <string name="msg_header_first_part">Let\'s take &#160; &#160; &#160; %d</string>
     <string name="msg_header_second_part">breaths together</string>
     <string name="msg_inhale">Hold button and breath in</string>
     <string name="msg_release_button_for_inhale">Release button and breath out</string>
