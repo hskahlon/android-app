@@ -28,27 +28,27 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/action_speed_up_time"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:id="@+id/button_slow_down_time"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:background="@drawable/button_round"
-            android:drawable="@drawable/ic_baseline_add_24" />
+            android:drawable="@drawable/ic_baseline_remove_24" />
 
         <TextView
             android:id="@+id/text_time_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="100%"
             android:textSize="20sp"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/action_slow_down_time"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:id="@+id/button_speed_up_time"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:background="@drawable/button_round"
-            android:drawable="@drawable/ic_baseline_remove_24" />
+            android:drawable="@drawable/ic_baseline_add_24" />
+
     </LinearLayout>
 
 

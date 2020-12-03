@@ -43,7 +43,7 @@
         <item>5</item>
         <item>10</item>
     </string-array>
-    <string name="timeout_alarm_notification_ID">timoutAlarmNotification</string>
+    <string name="timeout_alarm_notification_ID">timeoutAlarmNotification</string>
     <string name="timeout_notification_title">Timeout Over</string>
     <string name="timeout_notification_body">Your child\'s timeout is over</string>
     <string name="notificationID_intent_name_tag">NotificationId</string>
@@ -56,6 +56,11 @@
     <string name="action_set">Set</string>
     <string name="msg_time">00:00</string>
     <string name="stopwatch">Stopwatch</string>
+    <string name="action_alter_time_speed">Alter Time Speed</string>
+
+    <!--        Strings for EditChildBottomSheetFragment    -->
+    <string name="msg_timer_speed">Timer Speed</string>
+    <string name="msg_timer_speed_percentage">%d</string>
 
     <!--        Strings for EditChildActivity       -->
     <string name="title_activity_edit_child">Edit Child</string>
@@ -133,8 +138,6 @@
     <string name="msg_in">In</string>
     <string name="msg_out">Out!</string>
     <string name="msg_good_job">Good Job</string>
-    <string name="action_alter_time_speed">Alter Time Speed</string>
-    <string name="msg_timer_speed">Timer Speed</string>
 
 
 </resources>
