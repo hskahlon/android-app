@@ -1,5 +1,6 @@
 package ca.cmpt276.charcoal.practicalparent;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -13,6 +14,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -44,6 +47,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
     private boolean isTimerRunning;
     private boolean isTimerReset;
+    private double timeScale = 1.0;
 
     private PresetTimeCustomSpinner preSetTimeSpinner;
 
@@ -64,7 +68,22 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
         // Enable "up" on toolbar
         ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_time_out, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+       EditChildBottomSheetFragment sheetFragment = new EditChildBottomSheetFragment();
+       sheetFragment.show(getSupportFragmentManager(), "Temp");
+        return super.onOptionsItemSelected(item);
     }
 
     private void setLoadingScreen() {

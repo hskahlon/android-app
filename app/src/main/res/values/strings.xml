@@ -133,8 +133,8 @@
     <string name="msg_in">In</string>
     <string name="msg_out">Out!</string>
     <string name="msg_good_job">Good Job</string>
-
-
+    <string name="action_alter_time_speed">Alter Time Speed</string>
+    <string name="msg_timer_speed">Timer Speed</string>
 
 
 </resources>
