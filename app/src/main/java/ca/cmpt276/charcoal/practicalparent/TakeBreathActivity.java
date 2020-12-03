@@ -141,10 +141,13 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
         inhaleExhaleBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    currentState.handleHoldingDownButton();
-                } else {
-                    currentState.handleReleaseButton();
+                switch(motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        currentState.handleHoldingDownButton();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        currentState.handleReleaseButton();
+                        break;
                 }
                 return true;
             }
