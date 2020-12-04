@@ -23,7 +23,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.DecimalFormat;
 import java.util.Locale;
 
 import ca.cmpt276.charcoal.practicalparent.model.BackgroundService;
@@ -45,7 +44,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     private boolean isTimerRunning;
     private boolean isTimerReset;
 
-    private PresetTimeCustomSpinner preSetTimeSpinner;
+    private CustomSpinner preSetTimeSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +110,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void setupSpinner() {
-        preSetTimeSpinner = (PresetTimeCustomSpinner) findViewById(R.id.spinner_preset_time);
+        preSetTimeSpinner = (CustomSpinner) findViewById(R.id.spinner_preset_time);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.msg_preset_times, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
