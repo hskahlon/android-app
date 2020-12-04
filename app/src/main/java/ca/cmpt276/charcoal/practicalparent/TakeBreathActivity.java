@@ -4,12 +4,15 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Interpolator;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,15 +24,23 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.sql.Time;
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 public class TakeBreathActivity extends AppCompatActivity {
     public static final int EXHALE_DURATION = 10000;
-    public static final int INTIAL_HEIGHT = 4;
-    public static final int INTIAL_WIDTH = 17;
+    public static final int INTIAL_HEIGHT = 2;
+    public static final int INTIAL_WIDTH = 2;
     public static final int INCREMENT_FACTOR = 3;
     String TAG = "TakeBreathActivity";
     private Button beginBtn;
@@ -54,6 +65,12 @@ public class TakeBreathActivity extends AppCompatActivity {
     MediaPlayer inhale;
     MediaPlayer exhale;
     private State currentState = new IdleState();
+
+
+    // For Animation
+    int current_width = 2;
+    int current_height = 2;
+
 
     private abstract class State {
         // Empty implementations, so derived classses don't need to
@@ -238,6 +255,7 @@ public class TakeBreathActivity extends AppCompatActivity {
         }
         @Override
         void handleExit() {
+
             timerHandler.removeCallbacks(tenSecondRun);
             inflateCircle.removeCallbacks(myAction);
         }
@@ -287,7 +305,7 @@ public class TakeBreathActivity extends AppCompatActivity {
             helpText.setText(R.string.msg_exhale);
             stopInhaleSound();
             timerHandler.postDelayed(threeSecondRun,3000);
-
+           // decrementCircle();
             autoAnimateExhale(EXHALE_DURATION);
             playExhaleSound();
 
@@ -298,6 +316,8 @@ public class TakeBreathActivity extends AppCompatActivity {
 
         }
     }
+
+
 
 
     private class ExhaledForThreeSecondState extends State {
@@ -372,14 +392,24 @@ public class TakeBreathActivity extends AppCompatActivity {
         anim.start();
     }
 
+
     private void autoAnimateExhale(int duration) {
+
         image_Breathe.setColorFilter(ContextCompat.getColor(this, R.color.exhale_blue));
+
+
         View view = findViewById(R.id.image_breathe);
+
+       // Drawable bg = inhaleExhaleBtn.getBackground();
+       // inhaleExhaleBtn.setBackground(Drawable.createFromPath("?android:attr/selectableItemBackground"));
 
         int cx = view.getWidth() /2;
         int cy = view.getHeight() / 2;
 
         float intialRadius = (float) Math.hypot(cx,cy);
+
+
+
         Animator anim = ViewAnimationUtils.createCircularReveal(view,cx,cy,intialRadius,0);
 
         anim.addListener(new AnimatorListenerAdapter() {
@@ -388,9 +418,16 @@ public class TakeBreathActivity extends AppCompatActivity {
                 super.onAnimationEnd(animation);
                 view.setVisibility(View.INVISIBLE);
                 stopAnimation();
+              //  inhaleExhaleBtn.setBackground(bg);
             }
         });
+
+
+        // Create Interpolator to start animation fast, and slow down
         anim.setDuration(duration);
+        anim.setInterpolator(new DecelerateInterpolator(1.6f));
+
+
         anim.start();
 
     }
@@ -412,6 +449,63 @@ public class TakeBreathActivity extends AppCompatActivity {
         params.height += INCREMENT_FACTOR;
         params.width += INCREMENT_FACTOR;
         image_Breathe.setLayoutParams(params);
+
+    }
+    private void decrementCircle() {
+//        View view = findViewById(R.id.image_breathe);
+//        ViewGroup.LayoutParams params
+//        current_height = params.
+//
+//        autoAnimateExhale(7000);
+//
+//
+//        final Handler reduce = new Handler();
+//        final Runnable runnablesss = new Runnable() {
+//            View view = findViewById(R.id.image_breathe);
+//            int miliSeconds = 3000;
+//            int interval = 30;
+//            int decrementFactor = 2;
+//            @Override
+//            public void run() {
+//                if (miliSeconds>0){
+//                    Log.d(TAG,"count: "+miliSeconds+" decrementing");
+//                    image_Breathe.setVisibility(View.VISIBLE);
+//                    ViewGroup.LayoutParams params =  image_Breathe.getLayoutParams();
+//                    params.height -= decrementFactor;
+//                    params.width -= decrementFactor;
+//                    image_Breathe.setLayoutParams(params);
+//
+//                    miliSeconds = miliSeconds-interval;
+//                    reduce.postDelayed(this,interval);
+//                }
+//                else {
+//                    Log.d(TAG,"ANIMATING EXHALLLLE");
+//                }
+//
+//
+//
+//            }
+//
+//
+//        };
+//        reduce.post(runnablesss);
+
+
+//        reduce.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                image_Breathe = findViewById(R.id.image_breathe);
+//                image_Breathe.setColorFilter(ContextCompat.getColor(this, R.color.breathe_green));
+//                image_Breathe.setVisibility(View.VISIBLE);
+//                ViewGroup.LayoutParams params =  image_Breathe.getLayoutParams();
+//                params.height += INCREMENT_FACTOR;
+//                params.width += INCREMENT_FACTOR;
+//                image_Breathe.setLayoutParams(params);
+//            }
+//        },1000);
+//
+
+
 
     }
 

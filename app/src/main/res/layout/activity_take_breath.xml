@@ -31,16 +31,20 @@
 
     <Button
         android:id="@+id/button_begin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:autoSizeTextType="uniform"
+        android:layout_marginBottom="32dp"
         android:text="@string/action_begin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline21"
-        app:layout_constraintVertical_bias="0.288"
+        app:layout_constraintVertical_bias="1.0"
         tools:textSize="40sp" />
 
     <TextView
@@ -73,8 +77,8 @@
 
     <ImageView
         android:id="@+id/image_breathe"
-        android:layout_width="4dp"
-        android:layout_height="17dp"
+        android:layout_width="2dp"
+        android:layout_height="2dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/button_begin"
         app:layout_constraintEnd_toEndOf="parent"
@@ -108,9 +112,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.37" />
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
