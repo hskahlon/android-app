@@ -88,8 +88,8 @@
 
     <ImageView
         android:id="@+id/image_breathe"
-        android:layout_width="4dp"
-        android:layout_height="17dp"
+        android:layout_width="2dp"
+        android:layout_height="2dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/button_begin"
         app:layout_constraintEnd_toEndOf="parent"

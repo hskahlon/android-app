@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -11,6 +12,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Interpolator;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,6 +27,10 @@ import android.view.ViewGroup;
 
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,14 +43,18 @@ import java.util.List;
 
 import ca.cmpt276.charcoal.practicalparent.model.Task;
 
+import java.sql.Time;
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 public class TakeBreathActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private static final String PREFS_NAME = "SavedData";
     private static final String NUM_BREATHS_TO_TAKE_PREFS = "NumBreathsToTake";
 
     public static final int EXHALE_DURATION = 10000;
-    public static final int INTIAL_HEIGHT = 4;
-    public static final int INTIAL_WIDTH = 17;
+    public static final int INTIAL_HEIGHT = 2;
+    public static final int INTIAL_WIDTH = 2;
     public static final int INCREMENT_FACTOR = 3;
     String TAG = "TakeBreathActivity";
     private Button beginBtn;
@@ -432,7 +443,13 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
                 stopAnimation();
             }
         });
+
+
+        // Create Interpolator to start animation fast, and slow down
         anim.setDuration(duration);
+        anim.setInterpolator(new DecelerateInterpolator(1.6f));
+
+
         anim.start();
     }
 
