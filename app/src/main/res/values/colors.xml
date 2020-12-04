@@ -23,8 +23,11 @@
     <color name="selectedChild">#1E90FF</color>
     <color name="unselectedChild">#FFFFFF</color>
 
-    <color name="breathe_green">#9476C82F</color>
+    <color name="breathe_green">#76C82F</color>
     <color name="exhale_blue">#13C7DA</color>
+
+    <color name="trans_green">#5B689F38</color>
+    <color name="trans_blue">#4513C7DA</color>
 
     <color name="pieTimerProgress">#DC143C</color>
     <color name="pieTimerBackground">#DDDDDD</color>

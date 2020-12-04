@@ -64,7 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="In"
-        android:backgroundTint="@color/breathe_green"
+        android:backgroundTint="@color/trans_green"
         android:textSize="35sp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"

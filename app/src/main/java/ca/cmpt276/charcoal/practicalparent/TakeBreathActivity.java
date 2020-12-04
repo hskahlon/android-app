@@ -395,13 +395,12 @@ public class TakeBreathActivity extends AppCompatActivity {
 
     private void autoAnimateExhale(int duration) {
 
+
+
         image_Breathe.setColorFilter(ContextCompat.getColor(this, R.color.exhale_blue));
 
 
         View view = findViewById(R.id.image_breathe);
-
-       // Drawable bg = inhaleExhaleBtn.getBackground();
-       // inhaleExhaleBtn.setBackground(Drawable.createFromPath("?android:attr/selectableItemBackground"));
 
         int cx = view.getWidth() /2;
         int cy = view.getHeight() / 2;
@@ -418,7 +417,7 @@ public class TakeBreathActivity extends AppCompatActivity {
                 super.onAnimationEnd(animation);
                 view.setVisibility(View.INVISIBLE);
                 stopAnimation();
-              //  inhaleExhaleBtn.setBackground(bg);
+
             }
         });
 
@@ -451,63 +450,8 @@ public class TakeBreathActivity extends AppCompatActivity {
         image_Breathe.setLayoutParams(params);
 
     }
-    private void decrementCircle() {
-//        View view = findViewById(R.id.image_breathe);
-//        ViewGroup.LayoutParams params
-//        current_height = params.
-//
-//        autoAnimateExhale(7000);
-//
-//
-//        final Handler reduce = new Handler();
-//        final Runnable runnablesss = new Runnable() {
-//            View view = findViewById(R.id.image_breathe);
-//            int miliSeconds = 3000;
-//            int interval = 30;
-//            int decrementFactor = 2;
-//            @Override
-//            public void run() {
-//                if (miliSeconds>0){
-//                    Log.d(TAG,"count: "+miliSeconds+" decrementing");
-//                    image_Breathe.setVisibility(View.VISIBLE);
-//                    ViewGroup.LayoutParams params =  image_Breathe.getLayoutParams();
-//                    params.height -= decrementFactor;
-//                    params.width -= decrementFactor;
-//                    image_Breathe.setLayoutParams(params);
-//
-//                    miliSeconds = miliSeconds-interval;
-//                    reduce.postDelayed(this,interval);
-//                }
-//                else {
-//                    Log.d(TAG,"ANIMATING EXHALLLLE");
-//                }
-//
-//
-//
-//            }
-//
-//
-//        };
-//        reduce.post(runnablesss);
 
 
-//        reduce.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                image_Breathe = findViewById(R.id.image_breathe);
-//                image_Breathe.setColorFilter(ContextCompat.getColor(this, R.color.breathe_green));
-//                image_Breathe.setVisibility(View.VISIBLE);
-//                ViewGroup.LayoutParams params =  image_Breathe.getLayoutParams();
-//                params.height += INCREMENT_FACTOR;
-//                params.width += INCREMENT_FACTOR;
-//                image_Breathe.setLayoutParams(params);
-//            }
-//        },1000);
-//
-
-
-
-    }
 
     private void startInhaleSound() {
         if(inhale==null){
