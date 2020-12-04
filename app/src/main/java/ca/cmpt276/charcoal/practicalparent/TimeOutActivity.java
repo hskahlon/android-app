@@ -48,7 +48,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
     private boolean isTimerRunning;
     private boolean isTimerReset;
-    private int timeScaleIndex = 3;
+    private int timeScaleIndex = 6;
     private final double[] timeScaleOptions = {0.25, 0.5, 0.75, 1.0, 2.0, 3.0, 4.0};
 
     private PresetTimeCustomSpinner preSetTimeSpinner;
@@ -244,7 +244,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void setTime(long milliseconds) {
-        startTimeInMillis = milliseconds;
+        startTimeInMillis = (long)(milliseconds/timeScaleOptions[timeScaleIndex]);
         timeLeftInMillis = startTimeInMillis;
         updateCountDownText();
         updateUI();
@@ -270,11 +270,11 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void updateCountDownText() {
-        int hours = (int) (timeLeftInMillis / 1000) / 3600;
-        int minutes = (int) ((timeLeftInMillis / 1000) % 3600) / 60;
-        int seconds = (int) (timeLeftInMillis / 1000) % 60;
+        int hours = (int) ((timeLeftInMillis * timeScaleOptions[timeScaleIndex]) / 1000) / 3600;
+        int minutes = (int) (((timeLeftInMillis * timeScaleOptions[timeScaleIndex]) / 1000) % 3600) / 60;
+        int seconds = (int) ((timeLeftInMillis * timeScaleOptions[timeScaleIndex]) / 1000) % 60;
 
-        long formattedMillis = (hours * 1000 * 3600) + (minutes * 60 * 1000) + (seconds * 1000);
+        long formattedMillis = (long)((hours * 1000 * 3600 / timeScaleOptions[timeScaleIndex]) + (minutes * 60 * 1000 / timeScaleOptions[timeScaleIndex]) + (seconds * 1000 / timeScaleOptions[timeScaleIndex]));
         updatePieTimer(formattedMillis, false);
 
         Log.i(TAG, "Countdown seconds remaining:" + timeLeftInMillis/1000);
@@ -291,7 +291,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
     private void startTimer() {
         isTimerReset = false;
-        Intent intent = BackgroundService.makeLaunchIntent(this, timeLeftInMillis);
+        Intent intent = BackgroundService.makeLaunchIntent(this, timeLeftInMillis, timeScaleOptions[timeScaleIndex]);
         startService(intent);
     }
 
@@ -341,7 +341,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
             pieTimer.setProgress(0);
             return;
         }
-        if (startTimeInMillis  - 500 > startTimeInMillis - timeLeftInMillis) {
+        if (startTimeInMillis > startTimeInMillis - timeLeftInMillis) {
             pieProgressFloat = startTimeInMillis - timeLeftInMillis;
             pieProgressFloat = (pieProgressFloat/(startTimeInMillis)) * 100;
             pieProgressFloat = Math.round(pieProgressFloat);

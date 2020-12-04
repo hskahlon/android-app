@@ -31,25 +31,28 @@ public class BackgroundService extends Service {
 
     private final static String TAG = "BroadcastService";
     private static final String EXTRA_TIME = "ca.cmpt276.charcoal.practicalparent.model - timeLeftinMillis";
+    private static final String TIME_SCALE_FACTOR = "ca.cmpt276.charcoal.practicalparent.model - timeScaleFactor";
     private long timeLeftInMillis;
     public static final String COUNTDOWN_BR = "ca.cmpt276.charcoal.practicalparent.model";
     Intent intent = new Intent(COUNTDOWN_BR);
     private CountDownTimer countDownTimer;
     private boolean isTimerRunning;
+    private double timeScaleFactor;
 
     private final long[] pattern = {0, 400, 300};
     private final int NOTIFICATION_ID = 0;
 
-    public static Intent makeLaunchIntent(Context context, long timeLeftInMillis) {
+    public static Intent makeLaunchIntent(Context context, long timeLeftInMillis, double timeScaleFactor) {
         Intent intent = new Intent(context, BackgroundService.class);
         intent.putExtra(EXTRA_TIME, timeLeftInMillis);
+        intent.putExtra(TIME_SCALE_FACTOR, timeScaleFactor);
         return intent;
     }
 
     private void startTimer() {
         Log.i(TAG, "timeLeftinMillis" + timeLeftInMillis);
 
-        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+        countDownTimer = new CountDownTimer(timeLeftInMillis, (int)(1000 / timeScaleFactor)) {
             @Override
             public void onTick(long millisUntilFinished) {
                 isTimerRunning = true;
@@ -139,6 +142,7 @@ public class BackgroundService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         timeLeftInMillis = intent.getLongExtra(EXTRA_TIME , 1000);
+        timeScaleFactor = intent.getDoubleExtra(TIME_SCALE_FACTOR, 1.0);
         Log.i(TAG, "timeleftin Millis in onstart method" + timeLeftInMillis);
         startTimer();
         return super.onStartCommand(intent, flags, startId);
