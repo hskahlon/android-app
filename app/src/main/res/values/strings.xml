@@ -133,8 +133,8 @@
     <string name="msg_in">In</string>
     <string name="msg_out">Out!</string>
     <string name="msg_good_job">Good Job</string>
-
-
+    <string name="exhale_audio">exhale audio https://freesound.org/people/BurghRecords/sounds/463903/</string>
+    <string name="inhale_audio">inhale audio https://freesound.org/people/amholma/sounds/372181/</string>
 
 
 </resources>
