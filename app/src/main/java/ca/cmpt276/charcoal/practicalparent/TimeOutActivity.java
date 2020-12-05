@@ -39,6 +39,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     public static final String TIME_SCALE_INDEX_TAG = "time scale index";
     public static final String TIME_SCALE_OPTIONS_TAG = "time scale options";
     private long startTimeInMillis;
+    private long standardStartTimeInMillis;
     private long timeLeftInMillis;
 
     private View loadingView;
@@ -46,8 +47,8 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     private Button startButton, pauseButton, resetButton, setButton;
     private EditText setTimeText;
 
-    private boolean isTimerRunning;
-    private boolean isTimerReset;
+    private boolean timerIsRunning;
+    private boolean timerIsReset;
     private final double[] timeScaleOptions = {0.25, 0.5, 0.75, 1.0, 2.0, 3.0, 4.0};
     private int timeScaleIndex = 3;
 
@@ -84,12 +85,14 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-       EditChildBottomSheetFragment sheetFragment = new EditChildBottomSheetFragment();
-       Bundle bundle = new Bundle();
-       bundle.putInt(TIME_SCALE_INDEX_TAG, timeScaleIndex);
-       bundle.putDoubleArray(TIME_SCALE_OPTIONS_TAG, timeScaleOptions);
-       sheetFragment.setArguments(bundle);
-       sheetFragment.show(getSupportFragmentManager(), "Temp");
+        if (item.getItemId() == R.id.action_alter_time_speed) {
+            EditChildBottomSheetFragment sheetFragment = new EditChildBottomSheetFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(TIME_SCALE_INDEX_TAG, timeScaleIndex);
+            bundle.putDoubleArray(TIME_SCALE_OPTIONS_TAG, timeScaleOptions);
+            sheetFragment.setArguments(bundle);
+            sheetFragment.show(getSupportFragmentManager(), "Temp");
+        }
        return super.onOptionsItemSelected(item);
     }
 
@@ -158,7 +161,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void updateUI() {
-        if (isTimerRunning) {
+        if (timerIsRunning) {
             resetButton.setVisibility(View.VISIBLE);
             pauseButton.setVisibility(View.VISIBLE);
             pauseButton.setText(R.string.action_pause);
@@ -176,7 +179,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
                 preSetTimeSpinner.setVisibility(View.VISIBLE);
                 setButton.setVisibility(View.VISIBLE);
                 setTimeText.setVisibility(View.VISIBLE);
-            } else if (isTimerReset) {
+            } else if (timerIsReset) {
                 // If user press cancel when the timer is running:
                 resetButton.setVisibility(View.INVISIBLE);
                 startButton.setVisibility(View.VISIBLE);
@@ -203,7 +206,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     private void setupPauseButton() {
         pauseButton = findViewById(R.id.button_pause);
         pauseButton.setOnClickListener(v -> {
-            if (isTimerRunning) {
+            if (timerIsRunning) {
                 pauseTimer();
             } else {
                 startTimer();
@@ -251,6 +254,8 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void setTime(long milliseconds) {
+        standardStartTimeInMillis = milliseconds;
+        Log.i(TAG, "standardTimeUpdated: " + standardStartTimeInMillis);
         startTimeInMillis = (long)(milliseconds/timeScaleOptions[timeScaleIndex]);
         timeLeftInMillis = startTimeInMillis;
         updateCountDownText();
@@ -267,10 +272,13 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void resetTimer() {
-        isTimerReset = true;
-        stopService(new Intent(this,BackgroundService.class));
+        timerIsReset = true;
+        stopService(new Intent(this, BackgroundService.class));
         Log.i(TAG,"Reset service");
+        startTimeInMillis = (long)(standardStartTimeInMillis / timeScaleOptions[timeScaleIndex]);
         timeLeftInMillis = startTimeInMillis;
+        Log.i(TAG + ": reset", "startTimeInMillis: " + startTimeInMillis);
+        Log.i(TAG + ": reset", "timeLeftInMillis: " + timeLeftInMillis);
         updateCountDownText();
         updateUI();
         updatePieTimer(timeLeftInMillis, true);
@@ -280,6 +288,9 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         int hours = (int) ((timeLeftInMillis * timeScaleOptions[timeScaleIndex]) / 1000) / 3600;
         int minutes = (int) (((timeLeftInMillis * timeScaleOptions[timeScaleIndex]) / 1000) % 3600) / 60;
         int seconds = (int) ((timeLeftInMillis * timeScaleOptions[timeScaleIndex]) / 1000) % 60;
+        Log.i(TAG + ": update countdown", "hours: " + hours);
+        Log.i(TAG + ": update countdown", "minutes: " + minutes);
+        Log.i(TAG + ": update countdown", "seconds: " + seconds);
 
         long formattedMillis = (long)((hours * 1000 * 3600 / timeScaleOptions[timeScaleIndex]) + (minutes * 60 * 1000 / timeScaleOptions[timeScaleIndex]) + (seconds * 1000 / timeScaleOptions[timeScaleIndex]));
         updatePieTimer(formattedMillis, false);
@@ -297,13 +308,13 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void startTimer() {
-        isTimerReset = false;
+        timerIsReset = false;
         Intent intent = BackgroundService.makeLaunchIntent(this, timeLeftInMillis, timeScaleOptions[timeScaleIndex]);
         startService(intent);
     }
 
     private void pauseTimer() {
-        isTimerReset = false;
+        timerIsReset = false;
         stopService(new Intent(this,BackgroundService.class));
         Log.i(TAG,"Paused service");
     }
@@ -312,14 +323,11 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         @Override
         public void onReceive(Context context, Intent intent) {
             // Update timeLeftinmillis
-            if (intent.getExtras() != null) {
+            if (intent.getExtras() != null && !timerIsReset) {
                 timeLeftInMillis = intent.getLongExtra("countDown", 1000);
-                isTimerRunning = intent.getBooleanExtra("isTimerRunning", false);
+                timerIsRunning = intent.getBooleanExtra("isTimerRunning", false);
                 Log.i(TAG, "timeleftinMillis passed from service: " + timeLeftInMillis / 1000);
-                Log.i(TAG, "isTimerRunning passed from service: " + isTimerRunning);
-            }
-            if (isTimerReset){
-                timeLeftInMillis = startTimeInMillis;
+                Log.i(TAG, "isTimerRunning passed from service: " + timerIsRunning);
             }
             updateCountDownText();
             updateUI();
@@ -360,14 +368,28 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         pieTimer.setProgress(pieProgressInt);
     }
 
+    private void prepareAlteredTimer(int newTimeScaleIndex) {
+        double timeRemainingRatio = (double)timeLeftInMillis / (double)startTimeInMillis;
+        startTimeInMillis = (long)(standardStartTimeInMillis / timeScaleOptions[newTimeScaleIndex]);
+        Log.i("Timeout prepare", "startTimeInMillis: " + startTimeInMillis);
+        Log.i("Timeout prepare", "standardStartTimeInMillis: " + standardStartTimeInMillis);
+
+        timeLeftInMillis = (long) (timeRemainingRatio * startTimeInMillis);
+        timeScaleIndex = newTimeScaleIndex;
+        int timeScalePercentage = (int)(timeScaleOptions[timeScaleIndex] * 100);
+        timeScaleText.setText(getString(R.string.msg_time_percent, timeScalePercentage));
+    }
+
     @Override
     public void onDismissBottomSheet(int newTimeScaleIndex) {
         if (newTimeScaleIndex != timeScaleIndex) {
-            pauseTimer();
-            timeScaleIndex = newTimeScaleIndex;
-            startTimeInMillis /= timeScaleOptions[timeScaleIndex];
-            timeLeftInMillis /= timeScaleOptions[timeScaleIndex];
-            startTimer();
+            if (timerIsRunning) {
+                pauseTimer();
+                prepareAlteredTimer(newTimeScaleIndex);
+                startTimer();
+            } else {
+                prepareAlteredTimer(newTimeScaleIndex);
+            }
         }
     }
 }

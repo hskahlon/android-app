@@ -28,7 +28,7 @@ public class EditChildBottomSheetFragment extends BottomSheetDialogFragment {
                              @Nullable Bundle savedInstanceState) {
         timeScaleIndex = getArguments().getInt(TimeOutActivity.TIME_SCALE_INDEX_TAG);
         timeScaleOptions = getArguments().getDoubleArray(TimeOutActivity.TIME_SCALE_OPTIONS_TAG);
-        int timeScalePercentage = (int)timeScaleOptions[timeScaleIndex] * 100;
+        int timeScalePercentage = (int)(timeScaleOptions[timeScaleIndex] * 100);
 
         View view = inflater.inflate(R.layout.bottom_sheet_time_out, container, false);
 
@@ -45,7 +45,7 @@ public class EditChildBottomSheetFragment extends BottomSheetDialogFragment {
         plusButton.setOnClickListener(v -> {
             if (timeScaleIndex+1 < timeScaleOptions.length) {
                 timeScaleIndex++;
-                int timeScalePercentage = (int)timeScaleOptions[timeScaleIndex] * 100;
+                int timeScalePercentage = (int)(timeScaleOptions[timeScaleIndex] * 100);
                 timeSpeedPercentageText.setText(getString(R.string.msg_timer_speed_percentage, timeScalePercentage));
             }
         });
@@ -54,7 +54,7 @@ public class EditChildBottomSheetFragment extends BottomSheetDialogFragment {
         minusButton.setOnClickListener(v -> {
             if (timeScaleIndex-1 >= 0) {
                 timeScaleIndex--;
-                int timeScalePercentage = (int)timeScaleOptions[timeScaleIndex] * 100;
+                int timeScalePercentage = (int)(timeScaleOptions[timeScaleIndex] * 100);
                 timeSpeedPercentageText.setText(getString(R.string.msg_timer_speed_percentage, timeScalePercentage));
             }
         });
