@@ -34,7 +34,7 @@ import ca.cmpt276.charcoal.practicalparent.model.GetRandomBackgroundImage;
 /**
  *  Sets up TimeOut activity and timer
  */
-public class TimeOutActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class TimeOutActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, EditChildBottomSheetFragment.BottomSheetListener {
     public static final String TAG = "TimeOut";
     public static final String TIME_SCALE_INDEX_TAG = "time scale index";
     public static final String TIME_SCALE_OPTIONS_TAG = "time scale options";
@@ -42,14 +42,14 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     private long timeLeftInMillis;
 
     private View loadingView;
-    private TextView countDownText;
+    private TextView countDownText, timeScaleText;
     private Button startButton, pauseButton, resetButton, setButton;
     private EditText setTimeText;
 
     private boolean isTimerRunning;
     private boolean isTimerReset;
-    private int timeScaleIndex = 6;
     private final double[] timeScaleOptions = {0.25, 0.5, 0.75, 1.0, 2.0, 3.0, 4.0};
+    private int timeScaleIndex = 3;
 
     private PresetTimeCustomSpinner preSetTimeSpinner;
 
@@ -65,6 +65,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         setupResetButton();
         setupPauseButton();
         setupSpinner();
+        setupTimeScaleTextView();
         setLoadingScreen();
         setRandomBackgroundImage();
 
@@ -191,6 +192,12 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
                 startButton.setVisibility(View.INVISIBLE);
             }
         }
+    }
+
+    private void setupTimeScaleTextView() {
+        timeScaleText = findViewById(R.id.text_time_scale);
+        int timeScalePercentage = (int) timeScaleOptions[timeScaleIndex] * 100;
+        timeScaleText.setText(getString(R.string.msg_time_percent, timeScalePercentage));
     }
 
     private void setupPauseButton() {
@@ -351,5 +358,16 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         }
 
         pieTimer.setProgress(pieProgressInt);
+    }
+
+    @Override
+    public void onDismissBottomSheet(int newTimeScaleIndex) {
+        if (newTimeScaleIndex != timeScaleIndex) {
+            pauseTimer();
+            timeScaleIndex = newTimeScaleIndex;
+            startTimeInMillis /= timeScaleOptions[timeScaleIndex];
+            timeLeftInMillis /= timeScaleOptions[timeScaleIndex];
+            startTimer();
+        }
     }
 }

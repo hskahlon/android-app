@@ -1,12 +1,14 @@
 package ca.cmpt276.charcoal.practicalparent;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +16,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class EditChildBottomSheetFragment extends BottomSheetDialogFragment {
-    private TextView timeSpeedPercentageTextView;
+    private BottomSheetListener listener;
+    private TextView timeSpeedPercentageText;
     private int timeScaleIndex;
     private double[] timeScaleOptions;
 
@@ -25,15 +28,12 @@ public class EditChildBottomSheetFragment extends BottomSheetDialogFragment {
                              @Nullable Bundle savedInstanceState) {
         timeScaleIndex = getArguments().getInt(TimeOutActivity.TIME_SCALE_INDEX_TAG);
         timeScaleOptions = getArguments().getDoubleArray(TimeOutActivity.TIME_SCALE_OPTIONS_TAG);
-        Log.i("Fragment", "Index raw: " + timeScaleIndex);
-        Log.i("Fragment", "Percentage raw: " + timeScaleOptions[timeScaleIndex]);
-        double timeScalePercentage = timeScaleOptions[timeScaleIndex] * 100;
-        Log.i("Fragment", "timeScalePercentage scaled: " + timeScalePercentage);
+        int timeScalePercentage = (int)timeScaleOptions[timeScaleIndex] * 100;
 
         View view = inflater.inflate(R.layout.bottom_sheet_time_out, container, false);
 
-        timeSpeedPercentageTextView = view.findViewById(R.id.text_time_rate);
-        timeSpeedPercentageTextView.setText(getString(R.string.msg_timer_speed_percentage, (int)timeScalePercentage));
+        timeSpeedPercentageText = view.findViewById(R.id.text_time_rate);
+        timeSpeedPercentageText.setText(getString(R.string.msg_timer_speed_percentage, timeScalePercentage));
 
         setUpButtons(view);
 
@@ -45,8 +45,8 @@ public class EditChildBottomSheetFragment extends BottomSheetDialogFragment {
         plusButton.setOnClickListener(v -> {
             if (timeScaleIndex+1 < timeScaleOptions.length) {
                 timeScaleIndex++;
-                double timeScalePercentage = timeScaleOptions[timeScaleIndex] * 100;
-                timeSpeedPercentageTextView.setText(getString(R.string.msg_timer_speed_percentage, (int)timeScalePercentage));
+                int timeScalePercentage = (int)timeScaleOptions[timeScaleIndex] * 100;
+                timeSpeedPercentageText.setText(getString(R.string.msg_timer_speed_percentage, timeScalePercentage));
             }
         });
 
@@ -54,12 +54,31 @@ public class EditChildBottomSheetFragment extends BottomSheetDialogFragment {
         minusButton.setOnClickListener(v -> {
             if (timeScaleIndex-1 >= 0) {
                 timeScaleIndex--;
-                double timeScalePercentage = timeScaleOptions[timeScaleIndex] * 100;
-                timeSpeedPercentageTextView.setText(getString(R.string.msg_timer_speed_percentage, (int)timeScalePercentage));
+                int timeScalePercentage = (int)timeScaleOptions[timeScaleIndex] * 100;
+                timeSpeedPercentageText.setText(getString(R.string.msg_timer_speed_percentage, timeScalePercentage));
             }
         });
     }
 
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        listener.onDismissBottomSheet(timeScaleIndex);
+    }
 
+    public interface BottomSheetListener {
+        void onDismissBottomSheet(int newTimeScaleIndex);
+    }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        try {
+            listener = (BottomSheetListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement BottomSheetListener");
+        }
+    }
 }
