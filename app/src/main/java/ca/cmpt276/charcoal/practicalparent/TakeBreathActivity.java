@@ -66,7 +66,7 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
     private boolean completeExhale = false;
     private int startNumBreathToTake = 3;
     private int numBreathLeft = 3;
-
+    Animator anim = null;
     private final State beginState = new BeginState();
     private final State waitForInhaleState = new WaitForInhaleState();
     private final State inhalingState = new InhalingState();
@@ -188,6 +188,7 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
         @Override
         void handleClickBegin() {
             //TODO: save data
+
             setupUIWhenClickBegin();
             setState(waitForInhaleState);
             saveNumBreathToTakeInSharedPrefs();
@@ -195,12 +196,13 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
 
         @Override
         void handleExit() {
+
             Log.i(TAG, "Exiting Begin State");
         }
 
         @Override
         void handleEnter() {
-            Log.i(TAG, "Entering Begin State");
+
             setupUIWhenEnterBeginState();
         }
 
@@ -223,12 +225,14 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
     private class WaitForInhaleState extends State {
         @Override
         void handleEnter() {
+
             stopAnimation();
             inhaleExhaleBtn.setText(R.string.action_in);
             helpText.setText(R.string.msg_inhale);
         }
         @Override
         void handleHoldingDownButton() {
+
             setState(inhalingState);
         }
     }
@@ -236,7 +240,7 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
     private class InhalingState extends State {
         Handler timerHandler = new Handler();
         Runnable threeSecondRun = () -> {
-            Log.i(TAG, "user holds it for 3 seconds..");
+
             setState(inhaledForThreeSecondState);
         };
 
@@ -356,6 +360,7 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
         @Override
         void handleExit() {
             timerHandler.removeCallbacks(threeSecondRun);
+
         }
     }
 
@@ -385,12 +390,18 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
         @Override
         void handleExit() {
             timerHandler.removeCallbacks(tenSecondRun);
+            Log.i(TAG, "!---EXITTING EXHALE STATE");
+            if (anim!=null)
+            {
+                anim.cancel();
+            }
         }
     }
 
     private class DoneExhaleState extends State {
         @Override
         void handleEnter() {
+            Log.i(TAG, "!!! DONE!!  EXHALE STATE");
             setState(moreBreatheState);
             stopExhaleSound();
             stopAnimation();
@@ -408,11 +419,12 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
         }
     }
     private void failedInhale() {
+
         View view = findViewById(R.id.image_breathe);
         int cx = view.getWidth() /2;
         int cy = view.getHeight() / 2;
         float intialRadius = (float) Math.hypot(cx,cy);
-        Animator anim = ViewAnimationUtils.createCircularReveal(view,cx,cy,intialRadius,0);
+        anim = ViewAnimationUtils.createCircularReveal(view,cx,cy,intialRadius,0);
 
         anim.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -426,6 +438,7 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
     }
 
     private void autoAnimateExhale(int duration) {
+
         image_Breathe.setColorFilter(ContextCompat.getColor(this, R.color.exhale_blue));
         View view = findViewById(R.id.image_breathe);
 
@@ -433,7 +446,7 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
         int cy = view.getHeight() / 2;
 
         float intialRadius = (float) Math.hypot(cx,cy);
-        Animator anim = ViewAnimationUtils.createCircularReveal(view,cx,cy,intialRadius,0);
+        anim = ViewAnimationUtils.createCircularReveal(view,cx,cy,intialRadius,0);
 
         anim.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -454,6 +467,7 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
     }
 
     private void stopAnimation() {
+
         image_Breathe = findViewById(R.id.image_breathe);
         ViewGroup.LayoutParams params =  image_Breathe.getLayoutParams();
         params.height= INTIAL_HEIGHT;
@@ -463,6 +477,7 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
     }
 
     private void incrementCircle() {
+
         image_Breathe = findViewById(R.id.image_breathe);
         image_Breathe.setColorFilter(ContextCompat.getColor(this, R.color.breathe_green));
         image_Breathe.setVisibility(View.VISIBLE);
@@ -474,6 +489,7 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
 
     private void startInhaleSound() {
         if(inhale==null){
+
             inhale = MediaPlayer.create(this, R.raw.inhale);
             inhale.start();
         }
@@ -481,6 +497,7 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
 
     private void stopInhaleSound() {
         if (inhale!=null) {
+
             inhale.stop();
             inhale.release();
             inhale = null;
@@ -489,12 +506,14 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
 
     private void playExhaleSound() {
         if (exhale==null){
+
             exhale = MediaPlayer.create(this, R.raw.exhale);
             exhale.start();
         }
     }
     private void stopExhaleSound() {
         if (exhale!=null) {
+
             exhale.stop();
             exhale.release();
             exhale = null;
