@@ -58,6 +58,8 @@
     <string name="stopwatch">Stopwatch</string>
     <string name="action_alter_time_speed">Alter Time Speed</string>
     <string name="msg_time_percent">Time @%d%%</string>
+    <string name="content_description_button_slow_down_time">Button that slows down time</string>
+    <string name="content_description_button_speed_up_time">Button that speed up time</string>
 
     <!--        Strings for EditChildBottomSheetFragment    -->
     <string name="msg_timer_speed">Timer Speed</string>
@@ -139,6 +141,7 @@
     <string name="msg_in">In</string>
     <string name="msg_out">Out!</string>
     <string name="msg_good_job">Good Job</string>
+
 
 
 </resources>

@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class EditChildBottomSheetFragment extends BottomSheetDialogFragment {
@@ -41,7 +42,7 @@ public class EditChildBottomSheetFragment extends BottomSheetDialogFragment {
     }
 
     private void setUpButtons(View view) {
-        Button plusButton = view.findViewById(R.id.button_speed_up_time);
+        ImageButton plusButton = view.findViewById(R.id.button_speed_up_time);
         plusButton.setOnClickListener(v -> {
             if (timeScaleIndex+1 < timeScaleOptions.length) {
                 timeScaleIndex++;
@@ -50,7 +51,7 @@ public class EditChildBottomSheetFragment extends BottomSheetDialogFragment {
             }
         });
 
-        Button minusButton = view.findViewById(R.id.button_slow_down_time);
+        ImageButton minusButton = view.findViewById(R.id.button_slow_down_time);
         minusButton.setOnClickListener(v -> {
             if (timeScaleIndex-1 >= 0) {
                 timeScaleIndex--;
