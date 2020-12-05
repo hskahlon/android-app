@@ -112,13 +112,11 @@ public class ChooseChildActivity extends AppCompatActivity {
 
     private void skipQueue(List<Child> children, String s) {
 
-        for (int i=0; i < children.size(); i++) {
-            if (children.get(i).getName()==s) {
-                newIndex = i;
-            }
-        }
 
-        
+        findSelectedChild(children, s);
+
+        swapChild(children, newIndex);
+
         Intent returnIntent = CoinFlipActivity.makeLaunchIntent(this);
         returnIntent.putExtra("newIndex",newIndex);
 
@@ -128,6 +126,28 @@ public class ChooseChildActivity extends AppCompatActivity {
 
         finish();
 
+
+    }
+
+    private void findSelectedChild(List<Child> children, String s) {
+        for (int i=0; i < children.size(); i++) {
+            if (children.get(i).getName()==s) {
+                newIndex = i;
+            }
+        }
+    }
+
+    private void swapChild(List<Child> children, int selectedIndex) {
+
+        Child selectedChild = children.get(selectedIndex);
+
+        for (int idx = (selectedIndex-1); idx >= 0; idx--){
+            children.set(idx+1,children.get(idx));
+        }
+
+        children.set(0,selectedChild);
+
+        newIndex = 0;
 
     }
 
