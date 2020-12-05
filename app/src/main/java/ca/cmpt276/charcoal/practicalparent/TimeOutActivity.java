@@ -274,6 +274,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     private void resetTimer() {
         timerIsReset = true;
         stopService(new Intent(this, BackgroundService.class));
+        timerIsRunning = false;
         Log.i(TAG,"Reset service");
         startTimeInMillis = (long)(standardStartTimeInMillis / timeScaleOptions[timeScaleIndex]);
         timeLeftInMillis = startTimeInMillis;
