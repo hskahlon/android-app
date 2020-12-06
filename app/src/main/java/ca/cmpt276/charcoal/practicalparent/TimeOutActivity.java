@@ -43,6 +43,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     private TextView countDownText;
     private Button startButton, pauseButton, resetButton, setButton;
     private EditText setTimeText;
+    private ProgressBar pieTimer;
 
     private boolean isTimerRunning;
     private boolean isTimerReset;
@@ -69,6 +70,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void setLoadingScreen() {
+        pieTimer = findViewById(R.id.timer_progress);
         countDownText = (TextView) findViewById(R.id.text_count_down);
         loadingView = (ProgressBar) findViewById(R.id.spinner_loading);
         loadingView.animate()
@@ -84,7 +86,6 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void setupFirstTimeOutUI(){
-        ProgressBar pieTimer = findViewById(R.id.timer_progress);
         fadeInView(startButton);
         fadeInView(setButton);
         fadeInView(setTimeText);
@@ -190,7 +191,6 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     private void setupStartButton() {
         startButton = (Button) findViewById(R.id.button_start);
         startButton.setOnClickListener(v -> {
-
             if (timeLeftInMillis < 1000) {
                 Toast.makeText(TimeOutActivity.this, "No Timer Made", Toast.LENGTH_SHORT).show();
                 return;
@@ -311,8 +311,10 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
                 timeLeftInMillis = startTimeInMillis;
             }
 
-            if(needToFetch  && getSavedStartTimeInMillisFromSharedPrefs() != 0){
-                startTimeInMillis = getSavedStartTimeInMillisFromSharedPrefs();
+            if(needToFetch){
+                if(getSavedStartTimeInMillisFromSharedPrefs() != 0){
+                    startTimeInMillis = getSavedStartTimeInMillisFromSharedPrefs();
+                }
                 needToFetch = false;
             }
 
@@ -338,7 +340,6 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
     //Code Reference: https://www.youtube.com/watch?v=YsHHXg1vbcc&ab_channel=CodinginFlow
     private void updatePieTimer(long timeLeftInMillis, boolean reset){
-        ProgressBar pieTimer = findViewById(R.id.timer_progress);
         float pieProgressFloat;
         int pieProgressInt;
         if (reset) {
@@ -357,7 +358,6 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         } else {
             pieProgressInt = 100;
         }
-
         pieTimer.setProgress(pieProgressInt);
     }
 }
