@@ -347,10 +347,6 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
             pieTimer.setProgress(0);
             return;
         }
-
-        Log.i(TAG,"startTimeInMilllis in updatePieTimer before updating"+startTimeInMillis);
-
-        Log.i(TAG,"startTimeInMilllis in updatePieTimer after updating"+startTimeInMillis);
         if (startTimeInMillis  - 500 > startTimeInMillis - timeLeftInMillis) {
             pieProgressFloat = startTimeInMillis - timeLeftInMillis;
             pieProgressFloat = (pieProgressFloat/(startTimeInMillis)) * 100;
