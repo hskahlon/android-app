@@ -52,15 +52,16 @@ public class BackgroundService extends Service {
     private void startTimer() {
         Log.i(TAG, "timeLeftinMillis" + timeLeftInMillis);
 
-        countDownTimer = new CountDownTimer(timeLeftInMillis, (int)(1000 / timeScaleFactor)) {
+        int broadcastFrequency = (int) (1000/timeScaleFactor);
+        countDownTimer = new CountDownTimer(timeLeftInMillis, broadcastFrequency) {
             @Override
             public void onTick(long millisUntilFinished) {
                 isTimerRunning = true;
                 timeLeftInMillis = millisUntilFinished;
 
                 Log.i(TAG, "Countdown seconds remaining: " + millisUntilFinished / 1000);
-                intent.putExtra("countDown",timeLeftInMillis);
-                intent.putExtra("isTimerRunning",isTimerRunning);
+                intent.putExtra("countDown", timeLeftInMillis);
+                intent.putExtra("isTimerRunning", isTimerRunning);
 
                 sendBroadcast(intent);
             }

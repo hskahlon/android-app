@@ -15,12 +15,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class EditChildBottomSheetFragment extends BottomSheetDialogFragment {
+public class TimeOutBottomSheetFragment extends BottomSheetDialogFragment {
     private BottomSheetListener listener;
     private TextView timeSpeedPercentageText;
     private int timeScaleIndex;
     private double[] timeScaleOptions;
-
 
     @Nullable
     @Override
@@ -30,7 +29,7 @@ public class EditChildBottomSheetFragment extends BottomSheetDialogFragment {
         timeScaleOptions = getArguments().getDoubleArray(TimeOutActivity.TIME_SCALE_OPTIONS_TAG);
         int timeScalePercentage = (int)(timeScaleOptions[timeScaleIndex] * 100);
 
-        View view = inflater.inflate(R.layout.bottom_sheet_time_out, container, false);
+        View view = inflater.inflate(R.layout.fragment_bottom_sheet_time_out, container, false);
 
         timeSpeedPercentageText = view.findViewById(R.id.text_time_rate);
         timeSpeedPercentageText.setText(getString(R.string.msg_timer_speed_percentage, timeScalePercentage));
