@@ -437,7 +437,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     @Override
-    public void onDismissBottomSheet(int newTimeScaleIndex) {
+    public void onFragmentButtonClick(int newTimeScaleIndex) {
         if (newTimeScaleIndex != timeScaleIndex) {
             if (timerIsRunning) {
                 pauseTimer();

@@ -1,7 +1,6 @@
 package ca.cmpt276.charcoal.practicalparent;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+// Bottom sheet fragment tutorial: https://codinginflow.com/tutorials/android/modal-bottom-sheet
 public class TimeOutBottomSheetFragment extends BottomSheetDialogFragment {
     private BottomSheetListener listener;
     private TextView timeSpeedPercentageText;
@@ -46,6 +46,7 @@ public class TimeOutBottomSheetFragment extends BottomSheetDialogFragment {
                 timeScaleIndex++;
                 int timeScalePercentage = (int)(timeScaleOptions[timeScaleIndex] * 100);
                 timeSpeedPercentageText.setText(getString(R.string.msg_timer_speed_percentage, timeScalePercentage));
+                listener.onFragmentButtonClick(timeScaleIndex);
             }
         });
 
@@ -55,18 +56,13 @@ public class TimeOutBottomSheetFragment extends BottomSheetDialogFragment {
                 timeScaleIndex--;
                 int timeScalePercentage = (int)(timeScaleOptions[timeScaleIndex] * 100);
                 timeSpeedPercentageText.setText(getString(R.string.msg_timer_speed_percentage, timeScalePercentage));
+                listener.onFragmentButtonClick(timeScaleIndex);
             }
         });
     }
 
-    @Override
-    public void onDismiss(@NonNull DialogInterface dialog) {
-        super.onDismiss(dialog);
-        listener.onDismissBottomSheet(timeScaleIndex);
-    }
-
     public interface BottomSheetListener {
-        void onDismissBottomSheet(int newTimeScaleIndex);
+        void onFragmentButtonClick(int newTimeScaleIndex);
     }
 
     @Override
