@@ -1,5 +1,6 @@
 package ca.cmpt276.charcoal.practicalparent;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -14,6 +15,8 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -32,21 +35,28 @@ import ca.cmpt276.charcoal.practicalparent.model.GetRandomBackgroundImage;
 /**
  *  Sets up TimeOut activity and timer
  */
-public class TimeOutActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class TimeOutActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, TimeOutBottomSheetFragment.BottomSheetListener {
+    public static final String TAG = "TimeOut";
+    public static final String TIME_SCALE_INDEX_TAG = "time scale index";
+    public static final String TIME_SCALE_OPTIONS_TAG = "time scale options";
     private static final String PREFS_NAME = "Saved data";
     private static final String START_TIME_IN_MILLIS = "startTimeInMillis";
-    String TAG = "TimeOut";
+    private static final String STANDARD_START_TIME_IN_MILLIS_TAG = "standardStartTimeInMillis";
     private long startTimeInMillis;
+    private long standardStartTimeInMillis;
     private long timeLeftInMillis;
 
     private View loadingView;
-    private TextView countDownText;
+    private TextView countDownText, timeScaleText;
     private Button startButton, pauseButton, resetButton, setButton;
     private EditText setTimeText;
     private ProgressBar pieTimer;
 
-    private boolean isTimerRunning;
-    private boolean isTimerReset;
+    private boolean timerIsRunning;
+    private boolean timerIsReset;
+    private final double[] timeScaleOptions = {0.25, 0.5, 0.75, 1.0, 2.0, 3.0, 4.0};
+    private final int defaultTimeScaleIndex = 3;
+    private int timeScaleIndex = defaultTimeScaleIndex;
     private boolean needToFetch = true;
 
     private CustomSpinner preSetTimeSpinner;
@@ -63,18 +73,40 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         setupResetButton();
         setupPauseButton();
         setupSpinner();
+        setupTimeScaleTextView();
         setLoadingScreen();
         setRandomBackgroundImage();
 
         // Enable "up" on toolbar
         ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_time_out, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_alter_time_speed) {
+            TimeOutBottomSheetFragment sheetFragment = new TimeOutBottomSheetFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(TIME_SCALE_INDEX_TAG, timeScaleIndex);
+            bundle.putDoubleArray(TIME_SCALE_OPTIONS_TAG, timeScaleOptions);
+            sheetFragment.setArguments(bundle);
+            sheetFragment.show(getSupportFragmentManager(), "Fragment");
+        }
+       return super.onOptionsItemSelected(item);
     }
 
     private void setLoadingScreen() {
         pieTimer = findViewById(R.id.timer_progress);
-        countDownText = (TextView) findViewById(R.id.text_count_down);
-        loadingView = (ProgressBar) findViewById(R.id.spinner_loading);
+        countDownText = findViewById(R.id.text_count_down);
+        loadingView = findViewById(R.id.spinner_loading);
         loadingView.animate()
                 .alpha(0f)
                 .setDuration(1000)
@@ -87,7 +119,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         setupFirstTimeOutUI();
     }
 
-    private void setupFirstTimeOutUI(){
+    private void setupFirstTimeOutUI() {
         fadeInView(startButton);
         fadeInView(setButton);
         fadeInView(setTimeText);
@@ -96,7 +128,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         fadeInView(pieTimer);
     }
 
-    private void fadeInView(View view){
+    private void fadeInView(View view) {
         view.setAlpha(0f);
         view.setVisibility(View.VISIBLE);
 
@@ -108,7 +140,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void setRandomBackgroundImage() {
-        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout_timeout);
+        ConstraintLayout layout = findViewById(R.id.layout_timeout);
         layout.setBackground(ContextCompat.getDrawable(this, GetRandomBackgroundImage.getId()));
     }
 
@@ -117,7 +149,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void setupSpinner() {
-        preSetTimeSpinner = (CustomSpinner) findViewById(R.id.spinner_preset_time);
+        preSetTimeSpinner = findViewById(R.id.spinner_preset_time);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.msg_preset_times, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -131,6 +163,8 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         long millisInput = Long.parseLong(preSetTime) * 60000;
         Log.i(TAG,"Selected drop down time : " + millisInput/1000);
         setTime(millisInput);
+        startButton.setVisibility(View.VISIBLE);
+        resetButton.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -138,7 +172,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void updateUI() {
-        if (isTimerRunning) {
+        if (timerIsRunning) {
             resetButton.setVisibility(View.VISIBLE);
             pauseButton.setVisibility(View.VISIBLE);
             pauseButton.setText(R.string.action_pause);
@@ -149,14 +183,14 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         } else {
             if (timeLeftInMillis < 1000) {
                 // If the timer is done:
-                resetButton.setVisibility(View.INVISIBLE);
+                resetButton.setVisibility(View.VISIBLE);
                 pauseButton.setVisibility(View.INVISIBLE);
                 pauseButton.setText(R.string.action_pause);
-                startButton.setVisibility(View.VISIBLE);
+                startButton.setVisibility(View.INVISIBLE);
                 preSetTimeSpinner.setVisibility(View.VISIBLE);
                 setButton.setVisibility(View.VISIBLE);
                 setTimeText.setVisibility(View.VISIBLE);
-            } else if (isTimerReset) {
+            } else if (timerIsReset) {
                 // If user press cancel when the timer is running:
                 resetButton.setVisibility(View.INVISIBLE);
                 startButton.setVisibility(View.VISIBLE);
@@ -174,10 +208,15 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         }
     }
 
+    private void setupTimeScaleTextView() {
+        timeScaleText = findViewById(R.id.text_time_scale);
+        updateTimeScaleText();
+    }
+
     private void setupPauseButton() {
-        pauseButton = (Button) findViewById(R.id.button_pause);
+        pauseButton = findViewById(R.id.button_pause);
         pauseButton.setOnClickListener(v -> {
-            if (isTimerRunning) {
+            if (timerIsRunning) {
                 pauseTimer();
             } else {
                 startTimer();
@@ -186,12 +225,12 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void setupResetButton() {
-        resetButton = (Button) findViewById(R.id.button_reset);
+        resetButton = findViewById(R.id.button_reset);
         resetButton.setOnClickListener(v -> resetTimer());
     }
 
     private void setupStartButton() {
-        startButton = (Button) findViewById(R.id.button_start);
+        startButton = findViewById(R.id.button_start);
         startButton.setOnClickListener(v -> {
             if (timeLeftInMillis < 1000) {
                 Toast.makeText(TimeOutActivity.this, "No Timer Made", Toast.LENGTH_SHORT).show();
@@ -203,8 +242,8 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void setupSetButton() {
-        setButton = (Button) findViewById(R.id.button_set);
-        setTimeText = (EditText) findViewById(R.id.text_set_time);
+        setButton = findViewById(R.id.button_set);
+        setTimeText = findViewById(R.id.text_set_time);
         setButton.setOnClickListener(v -> {
             String input = setTimeText.getText().toString();
 
@@ -225,27 +264,39 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void setTime(long milliseconds) {
-        startTimeInMillis = milliseconds;
+        standardStartTimeInMillis = milliseconds;
+        Log.i(TAG, "standardTimeUpdated: " + standardStartTimeInMillis);
+        startTimeInMillis = (long)(milliseconds/timeScaleOptions[timeScaleIndex]);
         timeLeftInMillis = startTimeInMillis;
         updateCountDownText();
         updateUI();
         closeKeyboard();
     }
 
-    private void saveStartTimeInMillisInSharedPrefs(long startTimeInMillis) {
+    private void saveStateInSharedPrefs() {
         Log.i(TAG, "Save StartTimeINMillis" + startTimeInMillis);
         SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
-        editor.putString(START_TIME_IN_MILLIS, Long.toString(startTimeInMillis));
+        editor.putLong(START_TIME_IN_MILLIS, startTimeInMillis);
+        editor.putInt(TIME_SCALE_INDEX_TAG, timeScaleIndex);
+        editor.putLong(STANDARD_START_TIME_IN_MILLIS_TAG, standardStartTimeInMillis);
         editor.apply();
     }
 
-    private long getSavedStartTimeInMillisFromSharedPrefs(){
+    private Bundle getStateFromSharedPrefs() {
         SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        String serializedStartTimeInMillis = prefs.getString(START_TIME_IN_MILLIS, "0");
-        Log.i(TAG, "serialized StartTimeinMillis: " + serializedStartTimeInMillis);
-        return Long.parseLong(serializedStartTimeInMillis);
+        long recoveredStartTimeInMillis = prefs.getLong(START_TIME_IN_MILLIS, 0);
+        int recoveredTimeScaleIndex = prefs.getInt(TIME_SCALE_INDEX_TAG, defaultTimeScaleIndex);
+        long recoveredStandardStartTimeInMillis = prefs.getLong(STANDARD_START_TIME_IN_MILLIS_TAG, 0);
+        Log.i(TAG, "recovered StartTimeinMillis: " + recoveredStartTimeInMillis);
+        Log.i(TAG, "recovered timeScaleIndex: " + recoveredTimeScaleIndex);
+
+        Bundle bundle = new Bundle();
+        bundle.putLong(START_TIME_IN_MILLIS, recoveredStartTimeInMillis);
+        bundle.putInt(TIME_SCALE_INDEX_TAG, recoveredTimeScaleIndex);
+        bundle.putLong(STANDARD_START_TIME_IN_MILLIS_TAG, recoveredStandardStartTimeInMillis);
+        return bundle;
     }
 
     private void closeKeyboard() {
@@ -257,21 +308,33 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void resetTimer() {
-        isTimerReset = true;
-        stopService(new Intent(this,BackgroundService.class));
+        timerIsReset = true;
+        stopService(new Intent(this, BackgroundService.class));
+        timerIsRunning = false;
         Log.i(TAG,"Reset service");
+        timeScaleIndex = defaultTimeScaleIndex;
+        startTimeInMillis = standardStartTimeInMillis;
         timeLeftInMillis = startTimeInMillis;
+        updateTimeScaleText();
         updateCountDownText();
         updateUI();
         updatePieTimer(timeLeftInMillis, true);
     }
 
-    private void updateCountDownText() {
-        int hours = (int) (timeLeftInMillis / 1000) / 3600;
-        int minutes = (int) ((timeLeftInMillis / 1000) % 3600) / 60;
-        int seconds = (int) (timeLeftInMillis / 1000) % 60;
+    private void updateTimeScaleText() {
+        int timeScalePercentage = (int) (timeScaleOptions[timeScaleIndex] * 100);
+        timeScaleText.setText(getString(R.string.msg_time_percent, timeScalePercentage));
+    }
 
-        long formattedMillis = (hours * 1000 * 3600) + (minutes * 60 * 1000) + (seconds * 1000);
+    private void updateCountDownText() {
+        int hours = (int) ((timeLeftInMillis * timeScaleOptions[timeScaleIndex]) / 1000) / 3600;
+        int minutes = (int) (((timeLeftInMillis * timeScaleOptions[timeScaleIndex]) / 1000) % 3600) / 60;
+        int seconds = (int) ((timeLeftInMillis * timeScaleOptions[timeScaleIndex]) / 1000) % 60;
+        Log.i(TAG,"update countdown: hours: " + hours);
+        Log.i(TAG,  "update countdown: minutes: " + minutes);
+        Log.i(TAG,  "update countdown: seconds: " + seconds);
+
+        long formattedMillis = (long)((hours * 1000 * 3600 / timeScaleOptions[timeScaleIndex]) + (minutes * 60 * 1000 / timeScaleOptions[timeScaleIndex]) + (seconds * 1000 / timeScaleOptions[timeScaleIndex]));
         updatePieTimer(formattedMillis, false);
 
         Log.i(TAG, "Countdown seconds remaining:" + timeLeftInMillis/1000);
@@ -287,35 +350,38 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void startTimer() {
-        isTimerReset = false;
+        timerIsReset = false;
         needToFetch = false;
-        Intent intent = BackgroundService.makeLaunchIntent(this, timeLeftInMillis);
+        Intent intent = BackgroundService.makeLaunchIntent(this, timeLeftInMillis, timeScaleOptions[timeScaleIndex]);
         startService(intent);
     }
 
     private void pauseTimer() {
-        isTimerReset = false;
+        timerIsReset = false;
         stopService(new Intent(this,BackgroundService.class));
         Log.i(TAG,"Paused service");
     }
 
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Update timeLeftinmillis
-            if (intent.getExtras() != null) {
+            if (intent.getExtras() != null && !timerIsReset) {
                 timeLeftInMillis = intent.getLongExtra("countDown", 1000);
-                isTimerRunning = intent.getBooleanExtra("isTimerRunning", false);
+                timerIsRunning = intent.getBooleanExtra("isTimerRunning", false);
                 Log.i(TAG, "timeleftinMillis passed from service: " + timeLeftInMillis / 1000);
-                Log.i(TAG, "isTimerRunning passed from service: " + isTimerRunning);
-            }
-            if (isTimerReset){
-                timeLeftInMillis = startTimeInMillis;
+                Log.i(TAG, "isTimerRunning passed from service: " + timerIsRunning);
             }
 
-            if(needToFetch){
-                if(getSavedStartTimeInMillisFromSharedPrefs() != 0){
-                    startTimeInMillis = getSavedStartTimeInMillisFromSharedPrefs();
+            if (needToFetch) {
+                Bundle bundle = getStateFromSharedPrefs();
+                long recoveredStartTimeInMillis = bundle.getLong(START_TIME_IN_MILLIS);
+                int recoveredTimeScaleIndex = bundle.getInt(TIME_SCALE_INDEX_TAG);
+                long recoveredStandardStartTimeInMillis = bundle.getLong(STANDARD_START_TIME_IN_MILLIS_TAG);
+                if (recoveredStartTimeInMillis != 0) {
+                    standardStartTimeInMillis = recoveredStandardStartTimeInMillis;
+                    startTimeInMillis = recoveredStartTimeInMillis;
+                    prepareAlteredTimer(recoveredTimeScaleIndex);
                 }
                 needToFetch = false;
             }
@@ -336,19 +402,19 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     protected void onDestroy() {
         super.onDestroy();
         Log.i(TAG, "on Destory" + startTimeInMillis);
-        saveStartTimeInMillisInSharedPrefs(startTimeInMillis);
+        saveStateInSharedPrefs();
         unregisterReceiver(broadcastReceiver);
     }
 
     //Code Reference: https://www.youtube.com/watch?v=YsHHXg1vbcc&ab_channel=CodinginFlow
-    private void updatePieTimer(long timeLeftInMillis, boolean reset){
+    private void updatePieTimer(long timeLeftInMillis, boolean reset) {
         float pieProgressFloat;
         int pieProgressInt;
         if (reset) {
             pieTimer.setProgress(0);
             return;
         }
-        if (startTimeInMillis  - 500 > startTimeInMillis - timeLeftInMillis) {
+        if (startTimeInMillis > startTimeInMillis - timeLeftInMillis) {
             pieProgressFloat = startTimeInMillis - timeLeftInMillis;
             pieProgressFloat = (pieProgressFloat/(startTimeInMillis)) * 100;
             pieProgressFloat = Math.round(pieProgressFloat);
@@ -357,5 +423,29 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
             pieProgressInt = 100;
         }
         pieTimer.setProgress(pieProgressInt);
+    }
+
+    private void prepareAlteredTimer(int newTimeScaleIndex) {
+        double timeRemainingRatio = (double)timeLeftInMillis / (double)startTimeInMillis;
+        startTimeInMillis = (long)(standardStartTimeInMillis / timeScaleOptions[newTimeScaleIndex]);
+        Log.i("Timeout prepare", "startTimeInMillis: " + startTimeInMillis);
+        Log.i("Timeout prepare", "standardStartTimeInMillis: " + standardStartTimeInMillis);
+
+        timeLeftInMillis = (long) (timeRemainingRatio * startTimeInMillis);
+        timeScaleIndex = newTimeScaleIndex;
+        updateTimeScaleText();
+    }
+
+    @Override
+    public void onDismissBottomSheet(int newTimeScaleIndex) {
+        if (newTimeScaleIndex != timeScaleIndex) {
+            if (timerIsRunning) {
+                pauseTimer();
+                prepareAlteredTimer(newTimeScaleIndex);
+                startTimer();
+            } else {
+                prepareAlteredTimer(newTimeScaleIndex);
+            }
+        }
     }
 }
