@@ -41,6 +41,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     public static final String TIME_SCALE_OPTIONS_TAG = "time scale options";
     private static final String PREFS_NAME = "Saved data";
     private static final String START_TIME_IN_MILLIS = "startTimeInMillis";
+    private static final String STANDARD_START_TIME_IN_MILLIS_TAG = "standardStartTimeInMillis";
     private long startTimeInMillis;
     private long standardStartTimeInMillis;
     private long timeLeftInMillis;
@@ -270,23 +271,32 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         updateCountDownText();
         updateUI();
         closeKeyboard();
-        resetTimer();
     }
 
-    private void saveStartTimeInMillisInSharedPrefs(long startTimeInMillis) {
+    private void saveStateInSharedPrefs() {
         Log.i(TAG, "Save StartTimeINMillis" + startTimeInMillis);
         SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
-        editor.putString(START_TIME_IN_MILLIS, Long.toString(startTimeInMillis));
+        editor.putLong(START_TIME_IN_MILLIS, startTimeInMillis);
+        editor.putInt(TIME_SCALE_INDEX_TAG, timeScaleIndex);
+        editor.putLong(STANDARD_START_TIME_IN_MILLIS_TAG, standardStartTimeInMillis);
         editor.apply();
     }
 
-    private long getSavedStartTimeInMillisFromSharedPrefs(){
+    private Bundle getStateFromSharedPrefs(){
         SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        String serializedStartTimeInMillis = prefs.getString(START_TIME_IN_MILLIS, "0");
-        Log.i(TAG, "serialized StartTimeinMillis: " + serializedStartTimeInMillis);
-        return Long.parseLong(serializedStartTimeInMillis);
+        long recoveredStartTimeInMillis = prefs.getLong(START_TIME_IN_MILLIS, 0);
+        int recoveredTimeScaleIndex = prefs.getInt(TIME_SCALE_INDEX_TAG, defaultTimeScaleIndex);
+        long recoveredStandardStartTimeInMillis = prefs.getLong(STANDARD_START_TIME_IN_MILLIS_TAG, 0);
+        Log.i(TAG, "recovered StartTimeinMillis: " + recoveredStartTimeInMillis);
+        Log.i(TAG, "recovered timeScaleIndex: " + recoveredTimeScaleIndex);
+
+        Bundle bundle = new Bundle();
+        bundle.putLong(START_TIME_IN_MILLIS, recoveredStartTimeInMillis);
+        bundle.putInt(TIME_SCALE_INDEX_TAG, recoveredTimeScaleIndex);
+        bundle.putLong(STANDARD_START_TIME_IN_MILLIS_TAG, recoveredStandardStartTimeInMillis);
+        return bundle;
     }
 
     private void closeKeyboard() {
@@ -364,8 +374,14 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
             }
 
             if(needToFetch){
-                if(getSavedStartTimeInMillisFromSharedPrefs() != 0){
-                    startTimeInMillis = getSavedStartTimeInMillisFromSharedPrefs();
+                Bundle bundle = getStateFromSharedPrefs();
+                long recoveredStartTimeInMillis = bundle.getLong(START_TIME_IN_MILLIS);
+                int recoveredTimeScaleIndex = bundle.getInt(TIME_SCALE_INDEX_TAG);
+                long recoveredStandardStartTimeInMillis = bundle.getLong(STANDARD_START_TIME_IN_MILLIS_TAG);
+                if(recoveredStartTimeInMillis != 0){
+                    standardStartTimeInMillis = recoveredStandardStartTimeInMillis;
+                    startTimeInMillis = recoveredStartTimeInMillis;
+                    prepareAlteredTimer(recoveredTimeScaleIndex);
                 }
                 needToFetch = false;
             }
@@ -386,7 +402,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     protected void onDestroy() {
         super.onDestroy();
         Log.i(TAG, "on Destory" + startTimeInMillis);
-        saveStartTimeInMillisInSharedPrefs(startTimeInMillis);
+        saveStateInSharedPrefs();
         unregisterReceiver(broadcastReceiver);
     }
 
