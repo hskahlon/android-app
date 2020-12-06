@@ -127,9 +127,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         String preSetTime = parent.getItemAtPosition(position).toString();
         long millisInput = Long.parseLong(preSetTime) * 60000;
         Log.i(TAG,"Selected drop down time : " + millisInput/1000);
-        if(!isTimerRunning){
-            setTime(millisInput);
-        }
+        setTime(millisInput);
     }
 
     @Override
