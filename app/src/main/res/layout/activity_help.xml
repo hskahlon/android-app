@@ -152,7 +152,34 @@
                 android:textColor="@color/black"
                 android:textColorLink="@color/blue"
                 android:textSize="18sp" />
-             <TextView
+
+            <TextView
+                android:id="@+id/inhale"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autoLink="web"
+                android:fontFamily="sans-serif"
+                android:paddingStart="10dp"
+                android:paddingEnd="0dp"
+                android:text="@string/inhale_audio"
+                android:textColor="@color/black"
+                android:textColorLink="@color/blue"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/exhale"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autoLink="web"
+                android:fontFamily="sans-serif"
+                android:paddingStart="10dp"
+                android:paddingEnd="0dp"
+                android:text="@string/exhale_audio"
+                android:textColor="@color/black"
+                android:textColorLink="@color/blue"
+                android:textSize="18sp" />
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingStart="10dp"

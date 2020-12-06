@@ -130,15 +130,30 @@
     <string name="title_take_breath">Take Breath</string>
     <string name="button_label_take_breath">Take Breath</string>
     <string name="action_begin">Begin</string>
-    <string name="msg_header">Let\'s take N breaths together</string>
+    <string name="msg_header_first_part">Let\'s take &#160; &#160; &#160; %d</string>
+    <string name="msg_header_second_part">breaths together</string>
     <string name="msg_inhale">Hold button and breath in</string>
     <string name="msg_release_button_for_inhale">Release button and breath out</string>
     <string name="msg_exhale">Now breathe out</string>
     <string name="msg_inhaling_state">Inhaling</string>
     <string name="msg_inhaled_for_three_seconds">Breathed in for 3 seconds! Feel free to release Button and breathe out</string>
-    <string name="msg_in">In</string>
-    <string name="msg_out">Out!</string>
+    <string name="action_in">In</string>
+    <string name="action_out">Out!</string>
     <string name="msg_good_job">Good Job</string>
-
+    <string name="content_description_for_taking_breath_img">Image for taking breath</string>
+    <string-array name="msg_num_breath">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+    <string name="exhale_audio">exhale audio https://freesound.org/people/BurghRecords/sounds/463903/</string>
+    <string name="inhale_audio">inhale audio https://freesound.org/people/amholma/sounds/372181/</string>
 
 </resources>

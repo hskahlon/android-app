@@ -35,32 +35,47 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/action_begin"
+        android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline21"
-        app:layout_constraintVertical_bias="0.288"
-        tools:textSize="40sp" />
+        app:layout_constraintVertical_bias="0.288" />
 
     <TextView
-        android:id="@+id/text_heading"
-        android:layout_width="317dp"
-        android:layout_height="101dp"
-        android:text="@string/msg_header"
+        android:id="@+id/text_header_first_part"
+        android:layout_width="322dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="76dp"
+        android:text="@string/msg_header_first_part"
         android:textSize="35sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline27"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ca.cmpt276.charcoal.practicalparent.CustomSpinner
+        android:id="@+id/spinner_set_number_of_breath"
+        android:layout_width="105dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/holo_blue_bright"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline29"
+        app:layout_constraintTop_toTopOf="@+id/text_header_first_part" />
 
     <Button
         android:id="@+id/button_inhale_exhale"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="In"
         android:backgroundTint="@color/breathe_green"
+        android:text="@string/action_in"
         android:textSize="35sp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -73,14 +88,15 @@
 
     <ImageView
         android:id="@+id/image_breathe"
-        android:layout_width="4dp"
-        android:layout_height="17dp"
+        android:layout_width="2dp"
+        android:layout_height="2dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/button_begin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_help"
-        app:srcCompat="@drawable/ic_breathe_circle" />
+        app:srcCompat="@drawable/ic_breathe_circle"
+        android:contentDescription="@string/content_description_for_taking_breath_img" />
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -107,10 +123,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.37" />
+        app:layout_constraintGuide_percent="0.38" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline29"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.48" />
 
-
+    <TextView
+        android:id="@+id/text_header_second_part"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/msg_header_second_part"
+        android:textSize="35sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline27"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_header_first_part"
+        app:layout_constraintVertical_bias="0.36" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
