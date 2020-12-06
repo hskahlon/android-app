@@ -50,7 +50,8 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     private boolean timerIsRunning;
     private boolean timerIsReset;
     private final double[] timeScaleOptions = {0.25, 0.5, 0.75, 1.0, 2.0, 3.0, 4.0};
-    private int timeScaleIndex = 3;
+    private final int defaultTimeScaleIndex = 3;
+    private int timeScaleIndex = defaultTimeScaleIndex;
 
     private PresetTimeCustomSpinner preSetTimeSpinner;
 
@@ -154,6 +155,8 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         long millisInput = Long.parseLong(preSetTime) * 60000;
         Log.i(TAG,"Selected drop down time : " + millisInput/1000);
         setTime(millisInput);
+        startButton.setVisibility(View.VISIBLE);
+        resetButton.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -172,10 +175,10 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         } else {
             if (timeLeftInMillis < 1000) {
                 // If the timer is done:
-                resetButton.setVisibility(View.INVISIBLE);
+                resetButton.setVisibility(View.VISIBLE);
                 pauseButton.setVisibility(View.INVISIBLE);
                 pauseButton.setText(R.string.action_pause);
-                startButton.setVisibility(View.VISIBLE);
+                startButton.setVisibility(View.INVISIBLE);
                 preSetTimeSpinner.setVisibility(View.VISIBLE);
                 setButton.setVisibility(View.VISIBLE);
                 setTimeText.setVisibility(View.VISIBLE);
@@ -199,8 +202,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
     private void setupTimeScaleTextView() {
         timeScaleText = findViewById(R.id.text_time_scale);
-        int timeScalePercentage = (int) timeScaleOptions[timeScaleIndex] * 100;
-        timeScaleText.setText(getString(R.string.msg_time_percent, timeScalePercentage));
+        updateTimeScaleText();
     }
 
     private void setupPauseButton() {
@@ -261,6 +263,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         updateCountDownText();
         updateUI();
         closeKeyboard();
+        resetTimer();
     }
 
     private void closeKeyboard() {
@@ -276,13 +279,18 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         stopService(new Intent(this, BackgroundService.class));
         timerIsRunning = false;
         Log.i(TAG,"Reset service");
-        startTimeInMillis = (long)(standardStartTimeInMillis / timeScaleOptions[timeScaleIndex]);
+        timeScaleIndex = defaultTimeScaleIndex;
+        startTimeInMillis = standardStartTimeInMillis;
         timeLeftInMillis = startTimeInMillis;
-        Log.i(TAG + ": reset", "startTimeInMillis: " + startTimeInMillis);
-        Log.i(TAG + ": reset", "timeLeftInMillis: " + timeLeftInMillis);
+        updateTimeScaleText();
         updateCountDownText();
         updateUI();
         updatePieTimer(timeLeftInMillis, true);
+    }
+
+    private void updateTimeScaleText() {
+        int timeScalePercentage = (int) (timeScaleOptions[timeScaleIndex] * 100);
+        timeScaleText.setText(getString(R.string.msg_time_percent, timeScalePercentage));
     }
 
     private void updateCountDownText() {
@@ -377,8 +385,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
         timeLeftInMillis = (long) (timeRemainingRatio * startTimeInMillis);
         timeScaleIndex = newTimeScaleIndex;
-        int timeScalePercentage = (int)(timeScaleOptions[timeScaleIndex] * 100);
-        timeScaleText.setText(getString(R.string.msg_time_percent, timeScalePercentage));
+        updateTimeScaleText();
     }
 
     @Override
