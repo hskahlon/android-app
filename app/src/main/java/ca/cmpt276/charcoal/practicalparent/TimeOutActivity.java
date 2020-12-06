@@ -55,6 +55,8 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_out);
 
+        // Reference:
+        //   https://codinginflow.com/tutorials/android/countdowntimer/part-1-countdown-timer
         setupSetButton();
         setupStartButton();
         setupResetButton();
