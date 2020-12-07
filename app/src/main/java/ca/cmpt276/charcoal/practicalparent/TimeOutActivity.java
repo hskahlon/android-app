@@ -42,6 +42,8 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     private static final String PREFS_NAME = "Saved data";
     private static final String START_TIME_IN_MILLIS = "startTimeInMillis";
     private static final String STANDARD_START_TIME_IN_MILLIS_TAG = "standardStartTimeInMillis";
+    private static final String TIME_LEFT_IN_MILLIS = "timeLeftInMillis";
+    private static final String TIMER_IS_PAUSED = "timerIsPaused";
     private long startTimeInMillis;
     private long standardStartTimeInMillis;
     private long timeLeftInMillis;
@@ -58,6 +60,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     private final int defaultTimeScaleIndex = 3;
     private int timeScaleIndex = defaultTimeScaleIndex;
     private boolean needToFetch = true;
+    private boolean timerIsPaused;
 
     private CustomSpinner preSetTimeSpinner;
 
@@ -65,7 +68,6 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_out);
-
         // Reference:
         //   https://codinginflow.com/tutorials/android/countdowntimer/part-1-countdown-timer
         setupSetButton();
@@ -77,11 +79,39 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         setLoadingScreen();
         setRandomBackgroundImage();
 
+        getTimerIsPausedFromSharedPrefs();
+
         // Enable "up" on toolbar
         ActionBar ab = getSupportActionBar();
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
         }
+    }
+
+    private void getTimerIsPausedFromSharedPrefs() {
+        Bundle bundle = getStateFromSharedPrefs();
+        timerIsPaused = bundle.getBoolean(TIMER_IS_PAUSED);
+    }
+
+    private void setupUIWhenTimerWasPausedBefore() {
+        Bundle bundle = getStateFromSharedPrefs();
+        Log.i(TAG, "recoveredTImeLeftINMillis in setup function "  + timeLeftInMillis);
+        Log.i(TAG, "timer was paused");
+        timeLeftInMillis = bundle.getLong(TIME_LEFT_IN_MILLIS);
+        startTimeInMillis = bundle.getLong(START_TIME_IN_MILLIS);
+        int recoveredTimeScaleIndex = bundle.getInt(TIME_SCALE_INDEX_TAG);
+        standardStartTimeInMillis = bundle.getLong(STANDARD_START_TIME_IN_MILLIS_TAG);
+        prepareAlteredTimer(recoveredTimeScaleIndex);
+
+        // set up UI
+        resetButton.setVisibility(View.VISIBLE);
+        pauseButton.setVisibility(View.VISIBLE);
+        pauseButton.setText(R.string.action_resume);
+        startButton.setVisibility(View.INVISIBLE);
+        preSetTimeSpinner.setVisibility(View.INVISIBLE);
+        setButton.setVisibility(View.INVISIBLE);
+        setTimeText.setVisibility(View.INVISIBLE);
+        updateCountDownText();
     }
 
     @Override
@@ -165,6 +195,10 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         setTime(millisInput);
         startButton.setVisibility(View.VISIBLE);
         resetButton.setVisibility(View.INVISIBLE);
+
+        if(timerIsPaused){
+            setupUIWhenTimerWasPausedBefore();
+        }
     }
 
     @Override
@@ -278,6 +312,8 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
+        editor.putBoolean(TIMER_IS_PAUSED, timerIsPaused);
+        editor.putLong(TIME_LEFT_IN_MILLIS, timeLeftInMillis);
         editor.putLong(START_TIME_IN_MILLIS, startTimeInMillis);
         editor.putInt(TIME_SCALE_INDEX_TAG, timeScaleIndex);
         editor.putLong(STANDARD_START_TIME_IN_MILLIS_TAG, standardStartTimeInMillis);
@@ -289,10 +325,17 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         long recoveredStartTimeInMillis = prefs.getLong(START_TIME_IN_MILLIS, 0);
         int recoveredTimeScaleIndex = prefs.getInt(TIME_SCALE_INDEX_TAG, defaultTimeScaleIndex);
         long recoveredStandardStartTimeInMillis = prefs.getLong(STANDARD_START_TIME_IN_MILLIS_TAG, 0);
-        Log.i(TAG, "recovered StartTimeinMillis: " + recoveredStartTimeInMillis);
+        long recoveredTimeLeftInMillis = prefs.getLong(TIME_LEFT_IN_MILLIS, -1);
+        boolean recoveredTimerIsPaused = prefs.getBoolean(TIMER_IS_PAUSED,false);
+        Log.i(TAG, "recovered StartTimeInMillis: " + recoveredStartTimeInMillis);
+        Log.i(TAG, "recovered timeLeftInMillis: " + recoveredTimeLeftInMillis);
         Log.i(TAG, "recovered timeScaleIndex: " + recoveredTimeScaleIndex);
 
+        Log.i(TAG, "recovered timerIsPaused: " + recoveredTimerIsPaused);
+
         Bundle bundle = new Bundle();
+        bundle.putBoolean(TIMER_IS_PAUSED, recoveredTimerIsPaused);
+        bundle.putLong(TIME_LEFT_IN_MILLIS, recoveredTimeLeftInMillis);
         bundle.putLong(START_TIME_IN_MILLIS, recoveredStartTimeInMillis);
         bundle.putInt(TIME_SCALE_INDEX_TAG, recoveredTimeScaleIndex);
         bundle.putLong(STANDARD_START_TIME_IN_MILLIS_TAG, recoveredStandardStartTimeInMillis);
@@ -309,6 +352,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
     private void resetTimer() {
         timerIsReset = true;
+        timerIsPaused = false;
         stopService(new Intent(this, BackgroundService.class));
         timerIsRunning = false;
         Log.i(TAG,"Reset service");
@@ -352,12 +396,14 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     private void startTimer() {
         timerIsReset = false;
         needToFetch = false;
+        timerIsPaused = false;
         Intent intent = BackgroundService.makeLaunchIntent(this, timeLeftInMillis, timeScaleOptions[timeScaleIndex]);
         startService(intent);
     }
 
     private void pauseTimer() {
         timerIsReset = false;
+        timerIsPaused = true;
         stopService(new Intent(this,BackgroundService.class));
         Log.i(TAG,"Paused service");
     }
@@ -365,11 +411,11 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            // Update timeLeftinmillis
+            // Update timeLeftInMillis
             if (intent.getExtras() != null && !timerIsReset) {
                 timeLeftInMillis = intent.getLongExtra("countDown", 1000);
                 timerIsRunning = intent.getBooleanExtra("isTimerRunning", false);
-                Log.i(TAG, "timeleftinMillis passed from service: " + timeLeftInMillis / 1000);
+                Log.i(TAG, "timeLeftInMillis passed from service: " + timeLeftInMillis / 1000);
                 Log.i(TAG, "isTimerRunning passed from service: " + timerIsRunning);
             }
 
@@ -401,9 +447,12 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.i(TAG, "on Destory" + startTimeInMillis);
+        Log.i(TAG, "on Destroy" + startTimeInMillis);
         saveStateInSharedPrefs();
         unregisterReceiver(broadcastReceiver);
+
+        Log.i(TAG, "onDestroy, pieTimer" +pieTimer.getProgress() );
+        Log.i(TAG, "onDestroy, time left in millis" + timeLeftInMillis);
     }
 
     //Code Reference: https://www.youtube.com/watch?v=YsHHXg1vbcc&ab_channel=CodinginFlow
@@ -414,6 +463,8 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
             pieTimer.setProgress(0);
             return;
         }
+        Log.i(TAG, "TimeLeftInMillis in UPDATE PIE TIMER " + timeLeftInMillis);
+        Log.i(TAG, "StartTimeInMillis " + startTimeInMillis);
         if (startTimeInMillis > startTimeInMillis - timeLeftInMillis) {
             pieProgressFloat = startTimeInMillis - timeLeftInMillis;
             pieProgressFloat = (pieProgressFloat/(startTimeInMillis)) * 100;
