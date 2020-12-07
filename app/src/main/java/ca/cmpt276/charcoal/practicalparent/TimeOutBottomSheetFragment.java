@@ -1,7 +1,6 @@
 package ca.cmpt276.charcoal.practicalparent;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,12 +15,12 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-public class EditChildBottomSheetFragment extends BottomSheetDialogFragment {
+// Bottom sheet fragment tutorial: https://codinginflow.com/tutorials/android/modal-bottom-sheet
+public class TimeOutBottomSheetFragment extends BottomSheetDialogFragment {
     private BottomSheetListener listener;
     private TextView timeSpeedPercentageText;
     private int timeScaleIndex;
     private double[] timeScaleOptions;
-
 
     @Nullable
     @Override
@@ -31,7 +30,7 @@ public class EditChildBottomSheetFragment extends BottomSheetDialogFragment {
         timeScaleOptions = getArguments().getDoubleArray(TimeOutActivity.TIME_SCALE_OPTIONS_TAG);
         int timeScalePercentage = (int)(timeScaleOptions[timeScaleIndex] * 100);
 
-        View view = inflater.inflate(R.layout.bottom_sheet_time_out, container, false);
+        View view = inflater.inflate(R.layout.fragment_bottom_sheet_time_out, container, false);
 
         timeSpeedPercentageText = view.findViewById(R.id.text_time_rate);
         timeSpeedPercentageText.setText(getString(R.string.msg_timer_speed_percentage, timeScalePercentage));
@@ -48,6 +47,7 @@ public class EditChildBottomSheetFragment extends BottomSheetDialogFragment {
                 timeScaleIndex++;
                 int timeScalePercentage = (int)(timeScaleOptions[timeScaleIndex] * 100);
                 timeSpeedPercentageText.setText(getString(R.string.msg_timer_speed_percentage, timeScalePercentage));
+                listener.onFragmentButtonClick(timeScaleIndex);
             }
         });
 
@@ -57,18 +57,13 @@ public class EditChildBottomSheetFragment extends BottomSheetDialogFragment {
                 timeScaleIndex--;
                 int timeScalePercentage = (int)(timeScaleOptions[timeScaleIndex] * 100);
                 timeSpeedPercentageText.setText(getString(R.string.msg_timer_speed_percentage, timeScalePercentage));
+                listener.onFragmentButtonClick(timeScaleIndex);
             }
         });
     }
 
-    @Override
-    public void onDismiss(@NonNull DialogInterface dialog) {
-        super.onDismiss(dialog);
-        listener.onDismissBottomSheet(timeScaleIndex);
-    }
-
     public interface BottomSheetListener {
-        void onDismissBottomSheet(int newTimeScaleIndex);
+        void onFragmentButtonClick(int newTimeScaleIndex);
     }
 
     @Override

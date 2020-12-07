@@ -12,6 +12,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -34,10 +35,13 @@ import ca.cmpt276.charcoal.practicalparent.model.GetRandomBackgroundImage;
 /**
  *  Sets up TimeOut activity and timer
  */
-public class TimeOutActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, EditChildBottomSheetFragment.BottomSheetListener {
+public class TimeOutActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, TimeOutBottomSheetFragment.BottomSheetListener {
     public static final String TAG = "TimeOut";
     public static final String TIME_SCALE_INDEX_TAG = "time scale index";
     public static final String TIME_SCALE_OPTIONS_TAG = "time scale options";
+    private static final String PREFS_NAME = "Saved data";
+    private static final String START_TIME_IN_MILLIS = "startTimeInMillis";
+    private static final String STANDARD_START_TIME_IN_MILLIS_TAG = "standardStartTimeInMillis";
     private long startTimeInMillis;
     private long standardStartTimeInMillis;
     private long timeLeftInMillis;
@@ -46,13 +50,16 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     private TextView countDownText, timeScaleText;
     private Button startButton, pauseButton, resetButton, setButton;
     private EditText setTimeText;
+    private ProgressBar pieTimer;
 
     private boolean timerIsRunning;
     private boolean timerIsReset;
     private final double[] timeScaleOptions = {0.25, 0.5, 0.75, 1.0, 2.0, 3.0, 4.0};
-    private int timeScaleIndex = 3;
+    private final int defaultTimeScaleIndex = 3;
+    private int timeScaleIndex = defaultTimeScaleIndex;
+    private boolean needToFetch = true;
 
-    private PresetTimeCustomSpinner preSetTimeSpinner;
+    private CustomSpinner preSetTimeSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,17 +93,18 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_alter_time_speed) {
-            EditChildBottomSheetFragment sheetFragment = new EditChildBottomSheetFragment();
+            TimeOutBottomSheetFragment sheetFragment = new TimeOutBottomSheetFragment();
             Bundle bundle = new Bundle();
             bundle.putInt(TIME_SCALE_INDEX_TAG, timeScaleIndex);
             bundle.putDoubleArray(TIME_SCALE_OPTIONS_TAG, timeScaleOptions);
             sheetFragment.setArguments(bundle);
-            sheetFragment.show(getSupportFragmentManager(), "Temp");
+            sheetFragment.show(getSupportFragmentManager(), "Fragment");
         }
        return super.onOptionsItemSelected(item);
     }
 
     private void setLoadingScreen() {
+        pieTimer = findViewById(R.id.timer_progress);
         countDownText = findViewById(R.id.text_count_down);
         loadingView = findViewById(R.id.spinner_loading);
         loadingView.animate()
@@ -111,15 +119,16 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         setupFirstTimeOutUI();
     }
 
-    private void setupFirstTimeOutUI(){
+    private void setupFirstTimeOutUI() {
         fadeInView(startButton);
         fadeInView(setButton);
         fadeInView(setTimeText);
         fadeInView(countDownText);
         fadeInView(preSetTimeSpinner);
+        fadeInView(pieTimer);
     }
 
-    private void fadeInView(View view){
+    private void fadeInView(View view) {
         view.setAlpha(0f);
         view.setVisibility(View.VISIBLE);
 
@@ -154,6 +163,8 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         long millisInput = Long.parseLong(preSetTime) * 60000;
         Log.i(TAG,"Selected drop down time : " + millisInput/1000);
         setTime(millisInput);
+        startButton.setVisibility(View.VISIBLE);
+        resetButton.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -172,10 +183,10 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         } else {
             if (timeLeftInMillis < 1000) {
                 // If the timer is done:
-                resetButton.setVisibility(View.INVISIBLE);
+                resetButton.setVisibility(View.VISIBLE);
                 pauseButton.setVisibility(View.INVISIBLE);
                 pauseButton.setText(R.string.action_pause);
-                startButton.setVisibility(View.VISIBLE);
+                startButton.setVisibility(View.INVISIBLE);
                 preSetTimeSpinner.setVisibility(View.VISIBLE);
                 setButton.setVisibility(View.VISIBLE);
                 setTimeText.setVisibility(View.VISIBLE);
@@ -199,8 +210,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
     private void setupTimeScaleTextView() {
         timeScaleText = findViewById(R.id.text_time_scale);
-        int timeScalePercentage = (int) timeScaleOptions[timeScaleIndex] * 100;
-        timeScaleText.setText(getString(R.string.msg_time_percent, timeScalePercentage));
+        updateTimeScaleText();
     }
 
     private void setupPauseButton() {
@@ -263,6 +273,32 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         closeKeyboard();
     }
 
+    private void saveStateInSharedPrefs() {
+        Log.i(TAG, "Save StartTimeINMillis" + startTimeInMillis);
+        SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.putLong(START_TIME_IN_MILLIS, startTimeInMillis);
+        editor.putInt(TIME_SCALE_INDEX_TAG, timeScaleIndex);
+        editor.putLong(STANDARD_START_TIME_IN_MILLIS_TAG, standardStartTimeInMillis);
+        editor.apply();
+    }
+
+    private Bundle getStateFromSharedPrefs() {
+        SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        long recoveredStartTimeInMillis = prefs.getLong(START_TIME_IN_MILLIS, 0);
+        int recoveredTimeScaleIndex = prefs.getInt(TIME_SCALE_INDEX_TAG, defaultTimeScaleIndex);
+        long recoveredStandardStartTimeInMillis = prefs.getLong(STANDARD_START_TIME_IN_MILLIS_TAG, 0);
+        Log.i(TAG, "recovered StartTimeinMillis: " + recoveredStartTimeInMillis);
+        Log.i(TAG, "recovered timeScaleIndex: " + recoveredTimeScaleIndex);
+
+        Bundle bundle = new Bundle();
+        bundle.putLong(START_TIME_IN_MILLIS, recoveredStartTimeInMillis);
+        bundle.putInt(TIME_SCALE_INDEX_TAG, recoveredTimeScaleIndex);
+        bundle.putLong(STANDARD_START_TIME_IN_MILLIS_TAG, recoveredStandardStartTimeInMillis);
+        return bundle;
+    }
+
     private void closeKeyboard() {
         View view = this.getCurrentFocus();
         if (view != null) {
@@ -276,22 +312,27 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         stopService(new Intent(this, BackgroundService.class));
         timerIsRunning = false;
         Log.i(TAG,"Reset service");
-        startTimeInMillis = (long)(standardStartTimeInMillis / timeScaleOptions[timeScaleIndex]);
+        timeScaleIndex = defaultTimeScaleIndex;
+        startTimeInMillis = standardStartTimeInMillis;
         timeLeftInMillis = startTimeInMillis;
-        Log.i(TAG + ": reset", "startTimeInMillis: " + startTimeInMillis);
-        Log.i(TAG + ": reset", "timeLeftInMillis: " + timeLeftInMillis);
+        updateTimeScaleText();
         updateCountDownText();
         updateUI();
         updatePieTimer(timeLeftInMillis, true);
+    }
+
+    private void updateTimeScaleText() {
+        int timeScalePercentage = (int) (timeScaleOptions[timeScaleIndex] * 100);
+        timeScaleText.setText(getString(R.string.msg_time_percent, timeScalePercentage));
     }
 
     private void updateCountDownText() {
         int hours = (int) ((timeLeftInMillis * timeScaleOptions[timeScaleIndex]) / 1000) / 3600;
         int minutes = (int) (((timeLeftInMillis * timeScaleOptions[timeScaleIndex]) / 1000) % 3600) / 60;
         int seconds = (int) ((timeLeftInMillis * timeScaleOptions[timeScaleIndex]) / 1000) % 60;
-        Log.i(TAG + ": update countdown", "hours: " + hours);
-        Log.i(TAG + ": update countdown", "minutes: " + minutes);
-        Log.i(TAG + ": update countdown", "seconds: " + seconds);
+        Log.i(TAG,"update countdown: hours: " + hours);
+        Log.i(TAG,  "update countdown: minutes: " + minutes);
+        Log.i(TAG,  "update countdown: seconds: " + seconds);
 
         long formattedMillis = (long)((hours * 1000 * 3600 / timeScaleOptions[timeScaleIndex]) + (minutes * 60 * 1000 / timeScaleOptions[timeScaleIndex]) + (seconds * 1000 / timeScaleOptions[timeScaleIndex]));
         updatePieTimer(formattedMillis, false);
@@ -310,6 +351,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
     private void startTimer() {
         timerIsReset = false;
+        needToFetch = false;
         Intent intent = BackgroundService.makeLaunchIntent(this, timeLeftInMillis, timeScaleOptions[timeScaleIndex]);
         startService(intent);
     }
@@ -330,6 +372,20 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
                 Log.i(TAG, "timeleftinMillis passed from service: " + timeLeftInMillis / 1000);
                 Log.i(TAG, "isTimerRunning passed from service: " + timerIsRunning);
             }
+
+            if (needToFetch) {
+                Bundle bundle = getStateFromSharedPrefs();
+                long recoveredStartTimeInMillis = bundle.getLong(START_TIME_IN_MILLIS);
+                int recoveredTimeScaleIndex = bundle.getInt(TIME_SCALE_INDEX_TAG);
+                long recoveredStandardStartTimeInMillis = bundle.getLong(STANDARD_START_TIME_IN_MILLIS_TAG);
+                if (recoveredStartTimeInMillis != 0) {
+                    standardStartTimeInMillis = recoveredStandardStartTimeInMillis;
+                    startTimeInMillis = recoveredStartTimeInMillis;
+                    prepareAlteredTimer(recoveredTimeScaleIndex);
+                }
+                needToFetch = false;
+            }
+
             updateCountDownText();
             updateUI();
         }
@@ -345,12 +401,13 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.i(TAG, "on Destory" + startTimeInMillis);
+        saveStateInSharedPrefs();
         unregisterReceiver(broadcastReceiver);
     }
 
     //Code Reference: https://www.youtube.com/watch?v=YsHHXg1vbcc&ab_channel=CodinginFlow
-    private void updatePieTimer(long timeLeftInMillis, boolean reset){
-        ProgressBar pieTimer = findViewById(R.id.timer_progress);
+    private void updatePieTimer(long timeLeftInMillis, boolean reset) {
         float pieProgressFloat;
         int pieProgressInt;
         if (reset) {
@@ -365,7 +422,6 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         } else {
             pieProgressInt = 100;
         }
-
         pieTimer.setProgress(pieProgressInt);
     }
 
@@ -377,12 +433,11 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
         timeLeftInMillis = (long) (timeRemainingRatio * startTimeInMillis);
         timeScaleIndex = newTimeScaleIndex;
-        int timeScalePercentage = (int)(timeScaleOptions[timeScaleIndex] * 100);
-        timeScaleText.setText(getString(R.string.msg_time_percent, timeScalePercentage));
+        updateTimeScaleText();
     }
 
     @Override
-    public void onDismissBottomSheet(int newTimeScaleIndex) {
+    public void onFragmentButtonClick(int newTimeScaleIndex) {
         if (newTimeScaleIndex != timeScaleIndex) {
             if (timerIsRunning) {
                 pauseTimer();
