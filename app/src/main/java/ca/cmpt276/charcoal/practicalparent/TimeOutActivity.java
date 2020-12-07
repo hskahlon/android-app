@@ -68,12 +68,6 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_out);
-
-        if(pieTimer != null) {
-            Log.i(TAG, "on Create, pieTIimer" + pieTimer.getProgress());
-        }
-        Log.i(TAG, "on Create, time Left in MIllis" + timeLeftInMillis);
-
         // Reference:
         //   https://codinginflow.com/tutorials/android/countdowntimer/part-1-countdown-timer
         setupSetButton();
