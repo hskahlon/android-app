@@ -95,7 +95,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
 
     private void setupUIWhenTimerWasPausedBefore() {
         Bundle bundle = getStateFromSharedPrefs();
-        Log.i(TAG, "recoverdTImeLeftINMillis in setup function "  + timeLeftInMillis);
+        Log.i(TAG, "recoveredTImeLeftINMillis in setup function "  + timeLeftInMillis);
         Log.i(TAG, "timer was paused");
         timeLeftInMillis = bundle.getLong(TIME_LEFT_IN_MILLIS);
         startTimeInMillis = bundle.getLong(START_TIME_IN_MILLIS);
@@ -411,11 +411,11 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            // Update timeLeftinmillis
+            // Update timeLeftInMillis
             if (intent.getExtras() != null && !timerIsReset) {
                 timeLeftInMillis = intent.getLongExtra("countDown", 1000);
                 timerIsRunning = intent.getBooleanExtra("isTimerRunning", false);
-                Log.i(TAG, "timeleftinMillis passed from service: " + timeLeftInMillis / 1000);
+                Log.i(TAG, "timeLeftInMillis passed from service: " + timeLeftInMillis / 1000);
                 Log.i(TAG, "isTimerRunning passed from service: " + timerIsRunning);
             }
 
@@ -447,11 +447,11 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.i(TAG, "on Destory" + startTimeInMillis);
+        Log.i(TAG, "on Destroy" + startTimeInMillis);
         saveStateInSharedPrefs();
         unregisterReceiver(broadcastReceiver);
 
-        Log.i(TAG, "onDestroy, pieTIimer" +pieTimer.getProgress() );
+        Log.i(TAG, "onDestroy, pieTimer" +pieTimer.getProgress() );
         Log.i(TAG, "onDestroy, time left in millis" + timeLeftInMillis);
     }
 
@@ -463,7 +463,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
             pieTimer.setProgress(0);
             return;
         }
-        Log.i(TAG, "TimeLeftInMIllis in UPDATE PIE TIMER " + timeLeftInMillis);
+        Log.i(TAG, "TimeLeftInMillis in UPDATE PIE TIMER " + timeLeftInMillis);
         Log.i(TAG, "StartTimeInMillis " + startTimeInMillis);
         if (startTimeInMillis > startTimeInMillis - timeLeftInMillis) {
             pieProgressFloat = startTimeInMillis - timeLeftInMillis;
