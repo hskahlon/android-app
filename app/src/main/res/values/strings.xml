@@ -58,6 +58,8 @@
     <string name="stopwatch">Stopwatch</string>
     <string name="action_alter_time_speed">Alter Time Speed</string>
     <string name="msg_time_percent">Time @%d%%</string>
+    <string name="content_description_button_slow_down_time">Button that slows down time</string>
+    <string name="content_description_button_speed_up_time">Button that speed up time</string>
 
     <!--        Strings for EditChildBottomSheetFragment    -->
     <string name="msg_timer_speed">Timer Speed</string>
@@ -155,5 +157,6 @@
     </string-array>
     <string name="exhale_audio">exhale audio https://freesound.org/people/BurghRecords/sounds/463903/</string>
     <string name="inhale_audio">inhale audio https://freesound.org/people/amholma/sounds/372181/</string>
+
 
 </resources>
