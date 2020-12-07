@@ -14,6 +14,9 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+/**
+ * A fragment launched in the TimeOutActivity to allow the user to change the speed of the timer
+ */
 // Bottom sheet fragment tutorial: https://codinginflow.com/tutorials/android/modal-bottom-sheet
 public class TimeOutBottomSheetFragment extends BottomSheetDialogFragment {
     private BottomSheetListener listener;
