@@ -192,6 +192,8 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         String preSetTime = parent.getItemAtPosition(position).toString();
         long millisInput = Long.parseLong(preSetTime) * 60000;
         Log.i(TAG,"Selected drop down time : " + millisInput/1000);
+        timeScaleIndex = defaultTimeScaleIndex;
+        updateTimeScaleText();
         setTime(millisInput);
         startButton.setVisibility(View.VISIBLE);
         resetButton.setVisibility(View.INVISIBLE);
@@ -292,8 +294,12 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
                 Toast.makeText(TimeOutActivity.this, "Please enter a positive number", Toast.LENGTH_SHORT).show();
                 return;
             }
+            timeScaleIndex = defaultTimeScaleIndex;
+            updateTimeScaleText();
             setTime(millisInput);
             setTimeText.setText("");
+            startButton.setVisibility(View.VISIBLE);
+            resetButton.setVisibility(View.INVISIBLE);
         });
     }
 
