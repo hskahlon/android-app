@@ -63,18 +63,11 @@
         android:id="@+id/list_record"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
     </ListView>
 
     <ListView
-
         android:id="@+id/currentRecordListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
     </ListView>
-
-
-
-
 </LinearLayout>

@@ -190,9 +190,6 @@
                 android:text=""
                 android:autoLink="web"
                 android:textSize="18sp" />
-
-
         </LinearLayout>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

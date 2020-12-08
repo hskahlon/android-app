@@ -1,6 +1,5 @@
 package ca.cmpt276.charcoal.practicalparent.model;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,24 +9,26 @@ import ca.cmpt276.charcoal.practicalparent.R;
  *  Records class allows for storage of user, dates, and information required for records activity
  */
 public class Record {
-
     private List<Child> children= new ArrayList<>();
     private List<String> dateTimes = new ArrayList<>();
     private List<String> choices = new ArrayList<>();
     private List<Integer> images = new ArrayList<>();
     private static Record instance;
 
-
     private Record() {
-
     }
 
+    public void addChild(Child child) {
+        children.add(0, child);
+    }
 
-    public void addChild(Child child) { children.add(0, child);}
+    public void addDateTime(String dateTime) {
+        dateTimes.add(0, dateTime);
+    }
 
-    public void addDateTime(String dateTime) { dateTimes.add(0, dateTime);}
-
-    public void addChoice(String choice) { choices.add(0, choice);}
+    public void addChoice(String choice) {
+        choices.add(0, choice);
+    }
 
     public void addResult(Boolean result) {
         if (result) {
@@ -37,11 +38,15 @@ public class Record {
         }
     }
 
-    public List<Child> getChildren() { return children;}
+    public List<Child> getChildren() {
+        return children;
+    }
 
-    public List<String> getDateTimes() { return dateTimes;}
+    public List<String> getDateTimes() {return dateTimes;
+    }
 
-    public List<String> getChoices() { return choices;}
+    public List<String> getChoices() {return choices;
+    }
 
     public static Record getInstance() {
         if (instance == null) {
@@ -68,5 +73,4 @@ public class Record {
     public void setImages(List<Integer> image) {
         this.images = image;
     }
-
 }

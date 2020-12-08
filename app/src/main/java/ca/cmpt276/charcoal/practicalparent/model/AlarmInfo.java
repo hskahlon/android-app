@@ -6,7 +6,7 @@ import android.os.Vibrator;
 import java.io.Serializable;
 
 /**
- *  Alarm info allows to create and set ringtones for alarm
+ *  Alarm info allows to create and set ringtone for alarm
  */
 public class AlarmInfo implements Serializable {
     private Ringtone ringtone;

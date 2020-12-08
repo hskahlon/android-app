@@ -8,8 +8,8 @@ import java.util.List;
  */
 public class ChildManager {
     private List<Child> children = new ArrayList<>();
-
     private static ChildManager instance;
+
     private ChildManager() {
     }
 

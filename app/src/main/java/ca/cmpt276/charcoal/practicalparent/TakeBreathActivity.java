@@ -33,7 +33,6 @@ import android.widget.TextView;
 public class TakeBreathActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private static final String PREFS_NAME = "SavedData";
     private static final String NUM_BREATHS_TO_TAKE_PREFS = "NumBreathsToTake";
-
     public static final int EXHALE_DURATION = 10000;
     public static final int INITIAL_HEIGHT = 2;
     public static final int INITIAL_WIDTH = 2;
@@ -62,8 +61,8 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
     private State currentState = new IdleState();
 
     private abstract class State {
-        // Empty implementations, so derived classses don't need to
-        // overide methods they don't care about
+        // Empty implementations, so derived classes don't need to
+        // override methods they don't care about
         void handleClickBegin() {}
         void handleExit() {}
         void handleEnter() {}
@@ -163,7 +162,7 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
     private class IdleState extends State {
     }
 
-    private class BeginState extends State{
+    private class BeginState extends State {
         @Override
         void handleClickBegin() {
             setupUIWhenClickBegin();
@@ -237,7 +236,7 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
             timerHandler.postDelayed(threeSecondRun, 3000);
             startInhaleSound();
 
-            if (inflateCircle==null) {
+            if (inflateCircle == null) {
                 inflateCircle = new Handler();
             }
             inflateCircle.postDelayed(myAction,5);
@@ -258,7 +257,7 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
         };
 
         Handler inflateCircle = new Handler();
-        Runnable myAction = new Runnable(){
+        Runnable myAction = new Runnable() {
             @Override
             public void run() {
                 incrementCircle();
@@ -274,10 +273,12 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
             inflateCircle.postDelayed(myAction,5);
             inhaleExhaleBtn.setText(R.string.action_out);
         }
+
         @Override
         void handleReleaseButton() {
             setState(doneInhaleState);
         }
+
         @Override
         void handleExit() {
             timerHandler.removeCallbacks(tenSecondRun);
@@ -291,6 +292,7 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
             Log.i(TAG,"Entering Inhaled For Ten Second State");
             helpText.setText(R.string.msg_release_button_for_inhale);
         }
+
         @Override
         void handleReleaseButton() {
             setState(doneInhaleState);
@@ -311,6 +313,7 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
         Runnable threeSecondRun = () -> {
             setState(exhaledForThreeSecondState);
         };
+
         @Override
         void handleEnter() {
             Log.i(TAG,"Entering Exhaling State");
@@ -321,6 +324,7 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
             autoAnimateExhale(EXHALE_DURATION);
             playExhaleSound();
         }
+
         @Override
         void handleExit() {
             timerHandler.removeCallbacks(threeSecondRun);
@@ -332,25 +336,28 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
         Runnable tenSecondRun = () -> {
             setState(doneExhaleState);
         };
+
         @Override
         void handleEnter() {
             numBreathLeft--;
             headerText.setText(String.format(getString(R.string.msg_header_first_part), numBreathLeft));
-            if(numBreathLeft>0){
+            if (numBreathLeft > 0) {
                 inhaleExhaleBtn.setText(R.string.action_in);
-            }else{
+            } else {
                 inhaleExhaleBtn.setText(R.string.msg_good_job);
             }
             timerHandler.postDelayed(tenSecondRun,7000);
         }
+
         @Override
         void handleHoldingDownButton() {
             setState(doneExhaleState);
         }
+
         @Override
         void handleExit() {
             timerHandler.removeCallbacks(tenSecondRun);
-            Log.i(TAG, "!---EXITTING EXHALE STATE");
+            Log.i(TAG, "!---EXITING EXHALE STATE");
             if (anim!=null) {
                 anim.cancel();
             }
@@ -360,7 +367,7 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
     private class DoneExhaleState extends State {
         @Override
         void handleEnter() {
-            Log.i(TAG, "!!! DONE!!  EXHALE STATE");
+            Log.i(TAG, "!!!DONE!! EXHALE STATE");
             setState(moreBreatheState);
             stopExhaleSound();
             stopAnimation();
@@ -370,9 +377,9 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
     private class MoreBreatheState extends State {
         @Override
         void handleEnter() {
-            if(numBreathLeft>0){
+            if (numBreathLeft > 0) {
                 setState(waitForInhaleState);
-            }else{
+            } else {
                 setState(beginState);
             }
         }
@@ -380,10 +387,10 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
 
     private void failedInhale() {
         View view = findViewById(R.id.image_breathe);
-        int cx = view.getWidth() /2;
+        int cx = view.getWidth() / 2;
         int cy = view.getHeight() / 2;
-        float initialRadius = (float) Math.hypot(cx,cy);
-        anim = ViewAnimationUtils.createCircularReveal(view,cx,cy,initialRadius,0);
+        float initialRadius = (float) Math.hypot(cx, cy);
+        anim = ViewAnimationUtils.createCircularReveal(view, cx, cy, initialRadius,0);
 
         anim.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -399,10 +406,8 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
     private void autoAnimateExhale(int duration) {
         image_Breathe.setColorFilter(ContextCompat.getColor(this, R.color.exhale_blue));
         View view = findViewById(R.id.image_breathe);
-
-        int cx = view.getWidth() /2;
+        int cx = view.getWidth() / 2;
         int cy = view.getHeight() / 2;
-
         float initialRadius = (float) Math.hypot(cx,cy);
         anim = ViewAnimationUtils.createCircularReveal(view,cx,cy,initialRadius,0);
 
@@ -417,15 +422,14 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
         // Create Interpolator to start animation fast, and slow down
         anim.setDuration(duration);
         anim.setInterpolator(new DecelerateInterpolator(1.6f));
-
         anim.start();
     }
 
     private void stopAnimation() {
         image_Breathe = findViewById(R.id.image_breathe);
         ViewGroup.LayoutParams params =  image_Breathe.getLayoutParams();
-        params.height= INITIAL_HEIGHT;
-        params.width= INITIAL_WIDTH;
+        params.height = INITIAL_HEIGHT;
+        params.width = INITIAL_WIDTH;
         image_Breathe.setLayoutParams(params);
         image_Breathe.setVisibility(View.INVISIBLE);
     }
@@ -434,21 +438,21 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
         image_Breathe = findViewById(R.id.image_breathe);
         image_Breathe.setColorFilter(ContextCompat.getColor(this, R.color.breathe_green));
         image_Breathe.setVisibility(View.VISIBLE);
-        ViewGroup.LayoutParams params =  image_Breathe.getLayoutParams();
+        ViewGroup.LayoutParams params = image_Breathe.getLayoutParams();
         params.height += INCREMENT_FACTOR;
         params.width += INCREMENT_FACTOR;
         image_Breathe.setLayoutParams(params);
     }
 
     private void startInhaleSound() {
-        if(inhale==null){
+        if (inhale == null) {
             inhale = MediaPlayer.create(this, R.raw.inhale);
             inhale.start();
         }
     }
 
     private void stopInhaleSound() {
-        if (inhale!=null) {
+        if (inhale != null) {
             inhale.stop();
             inhale.release();
             inhale = null;
@@ -456,13 +460,14 @@ public class TakeBreathActivity extends AppCompatActivity implements AdapterView
     }
 
     private void playExhaleSound() {
-        if (exhale==null){
+        if (exhale == null){
             exhale = MediaPlayer.create(this, R.raw.exhale);
             exhale.start();
         }
     }
+
     private void stopExhaleSound() {
-        if (exhale!=null) {
+        if (exhale != null) {
             exhale.stop();
             exhale.release();
             exhale = null;

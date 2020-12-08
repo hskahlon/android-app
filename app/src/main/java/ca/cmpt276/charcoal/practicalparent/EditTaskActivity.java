@@ -28,7 +28,7 @@ import ca.cmpt276.charcoal.practicalparent.model.TasksManager;
  *  Sets up Edit Task Activity, Allows for Editing Tasks, and saving data
  */
 public class EditTaskActivity extends AppCompatActivity {
-    private static String TAG = "EditTaskActivity";
+    private static final String TAG = "EditTaskActivity";
     private static final String PREFS_NAME = "SavedData";
     private static final String TASKS_PREF = "Tasks";
     public static final String EXTRA_TASK_INDEX = "ca.cmpt276.charcoal.practicalparent - taskIndex";
@@ -60,7 +60,6 @@ public class EditTaskActivity extends AppCompatActivity {
         setupSaveButton();
         extractIntentData();
         preFillNameBox();
-
     }
 
     private void preFillNameBox() {
@@ -133,13 +132,13 @@ public class EditTaskActivity extends AppCompatActivity {
         List<Task> tasks = TasksManager.getInstance().getTasks();
         Gson gson = new Gson();
         String json = gson.toJson(tasks);
-        Log.i(TAG, json + "" );
+        Log.i(TAG, json + "");
 
         editor.putString(TASKS_PREF, json);
         editor.apply();
     }
 
-    // Gson serialization code found here:
+    // Reference - Gson serialization code found here:
     //   https://stackoverflow.com/questions/28107647/how-to-save-listobject-to-sharedpreferences/28107838
     public static List<Task> getSavedTasks(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);

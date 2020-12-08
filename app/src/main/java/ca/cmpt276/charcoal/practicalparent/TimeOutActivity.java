@@ -44,6 +44,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     private static final String STANDARD_START_TIME_IN_MILLIS_TAG = "standardStartTimeInMillis";
     private static final String TIME_LEFT_IN_MILLIS = "timeLeftInMillis";
     private static final String TIMER_IS_PAUSED = "timerIsPaused";
+
     private long startTimeInMillis;
     private long standardStartTimeInMillis;
     private long timeLeftInMillis;
@@ -68,6 +69,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_out);
+
         // Reference:
         //   https://codinginflow.com/tutorials/android/countdowntimer/part-1-countdown-timer
         setupSetButton();
@@ -103,7 +105,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         standardStartTimeInMillis = bundle.getLong(STANDARD_START_TIME_IN_MILLIS_TAG);
         prepareAlteredTimer(recoveredTimeScaleIndex);
 
-        // set up UI
+        // Set up UI
         resetButton.setVisibility(View.VISIBLE);
         pauseButton.setVisibility(View.VISIBLE);
         pauseButton.setText(R.string.action_resume);
@@ -191,14 +193,14 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String preSetTime = parent.getItemAtPosition(position).toString();
         long millisInput = Long.parseLong(preSetTime) * 60000;
-        Log.i(TAG,"Selected drop down time : " + millisInput/1000);
+        Log.i(TAG,"Selected drop down time: " + millisInput/1000);
         timeScaleIndex = defaultTimeScaleIndex;
         updateTimeScaleText();
         setTime(millisInput);
         startButton.setVisibility(View.VISIBLE);
         resetButton.setVisibility(View.INVISIBLE);
 
-        if(timerIsPaused){
+        if (timerIsPaused) {
             setupUIWhenTimerWasPausedBefore();
         }
     }
@@ -218,7 +220,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
             setTimeText.setVisibility(View.INVISIBLE);
         } else {
             if (timeLeftInMillis < 1000) {
-                // If the timer is done:
+                // If the timer is done
                 resetButton.setVisibility(View.VISIBLE);
                 pauseButton.setVisibility(View.INVISIBLE);
                 pauseButton.setText(R.string.action_pause);
@@ -227,7 +229,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
                 setButton.setVisibility(View.VISIBLE);
                 setTimeText.setVisibility(View.VISIBLE);
             } else if (timerIsReset) {
-                // If user press cancel when the timer is running:
+                // If user press cancel when the timer is running
                 resetButton.setVisibility(View.INVISIBLE);
                 startButton.setVisibility(View.VISIBLE);
                 pauseButton.setVisibility(View.INVISIBLE);
@@ -235,7 +237,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
                 setTimeText.setVisibility(View.VISIBLE);
                 preSetTimeSpinner.setVisibility(View.VISIBLE);
             } else if (timeLeftInMillis < startTimeInMillis) {
-                // If the timer is paused:
+                // If the timer is paused
                 resetButton.setVisibility(View.VISIBLE);
                 pauseButton.setVisibility(View.VISIBLE);
                 pauseButton.setText(R.string.action_resume);
@@ -288,12 +290,14 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
                 Toast.makeText(TimeOutActivity.this, "Field can't be empty", Toast.LENGTH_SHORT).show();
                 return;
             }
+
             long millisInput = Long.parseLong(input) * 60000;
             // If entered 0
             if (millisInput == 0) {
                 Toast.makeText(TimeOutActivity.this, "Please enter a positive number", Toast.LENGTH_SHORT).show();
                 return;
             }
+
             timeScaleIndex = defaultTimeScaleIndex;
             updateTimeScaleText();
             setTime(millisInput);
@@ -314,7 +318,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void saveStateInSharedPrefs() {
-        Log.i(TAG, "Save StartTimeINMillis" + startTimeInMillis);
+        Log.i(TAG, "Save startTimeInMillis: " + startTimeInMillis);
         SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
@@ -336,7 +340,6 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         Log.i(TAG, "recovered StartTimeInMillis: " + recoveredStartTimeInMillis);
         Log.i(TAG, "recovered timeLeftInMillis: " + recoveredTimeLeftInMillis);
         Log.i(TAG, "recovered timeScaleIndex: " + recoveredTimeScaleIndex);
-
         Log.i(TAG, "recovered timerIsPaused: " + recoveredTimerIsPaused);
 
         Bundle bundle = new Bundle();
@@ -380,14 +383,18 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         int hours = (int) ((timeLeftInMillis * timeScaleOptions[timeScaleIndex]) / 1000) / 3600;
         int minutes = (int) (((timeLeftInMillis * timeScaleOptions[timeScaleIndex]) / 1000) % 3600) / 60;
         int seconds = (int) ((timeLeftInMillis * timeScaleOptions[timeScaleIndex]) / 1000) % 60;
-        Log.i(TAG,"update countdown: hours: " + hours);
-        Log.i(TAG,  "update countdown: minutes: " + minutes);
-        Log.i(TAG,  "update countdown: seconds: " + seconds);
+        Log.i(TAG, "update countdown: hours --> " + hours);
+        Log.i(TAG, "update countdown: minutes --> " + minutes);
+        Log.i(TAG, "update countdown: seconds --> " + seconds);
 
-        long formattedMillis = (long)((hours * 1000 * 3600 / timeScaleOptions[timeScaleIndex]) + (minutes * 60 * 1000 / timeScaleOptions[timeScaleIndex]) + (seconds * 1000 / timeScaleOptions[timeScaleIndex]));
+        long formattedMillis = (long)(
+                (hours * 1000 * 3600 / timeScaleOptions[timeScaleIndex])
+                + (minutes * 60 * 1000 / timeScaleOptions[timeScaleIndex])
+                + (seconds * 1000 / timeScaleOptions[timeScaleIndex])
+        );
         updatePieTimer(formattedMillis, false);
 
-        Log.i(TAG, "Countdown seconds remaining:" + timeLeftInMillis/1000);
+        Log.i(TAG, "Countdown seconds remaining: " + timeLeftInMillis/1000);
         String timeLeftFormatted;
         if (hours > 0) {
             timeLeftFormatted = String.format(Locale.getDefault(),
@@ -410,7 +417,7 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
     private void pauseTimer() {
         timerIsReset = false;
         timerIsPaused = true;
-        stopService(new Intent(this,BackgroundService.class));
+        stopService(new Intent(this, BackgroundService.class));
         Log.i(TAG,"Paused service");
     }
 
@@ -457,20 +464,23 @@ public class TimeOutActivity extends AppCompatActivity implements AdapterView.On
         saveStateInSharedPrefs();
         unregisterReceiver(broadcastReceiver);
 
-        Log.i(TAG, "onDestroy, pieTimer" +pieTimer.getProgress() );
+        Log.i(TAG, "onDestroy, pieTimer" + pieTimer.getProgress());
         Log.i(TAG, "onDestroy, time left in millis" + timeLeftInMillis);
     }
 
-    //Code Reference: https://www.youtube.com/watch?v=YsHHXg1vbcc&ab_channel=CodinginFlow
+    // Reference:
+    //   https://www.youtube.com/watch?v=YsHHXg1vbcc&ab_channel=CodinginFlow
     private void updatePieTimer(long timeLeftInMillis, boolean reset) {
         float pieProgressFloat;
         int pieProgressInt;
+
         if (reset) {
             pieTimer.setProgress(0);
             return;
         }
         Log.i(TAG, "TimeLeftInMillis in UPDATE PIE TIMER " + timeLeftInMillis);
         Log.i(TAG, "StartTimeInMillis " + startTimeInMillis);
+
         if (startTimeInMillis > startTimeInMillis - timeLeftInMillis) {
             pieProgressFloat = startTimeInMillis - timeLeftInMillis;
             pieProgressFloat = (pieProgressFloat/(startTimeInMillis)) * 100;

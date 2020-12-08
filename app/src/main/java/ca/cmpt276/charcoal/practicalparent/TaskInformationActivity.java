@@ -9,7 +9,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -28,15 +27,9 @@ import ca.cmpt276.charcoal.practicalparent.model.TasksManager;
  */
 public class TaskInformationActivity extends AppCompatActivity {
     public static final String EXTRA_TASK_INDEX = "ca.cmpt276.charcoal.practicalparent - taskIndex";
-    private static final String TAG = "TaskInformationActivity";
     private int taskIndex;
-
     private final ChildManager childManager = ChildManager.getInstance();
-
     private final TasksManager taskManager = TasksManager.getInstance();
-    private TextView childNameBox;
-    private TextView taskNameBox;
-    private ImageView childImage;
 
     public static Intent makeLaunchIntent(Context context, int childIndex) {
         Intent intent = new Intent(context, TaskInformationActivity.class);
@@ -48,7 +41,6 @@ public class TaskInformationActivity extends AppCompatActivity {
         Intent intent = getIntent();
         taskIndex = intent.getIntExtra(EXTRA_TASK_INDEX, -1);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,15 +76,15 @@ public class TaskInformationActivity extends AppCompatActivity {
 
     private void populateTextViews() {
         if (taskIndex >= 0) {
-            childNameBox = findViewById(R.id.text_child_name_task);
-            taskNameBox = findViewById(R.id.text_info_task_name);
-            childImage = findViewById(R.id.task_information_image_child);
+            TextView childNameBox = findViewById(R.id.text_child_name_task);
+            TextView taskNameBox = findViewById(R.id.text_info_task_name);
+            ImageView childImage = findViewById(R.id.task_information_image_child);
 
             Task currentTask = taskManager.getTask(taskIndex);
             taskNameBox.setText(currentTask.getTaskName());
-            if( childManager.getChildren().size() <= 0){
+            if (childManager.getChildren().size() <= 0) {
                 childNameBox.setText(R.string.msg_add_your_child);
-            } else{
+            } else {
                 Child currentChild = childManager.getChild(currentTask.getChildIdx());
                 childNameBox.setText(String.format("%s", currentChild.getName()));
                 childImage.setImageBitmap(currentChild.getChildImage(this));
@@ -103,10 +95,10 @@ public class TaskInformationActivity extends AppCompatActivity {
     private void setupFinishedTaskButton() {
         Button finishedTaskButton = findViewById(R.id.button_task_finished);
         finishedTaskButton.setOnClickListener(v -> {
-            if(childManager.getChildren().size() <= 0 ){
-                Toast.makeText(TaskInformationActivity.this,"No Child Added ",Toast.LENGTH_SHORT)
+            if (childManager.getChildren().size() <= 0 ) {
+                Toast.makeText(TaskInformationActivity.this,"No Child Added ", Toast.LENGTH_SHORT)
                         .show();
-            } else{
+            } else {
                 taskManager.reassignChildIdx(taskIndex);
                 EditTaskActivity.saveTasksInSharedPrefs(this);
                 finish();

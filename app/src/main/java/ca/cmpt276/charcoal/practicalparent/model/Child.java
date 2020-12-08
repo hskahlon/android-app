@@ -6,14 +6,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-
-import java.io.File;
 
 import ca.cmpt276.charcoal.practicalparent.R;
 
@@ -45,7 +40,7 @@ public class Child {
 
     public Bitmap getChildImage(Context context) {
         if (childImage == null) {
-            if(imageAddress == null){
+            if (imageAddress == null) {
                 Drawable d = ContextCompat.getDrawable(context,R.drawable.editchild_default_image);
                 childImage = drawableToBitmap(d);
             } else {
@@ -55,21 +50,22 @@ public class Child {
         return childImage;
     }
 
-    //Code from : https://stackoverflow.com/questions/24389043/bitmapfactory-decoderesource-returns-null-for-shape-defined-in-xml-drawable
-
+    // Reference:
+    //   https://stackoverflow.com/questions/24389043/bitmapfactory-decoderesource-returns-null-for-shape-defined-in-xml-drawable
     private Bitmap drawableToBitmap (Drawable drawable) {
-
         if (drawable instanceof BitmapDrawable) {
             return ((BitmapDrawable)drawable).getBitmap();
         }
 
-        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+                drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         drawable.draw(canvas);
 
         return bitmap;
     }
+
     @NonNull
     @Override
     public String toString() {

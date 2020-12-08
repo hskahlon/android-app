@@ -31,5 +31,4 @@
         app:backgroundTint="@android:color/holo_red_light"
         app:srcCompat="@drawable/ic_baseline_add_24"
         app:tint="@android:color/white"/>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

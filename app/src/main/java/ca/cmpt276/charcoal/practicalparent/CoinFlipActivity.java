@@ -32,14 +32,12 @@ import ca.cmpt276.charcoal.practicalparent.model.RecordsConfig;
 /**
  *  Sets up coin flip activity and allows for saving and recalling current child to flip
  */
-public class CoinFlipActivity extends AppCompatActivity implements View.OnClickListener{
+public class CoinFlipActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String PREFS_NAME = "CoinFlipData";
     public static final String USER_INDEX = "CurrentUser";
     public static final int TAILS = 0;
     public static final int HEADS = 1;
-    private Button changeChild;
     private Button flipBtn;
-    private Button selectNobody;
     private Button heads;
     private Button tails;
     private String userDecision;
@@ -59,7 +57,7 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == OVERRIDE_CHILD) {
             if (resultCode == Activity.RESULT_OK) {
-                currentIndex = data.getIntExtra("newIndex",currentIndex);
+                currentIndex = data.getIntExtra("newIndex", currentIndex);
                 setCurrentIndex(currentIndex);
                 chooseNobody = false;
                 chooseUser();
@@ -97,24 +95,20 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
         chooseUser();
 
         setupChooseNobodyButton();
-
     }
 
     private void setupChooseNobodyButton() {
-        selectNobody = findViewById(R.id.button_nobody_picks);
+        Button selectNobody = findViewById(R.id.button_nobody_picks);
         selectNobody.setOnClickListener(v -> {
-
             TextView current = findViewById(R.id.text_user_to_choose);
             current.setText("");
             chooseNobody = true;
             chooseUser();
-
         });
     }
 
-
     private void setupChangeChildButton() {
-        changeChild = findViewById(R.id.button_change_child);
+        Button changeChild = findViewById(R.id.button_change_child);
         changeChild.setOnClickListener(v -> {
             Intent i = ChooseChildActivity.makeLaunchIntent(CoinFlipActivity.this);
             startActivityForResult(i,OVERRIDE_CHILD);
@@ -139,18 +133,14 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
                 chooseNobody = false;
             } else {
                 currentChild = children.get(currentIndex);
-                setProfilePicture(currentIndex,false);
+                setProfilePicture(currentIndex, false);
                 setUserText();
             }
-
         } else {
-
             heads.setVisibility(View.INVISIBLE);
             tails.setVisibility(View.INVISIBLE);
             setProfilePicture(0, true);
         }
-
-
     }
 
     private void setProfilePicture(int currentIndex, boolean chooseNobody) {
@@ -162,8 +152,6 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
         } else {
             portrait.setVisibility(View.INVISIBLE);
         }
-
-
     }
 
     public static int getCurrentIndex(Context context) {
@@ -190,17 +178,16 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
             i = 0;
         }
 
-        editor.putInt(USER_INDEX,i);
+        editor.putInt(USER_INDEX, i);
         editor.apply();
     }
 
     private void setUserText() {
         if (childrenExist()) {
-            // Set the textview for current User
+            // Set the TextView for current User
             TextView current = findViewById(R.id.text_user_to_choose);
-            current.setText(currentChild.getName()+getString(R.string.msg_chooses));
+            current.setText(currentChild.getName() + getString(R.string.msg_chooses));
         }
-
     }
 
     private boolean childrenExist() {
@@ -290,17 +277,17 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
                     if (userDecision == null) {
                         setResultText(getString(R.string.label_tails), null);
                     } else if (userDecision.equals(getString(R.string.msg_user_choose_tails))) {
-                        setResultText(getString(R.string.label_tails),getString(R.string.label_tails));
+                        setResultText(getString(R.string.label_tails), getString(R.string.label_tails));
                     } else if (userDecision.equals(getString(R.string.msg_user_choose_heads))) {
-                        setResultText(getString(R.string.label_tails),getString(R.string.label_heads));
+                        setResultText(getString(R.string.label_tails), getString(R.string.label_heads));
                     }
-                } else if (randomChoice == HEADS){
+                } else if (randomChoice == HEADS) {
                     if (userDecision == null) {
                         setResultText(getString(R.string.label_heads), null);
                     } else if (userDecision.equals(getString(R.string.msg_user_choose_heads))) {
-                        setResultText(getString(R.string.label_heads),getString(R.string.label_heads));
+                        setResultText(getString(R.string.label_heads), getString(R.string.label_heads));
                     } else if (userDecision.equals(getString(R.string.msg_user_choose_tails))) {
-                        setResultText(getString(R.string.label_heads),getString(R.string.label_tails));
+                        setResultText(getString(R.string.label_heads), getString(R.string.label_tails));
                     }
                 }
                 userDecision = null;
@@ -313,7 +300,6 @@ public class CoinFlipActivity extends AppCompatActivity implements View.OnClickL
     protected void onResume() {
         super.onResume();
         chooseUser();
-
     }
 
     private void resetButtons() {

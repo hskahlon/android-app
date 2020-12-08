@@ -49,6 +49,4 @@
             android:src="@drawable/button_round_plus"
             android:contentDescription="@string/content_description_button_speed_up_time" />
     </LinearLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

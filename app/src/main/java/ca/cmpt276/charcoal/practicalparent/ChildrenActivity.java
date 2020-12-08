@@ -25,7 +25,6 @@ import java.util.List;
 
 import ca.cmpt276.charcoal.practicalparent.model.Child;
 import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
-import ca.cmpt276.charcoal.practicalparent.model.Task;
 
 /**
  *  Creates ListView for Children Activity, and registers clicks for user interaction
@@ -42,7 +41,6 @@ public class ChildrenActivity extends AppCompatActivity {
 
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
-
 
         setupFab();
         populateListView();
@@ -102,7 +100,6 @@ public class ChildrenActivity extends AppCompatActivity {
                 ImageView childImage = listItem.findViewById(R.id.image_child_portrait_row);
                 childImage.setImageBitmap(currentChild.getChildImage(context));
             }
-
             return listItem;
         }
     }

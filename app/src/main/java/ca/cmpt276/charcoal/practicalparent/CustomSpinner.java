@@ -2,7 +2,6 @@ package ca.cmpt276.charcoal.practicalparent;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.Spinner;
 
 /**
  * Creates preset custom timer for alarm
@@ -10,19 +9,20 @@ import android.widget.Spinner;
  * COPIED FROM: https://stackoverflow.com/questions/5335306/how-can-i-get-an-event-in-android-spinner-when-the-current-selected-item-is-sele/11323043#11323043
  */
 public class CustomSpinner extends androidx.appcompat.widget.AppCompatSpinner {
+    public CustomSpinner(Context context) {
+        super(context);
+    }
 
-    public CustomSpinner(Context context)
-    { super(context); }
+    public CustomSpinner(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
 
-    public CustomSpinner(Context context, AttributeSet attrs)
-    { super(context, attrs); }
-
-    public CustomSpinner(Context context, AttributeSet attrs, int defStyle)
-    { super(context, attrs, defStyle); }
+    public CustomSpinner(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+    }
 
     @Override public void
-    setSelection(int position, boolean animate)
-    {
+    setSelection(int position, boolean animate) {
         boolean sameSelected = position == getSelectedItemPosition();
         super.setSelection(position, animate);
         if (sameSelected) {
@@ -32,8 +32,7 @@ public class CustomSpinner extends androidx.appcompat.widget.AppCompatSpinner {
     }
 
     @Override public void
-    setSelection(int position)
-    {
+    setSelection(int position) {
         boolean sameSelected = position == getSelectedItemPosition();
         super.setSelection(position);
         if (sameSelected) {

@@ -55,6 +55,7 @@ public class RecordsConfig {
     public static List<String> readDateFromPref(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         String jsonString = pref.getString(DATE_KEY, "");
+
         if (jsonString != null) {
             Gson gson = new Gson();
             Type type = new TypeToken<ArrayList<String>>() {}.getType();
@@ -77,7 +78,8 @@ public class RecordsConfig {
     public static List<Integer> readImageFromPref(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         String jsonString = pref.getString(IMG_KEY, "");
-        if (jsonString!=null) {
+
+        if (jsonString != null) {
             Gson gson = new Gson();
             Type type = new TypeToken<ArrayList<Integer>>() {}.getType();
             return gson.fromJson(jsonString, type);

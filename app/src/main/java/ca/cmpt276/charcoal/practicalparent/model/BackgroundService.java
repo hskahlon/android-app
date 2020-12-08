@@ -27,7 +27,8 @@ import ca.cmpt276.charcoal.practicalparent.TimeOutActivity;
  *  Background service for timer activity allows timer to continue in background
  */
 public class BackgroundService extends Service {
-//reference: https://www.youtube.com/watch?v=BbXuumYactY
+    // Reference:
+    //   https://www.youtube.com/watch?v=BbXuumYactY
 
     private final static String TAG = "BroadcastService";
     private static final String EXTRA_TIME = "ca.cmpt276.charcoal.practicalparent.model - timeLeftinMillis";
@@ -50,7 +51,7 @@ public class BackgroundService extends Service {
     }
 
     private void startTimer() {
-        Log.i(TAG, "timeLeftinMillis" + timeLeftInMillis);
+        Log.i(TAG, "timeLeftInMillis" + timeLeftInMillis);
 
         int broadcastFrequency = (int) (1000/timeScaleFactor);
         countDownTimer = new CountDownTimer(timeLeftInMillis, broadcastFrequency) {
@@ -73,8 +74,6 @@ public class BackgroundService extends Service {
                 Log.i(TAG, "Timer finished");
             }
         }.start();
-
-
     }
 
     private void notifyTimerDone() {
@@ -84,14 +83,14 @@ public class BackgroundService extends Service {
 
         Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         if (Build.VERSION.SDK_INT >= 26) {
-            // source https://stackoverflow.com/questions/60466695/android-vibration-app-doesnt-work-anymore-after-android-10-api-29-update
+            // Reference:
+            //   https://stackoverflow.com/questions/60466695/android-vibration-app-doesnt-work-anymore-after-android-10-api-29-update
             vibrator.vibrate(VibrationEffect.createWaveform(pattern, 0)
                     , new AudioAttributes.Builder()
                             .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                             .setUsage(AudioAttributes.USAGE_ALARM)
                             .build()
             );
-
         } else {
             vibrator.vibrate(pattern, 0);
         }
@@ -111,7 +110,8 @@ public class BackgroundService extends Service {
         alarmInfo.setRingtone(ringtone);
         alarmInfo.setVibrator(vibrator);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getString(R.string.timeout_alarm_notification_ID))
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,
+                getString(R.string.timeout_alarm_notification_ID))
                 .setSmallIcon(R.drawable.ic_baseline_alarm_24)
                 .setContentTitle(getString(R.string.timeout_notification_title))
                 .setContentText(getString(R.string.timeout_notification_body))
@@ -121,18 +121,15 @@ public class BackgroundService extends Service {
                 .setOngoing(true)
                 .setCategory(Notification.CATEGORY_CALL)
                 .setAutoCancel(false)
-
                 .addAction(R.drawable.ic_baseline_alarm_24, "Stop", pendingStopTimerIntent);
 
         NotificationManagerCompat.from(this).notify(NOTIFICATION_ID, builder.build());
     }
 
-
     @Override
     public void onCreate() {
         super.onCreate();
     }
-
 
     @Nullable
     @Override
@@ -144,7 +141,7 @@ public class BackgroundService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         timeLeftInMillis = intent.getLongExtra(EXTRA_TIME , 1000);
         timeScaleFactor = intent.getDoubleExtra(TIME_SCALE_FACTOR, 1.0);
-        Log.i(TAG, "timeleftin Millis in onstart method" + timeLeftInMillis);
+        Log.i(TAG, "timeLeftInMillis in onStart method" + timeLeftInMillis);
         startTimer();
         return super.onStartCommand(intent, flags, startId);
     }
@@ -155,8 +152,7 @@ public class BackgroundService extends Service {
 
         countDownTimer.cancel();
         isTimerRunning = false;
-        intent.putExtra("isTimerRunning",isTimerRunning);
+        intent.putExtra("isTimerRunning", isTimerRunning);
         sendBroadcast(intent);
-
     }
 }

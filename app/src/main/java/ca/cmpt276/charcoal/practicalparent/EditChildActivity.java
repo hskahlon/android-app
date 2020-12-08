@@ -12,7 +12,6 @@ import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,22 +45,19 @@ import ca.cmpt276.charcoal.practicalparent.model.ChildManager;
 import ca.cmpt276.charcoal.practicalparent.model.TasksManager;
 
 import static android.os.Environment.getExternalStoragePublicDirectory;
-import static ca.cmpt276.charcoal.practicalparent.CoinFlipActivity.getCurrentIndex;
-
 
 /**
  *  Sets up Edit Child Activity, Allows for Editing children, and saving data
  */
 public class EditChildActivity extends AppCompatActivity {
-    private static String TAG = "EditChildActivity";
     private static final String PREFS_NAME = "SavedData";
     private static final String CHILDREN_PREFS = "My children";
     public static final String EXTRA_CHILD_INDEX = "ca.cmpt276.charcoal.practicalparent - childIndex";
     private final int STORAGE_REQUEST_CODE = 0;
-    private final String[] STORAGE_PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    private final String[] STORAGE_PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE};
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int RESULT_LOAD_IMAGE = 2;
-
     private String currentPhotoPath = null;
     public ImageView childPhoto;
     private int childIndex;
@@ -119,14 +115,13 @@ public class EditChildActivity extends AppCompatActivity {
         }
     }
 
-    // TODO: Finish this function and its Activity
     private void setupImportImageButton() {
         Button importImageButton = findViewById(R.id.button_image_import);
         importImageButton.setOnClickListener(v -> dispatchChooseImportIntent());
     }
 
-    //Reference:
-    //    https://www.youtube.com/watch?v=8nDKwtTcOUg
+    // Reference:
+    //   https://www.youtube.com/watch?v=8nDKwtTcOUg
     private void dispatchChooseImportIntent() {
         Intent choosePictureIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(choosePictureIntent, RESULT_LOAD_IMAGE);
@@ -154,7 +149,6 @@ public class EditChildActivity extends AppCompatActivity {
             } catch (IOException e) {
                 Toast.makeText(this, R.string.error_could_not_save_file, Toast.LENGTH_SHORT).show();
             }
-
         }
     }
 
@@ -185,7 +179,7 @@ public class EditChildActivity extends AppCompatActivity {
             if (childIndex >= 0) {
                 Child currentChild = childManager.getChild(childIndex);
                 currentChild.setName(childName);
-                if(currentPhotoPath != null){
+                if (currentPhotoPath != null) {
                     currentChild.updateChildImage(currentPhotoPath);
                 }
             } else {
@@ -232,7 +226,6 @@ public class EditChildActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     private void reassignTaskForDeletedChild(int deletedChildIndex) {
         tasksManager.reassignTaskForDeletedChild(deletedChildIndex);
         EditTaskActivity.saveTasksInSharedPrefs(this);
@@ -249,7 +242,7 @@ public class EditChildActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    // Gson serialization code found here:
+    // Reference - Gson serialization code found here:
     //   https://stackoverflow.com/questions/28107647/how-to-save-listobject-to-sharedpreferences/28107838
     public static List<Child> getSavedChildren(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
@@ -277,18 +270,15 @@ public class EditChildActivity extends AppCompatActivity {
         }
         // Continue only if the File was successfully created
         if (photoFile != null) {
-            Uri photoURI = FileProvider.getUriForFile(this,
-                    getString(R.string.file_provider),
-                    photoFile);
+            Uri photoURI = FileProvider.getUriForFile(this, getString(R.string.file_provider), photoFile);
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
 
     private void checkFileAccessPermission() {
-        if (ContextCompat.checkSelfPermission(
-                EditChildActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) ==
-                PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(EditChildActivity.this,
+                Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             // You can use the API that requires the permission.
             dispatchTakePictureIntent();
         } else if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
@@ -298,10 +288,11 @@ public class EditChildActivity extends AppCompatActivity {
             // continue using your app without granting the permission.
             View myLayout = findViewById(R.id.coordinator_layout);
             Snackbar.make(myLayout, R.string.msg_storage_permission_explanation, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(R.string.action_save, v -> ActivityCompat.requestPermissions(EditChildActivity.this, STORAGE_PERMISSIONS, STORAGE_REQUEST_CODE))
+                    .setAction(R.string.action_save, v -> ActivityCompat.requestPermissions(EditChildActivity.this,
+                            STORAGE_PERMISSIONS, STORAGE_REQUEST_CODE))
                     .show();
         } else {
-            ActivityCompat.requestPermissions(EditChildActivity.this, STORAGE_PERMISSIONS, STORAGE_REQUEST_CODE);
+            ActivityCompat.requestPermissions(EditChildActivity.this,STORAGE_PERMISSIONS, STORAGE_REQUEST_CODE);
         }
     }
 
@@ -312,7 +303,7 @@ public class EditChildActivity extends AppCompatActivity {
         File storageDir = getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
+                ".jpg",   /* suffix */
                 storageDir      /* directory */
         );
 
@@ -327,7 +318,7 @@ public class EditChildActivity extends AppCompatActivity {
         File storageDir = getExternalFilesDir(null);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
+                ".jpg",   /* suffix */
                 storageDir      /* directory */
         );
 
@@ -347,9 +338,9 @@ public class EditChildActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                            int[] grantResults) {
-        if (requestCode == STORAGE_REQUEST_CODE) {// If request is cancelled, the result arrays are empty.
-            if (grantResults.length > 0 &&
-                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == STORAGE_REQUEST_CODE) {
+            // If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 dispatchTakePictureIntent();
             } else {
                 Toast.makeText(EditChildActivity.this, R.string.error_cannot_take_picture, Toast.LENGTH_SHORT).show();

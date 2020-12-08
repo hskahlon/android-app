@@ -165,7 +165,6 @@
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
-
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="8dp"
         android:backgroundTint="@android:color/holo_purple"
@@ -183,6 +182,4 @@
         app:layout_constraintStart_toStartOf="@+id/leftCentringGuideline"
         app:layout_constraintTop_toTopOf="@+id/text_user_to_choose"
         app:srcCompat="@drawable/editchild_default_image" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

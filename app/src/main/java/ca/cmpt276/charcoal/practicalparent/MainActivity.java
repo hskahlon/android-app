@@ -133,7 +133,8 @@ public class MainActivity extends AppCompatActivity {
             CharSequence name = getString(R.string.notification_channel);
             String description = getString(R.string.channel_description);
             int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel = new NotificationChannel(getString(R.string.timeout_alarm_notification_ID), name, importance);
+            NotificationChannel channel = new NotificationChannel(getString(R.string.timeout_alarm_notification_ID),
+                    name, importance);
             channel.setDescription(description);
 
             // Register the channel with the system; you can't change the importance
