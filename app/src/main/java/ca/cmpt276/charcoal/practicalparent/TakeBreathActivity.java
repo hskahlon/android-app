@@ -29,7 +29,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
+/**
+ *  Sets up Take Breath Activity.
+ *  Helps users to choose the number of time to take breath
+ *  and guides the process with inhaling/exhaling animation and sound.
+ */
 public class TakeBreathActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private static final String PREFS_NAME = "SavedData";
     private static final String NUM_BREATHS_TO_TAKE_PREFS = "NumBreathsToTake";
